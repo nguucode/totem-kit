@@ -14,10 +14,32 @@
 /* `.light` carries the same values as `:root` so a light scope can be nested
    inside a dark one (see the Theme component). `.dark` is declared after this
    block at equal specificity, so on an element carrying both, dark wins. */
+/* Appearance-independent tokens live on :root ALONE, never on `.light`. A
+   nested light scope re-matches every `.light` rule, so anything declared
+   there would reset back to its default instead of inheriting the value an
+   outer Theme set. */
+:root {
+  /* Base step of the radius scale. */
+  --radius: 0.625rem;
+  /* Multiplies the whole scale — this is what the Theme `radius` prop sets. */
+  --radius-factor: 1;
+  /* 0 normally; a Theme on `radius="full"` raises it so that the `max()` in
+     --radius-control wins and controls become pills. Deliberately does not
+     reach --radius-field, so text inputs stay rectangular. */
+  --radius-full: 0px;
+
+  /* Cursors — matches Radix Themes' convention: interactive elements that
+     don't navigate keep the regular arrow, only disabled gets an explicit
+     cursor. Add a token here per component as it's built, not ahead of it. */
+  --cursor-button: default;
+  --cursor-disabled: not-allowed;
+}
+
+/* `.light` carries the same values as `:root` so a light scope can be nested
+   inside a dark one (see the Theme component). `.dark` is declared after this
+   block at equal specificity, so on an element carrying both, dark wins. */
 :root,
 .light {
-  --radius: 0.625rem;
-
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 
@@ -51,12 +73,6 @@
   --shadow-elevation-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-elevation-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-elevation-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-
-  /* Cursors — matches Radix Themes' convention: interactive elements that
-     don't navigate keep the regular arrow, only disabled gets an explicit
-     cursor. Add a token here per component as it's built, not ahead of it. */
-  --cursor-button: default;
-  --cursor-disabled: not-allowed;
 }
 
 .dark {
@@ -113,10 +129,20 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* Steps: the base scale, multiplied by the factor so one knob rescales all
+     of them. Overrides Tailwind's own radius scale. */
+  --radius-sm: calc((var(--radius) - 4px) * var(--radius-factor));
+  --radius-md: calc((var(--radius) - 2px) * var(--radius-factor));
+  --radius-lg: calc(var(--radius) * var(--radius-factor));
+  --radius-xl: calc((var(--radius) + 4px) * var(--radius-factor));
+
+  /* Intent: what components actually use. Identical to a step until a Theme
+     sets radius="full", at which point only --radius-control opts into the
+     pill via max() — a fully round text field or card would be wrong, so
+     those two resolve to their step no matter what. */
+  --radius-control: max(calc((var(--radius) - 2px) * var(--radius-factor)), var(--radius-full));
+  --radius-field: calc((var(--radius) - 2px) * var(--radius-factor));
+  --radius-panel: calc(var(--radius) * var(--radius-factor));
 
   /* Overrides Tailwind's built-in shadow scale, so shadow-sm/md/lg/xl stay
      dark-mode-aware without a new utility namespace. */

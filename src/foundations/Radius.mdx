@@ -5,55 +5,126 @@ import * as RadiusStories from './Radius.stories'
 
 # Radius
 
-Four steps, all derived from a single `--radius` base of `0.625rem` (10px)
-declared in `src/tokens.css`:
+Rounding is a **single setting**, not a value picked per component. A
+`radius` preset on `Theme` rescales everything inside it at once, and
+components follow because they reference an *intent* — control, field,
+panel — rather than a fixed number.
 
-| Token | Formula | At the default base |
+```tsx
+<Theme radius="large">
+  <Button>Rounder</Button>
+</Theme>
+```
+
+## Presets
+
+Five, matching [Radix Themes](https://www.radix-ui.com/themes/docs/theme/radius):
+`none`, `small`, `medium` (the default), `large`, `full`.
+
+<Canvas of={RadiusStories.Presets} />
+
+Look at the `full` row. **The button becomes a pill and the text input
+does not.** That is the whole reason this is a system rather than a
+number: a fully rounded text field reads as a search pill in a form that
+isn't one, and a fully rounded card stops looking like a container. Only
+controls opt into the pill.
+
+`none` flattens every corner in the scope to `0`, including panels.
+
+## How it works
+
+Two variables do the work, both on `:root`:
+
+| Variable | Default | Set by |
 | --- | --- | --- |
-| `rounded-sm` | `calc(var(--radius) - 4px)` | 6px |
-| `rounded-md` | `calc(var(--radius) - 2px)` | 8px |
-| `rounded-lg` | `var(--radius)` | 10px |
-| `rounded-xl` | `calc(var(--radius) + 4px)` | 14px |
+| `--radius` | `0.625rem` | you, for the base step |
+| `--radius-factor` | `1` | the `radius` preset |
+| `--radius-full` | `0px` | the `radius` preset, only at `full` |
 
-<Canvas of={RadiusStories.Scale} />
+Every step is the base multiplied by the factor, so the preset scales the
+whole scale rather than replacing it:
 
-The four steps are close together on purpose — 6 to 14px is a narrow
-band. Radius is a weak signal: a viewer reads the difference between a
-card and a button from size, fill and position long before corner
-rounding, so a wide radius range buys inconsistency without buying
-hierarchy.
+| Preset | Factor | `--radius-full` |
+| --- | --- | --- |
+| `none` | `0` | `0px` |
+| `small` | `0.5` | `0px` |
+| `medium` | `1` | `0px` |
+| `large` | `1.5` | `0px` |
+| `full` | `1.5` | `9999px` |
 
-## What the kit uses
+The pill is a `max()`. `--radius-control` resolves to
+`max(step, var(--radius-full))` — normally the step wins because
+`--radius-full` is `0px`, and at the `full` preset the `9999px` wins
+instead. `--radius-field` and `--radius-panel` have no `max()`, so nothing
+a preset does can round them past their step. Opting into the pill is
+something a token does deliberately, once.
 
-`rounded-md` (8px), on both components, and nothing else. Buttons and
-inputs sit next to each other constantly, so they share a corner; the
-other three steps are there for surfaces that do not exist yet — cards at
-`lg`, modals at `xl`.
+## Intent tokens
 
-## The steps are offsets, not ratios
+What components actually use.
 
-`sm` is `base − 4px`, not `base × 0.6`. That matters as soon as you change
-the base:
+<Canvas of={RadiusStories.Intent} />
 
-- at `--radius: 1rem` (16px) the steps are 12 / 14 / 16 / 20px — still a
-  4px spread, so a larger base makes the steps *proportionally* closer
-  together and the scale flattens.
-- at `--radius: 0.25rem` (4px) the steps are **0** / 2 / 4 / 8px — `sm`
-  collapses to a square corner, and any component using it silently loses
-  its rounding.
+| Token | Utility | Used by | Pills at `full` |
+| --- | --- | --- | --- |
+| `--radius-control` | `rounded-control` | Button, and future badges/chips | yes |
+| `--radius-field` | `rounded-field` | TextInput, and future textareas/selects | no |
+| `--radius-panel` | `rounded-panel` | future cards, dialogs, popovers | no |
 
-shadcn's own theme uses ratios (`calc(var(--radius) * 0.6)`) for this
-reason. The offsets here are kept because they are what the shadcn
-registry's `theme` item writes into a consuming project, and having the
-same formula in both places matters more than having the better one — but
-if the base ever moves far from 10px, switch both to ratios rather than
-re-tuning the offsets.
+A new component should pick the intent that matches its shape, not a step.
+Getting this wrong is invisible at the default preset and only shows up
+when someone sets `radius="full"` — which is exactly the kind of bug a
+token system exists to prevent.
 
-## Customization
+## Steps
 
-Change `--radius` in `src/tokens.css`; the four derived steps recompute
-through `calc()` in the `@theme inline` block with no further edits.
+The raw scale, still available as the normal Tailwind utilities
+(`rounded-sm` through `rounded-xl`) for anything that is genuinely
+decorative rather than a control, field or panel.
 
-Nothing in the kit hard-codes a corner value, so the base is the only
-knob — with the caveat above about what happens at the extremes of its
-range.
+<Canvas of={RadiusStories.Steps} />
+
+These override Tailwind's own radius scale, so `rounded-md` in application
+code follows the theme rather than being a fixed `0.375rem`.
+
+`rounded-full` is untouched — it is a static Tailwind utility
+(`2147483647px`), not driven by `--radius-full`, so an avatar stays round
+at every preset.
+
+## Scoping and overriding
+
+Presets nest, and `Theme` accepts `asChild`, so a single component can opt
+out without a wrapper element:
+
+```tsx
+<Theme radius="full" asChild>
+  <Button>Just this one is a pill</Button>
+</Theme>
+```
+
+For a value the presets don't cover, set the variables directly — `tokens`
+is applied after the preset, so it wins:
+
+```tsx
+<Theme radius="large" tokens={{ 'radius-factor': '2.4' }}>
+```
+
+Globally, change the base in CSS and leave the factor to the presets:
+
+```css
+:root {
+  --radius: 1rem;
+}
+```
+
+## One caveat about the base
+
+The steps are offsets from the base — `sm` is `base − 4px`, not
+`base × 0.6` — so a base far below the default degenerates. At
+`--radius: 0.25rem` (4px) the steps are `0 / 2 / 4 / 8px` and `sm`
+collapses to a square corner.
+
+The factor does not have this problem, because it multiplies the finished
+step. Prefer moving the preset over moving the base, and if the base does
+need to change substantially, switch the four `calc()`s in `tokens.css`
+from offsets to ratios.

@@ -18,6 +18,15 @@
       "cssVars": {
         "theme": {
           "radius": "0.625rem",
+          "radius-factor": "1",
+          "radius-full": "0px",
+          "radius-sm": "calc((var(--radius) - 4px) * var(--radius-factor))",
+          "radius-md": "calc((var(--radius) - 2px) * var(--radius-factor))",
+          "radius-lg": "calc(var(--radius) * var(--radius-factor))",
+          "radius-xl": "calc((var(--radius) + 4px) * var(--radius-factor))",
+          "radius-control": "max(calc((var(--radius) - 2px) * var(--radius-factor)), var(--radius-full))",
+          "radius-field": "calc((var(--radius) - 2px) * var(--radius-factor))",
+          "radius-panel": "calc(var(--radius) * var(--radius-factor))",
           "shadow-sm": "var(--shadow-elevation-sm)",
           "shadow-md": "var(--shadow-elevation-md)",
           "shadow-lg": "var(--shadow-elevation-lg)",
