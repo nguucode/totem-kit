@@ -10,10 +10,14 @@ spacing, radius, elevation, cursors, and the breakpoints layouts respond
 to. They live in **one file** — `src/tokens.css` — as CSS custom
 properties.
 
-There is no JavaScript theme object, no `ThemeProvider` that owns values,
-and no build step that generates a stylesheet. A token is a CSS variable,
-which means the platform already knows how to scope it, cascade it,
-inherit it and override it. Everything on this page follows from that.
+There is no JavaScript theme object and no `ThemeProvider` that owns
+values. A token is a CSS variable, which means the platform already knows
+how to scope it, cascade it, inherit it and override it. Everything on
+this page follows from that.
+
+`tokens.css` is itself generated — see [Where the values come
+from](#where-the-values-come-from) — but nothing downstream of it is.
+**You** consume a plain stylesheet with no build step of your own.
 
 ## The three layers
 
@@ -31,6 +35,36 @@ The derived layer is on `*` rather than `:root` on purpose: a custom
 property that reads another one resolves where it is *declared*, so
 putting these at the root would freeze them there and a `Theme` further
 down the tree could not move them.
+
+## Where the values come from
+
+`tokens.css` is not written by hand. The source is a set of JSON files in
+the [W3C design-token format](https://tr.designtokens.org/format/), and a
+generator turns them into the stylesheet, the `Theme` component's list of
+palettes, the swatches on the **Color** page, and an export for design
+tools — four artefacts that used to be four chances to disagree with each
+other.
+
+Two things follow from that, and both are visible on other pages here.
+
+**Nothing semantic holds a literal.** In the source, `primary` is
+`{accent.solid}` and `foreground` is `{gray.950}` — references, not
+colours. Swapping a ramp moves everything downstream of it in one edit,
+which is what makes the 17 accents and 9 grays on this page a
+three-line change rather than a rewrite.
+
+**The contrast numbers are measured, not claimed.** For each of the 17
+accents the generator converts the ramp through OKLCH → sRGB → relative
+luminance, computes the contrast of each candidate step against a white
+and a black label, and takes the first that clears 4.5:1. The focus ring
+is a separate measurement against the page at 3:1. The lowest passing
+accent in the current set sits at **4.56:1** — close enough to the floor
+that guessing would have missed it.
+
+Edit a ramp so that no step can carry a readable label and the build
+stops with the hue named. The accessibility claims on the
+[Color](?path=/docs/foundations-colors--docs) page are therefore checks,
+not documentation.
 
 ## The pages
 
