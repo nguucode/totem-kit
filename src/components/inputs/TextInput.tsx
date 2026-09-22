@@ -1,6 +1,6 @@
 import { Label } from 'radix-ui'
 import { forwardRef, useId, type InputHTMLAttributes } from 'react'
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string

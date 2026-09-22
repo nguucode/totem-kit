@@ -42,8 +42,42 @@ control in the Storybook toolbar to preview light/dark.
 Components should always use the semantic tokens (`bg-primary`, not
 `bg-neutral-900`) so a token swap doesn't require touching component code.
 
+## Using Totem Kit in a project
+
+Copy-source, [shadcn/ui](https://ui.shadcn.com)-style — no npm package to
+install or keep in sync. [`registry.json`](registry.json) declares each
+component; `npx shadcn build` turns it into static JSON served at
+`/r/<name>.json` (deployed alongside Storybook, so it's always live at
+https://nguucode.github.io/totem-kit/r/<name>.json).
+
+In a project that already has Tailwind v4 (run `npx shadcn@latest init`
+there first if it doesn't have a `components.json` yet):
+
+```bash
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/theme.json   # design tokens, once
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/button.json
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/text-input.json
+```
+
+Or register Totem Kit as a named registry in the project's `components.json`
+so components can be added by name:
+
+```json
+{ "registries": { "@totem": "https://nguucode.github.io/totem-kit/r/{name}.json" } }
+```
+
+```bash
+npx shadcn@latest add @totem/button
+```
+
+The CLI resolves `registryDependencies` (e.g. `button` → `utils`) and
+installs npm `dependencies` (`radix-ui`, `class-variance-authority`, ...)
+automatically, and rewrites the `@/...` import in the copied file to match
+whatever alias the target project uses.
+
 ## Adding a component
 
-1. Build it in `src/components/<category>/` (pick a category from the Components overview), styling with Tailwind and Radix primitives — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes.
+1. Build it in `src/components/<category>/` (pick a category from the Components overview), styling with Tailwind and Radix primitives — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes. Import shared code via the `@/` alias (e.g. `@/lib/utils`), not a relative path — that's what lets the CLI rewrite it to the consumer's own alias.
 2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`.
-3. Figma designs will be synced in as the source of truth for new components.
+3. Add an entry for it in [`registry.json`](registry.json) so it's installable via the CLI.
+4. Figma designs will be synced in as the source of truth for new components.
