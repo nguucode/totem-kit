@@ -152,7 +152,11 @@ export const Nested: Story = {
   play: async ({ canvas }) => {
     const island = canvas.getByText('light island inside it').closest('.light')
     await expect(island).toBeInTheDocument()
-    const value = getComputedStyle(island as HTMLElement).getPropertyValue('--background').trim()
-    await expect(value).toBe('oklch(1 0 0)')
+    const bg = (el: Element) => getComputedStyle(el as HTMLElement).getPropertyValue('--background').trim()
+    // Compared against :root rather than a literal, so the assertion is about
+    // the nested scope resolving to the light default — not about how the
+    // generator happens to spell oklch().
+    await expect(bg(island!)).toBe(bg(document.documentElement))
+    await expect(bg(island!)).not.toBe(bg(island!.parentElement!.closest('.dark')!))
   },
 }

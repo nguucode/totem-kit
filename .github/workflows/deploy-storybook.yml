@@ -24,6 +24,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Fails if a generated file was hand-edited, or if a ramp was changed so
+      # that an accent can no longer carry a readable label.
+      - run: npm run tokens:check
       - run: npx playwright install --with-deps chromium
       - run: npx tsc -b
       - run: npx vitest --project storybook run

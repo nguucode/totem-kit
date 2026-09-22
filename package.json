@@ -3,7 +3,7 @@
   "version": "0.6.0",
   "license": "MIT",
   "type": "module",
-  "description": "Totem Kit components (early stage, not production-ready — see README), published for npm install as an alternative to the copy-source registry.",
+  "description": "Totem Kit components (early stage, not production-ready \u2014 see README), published for npm install as an alternative to the copy-source registry.",
   "homepage": "https://nguucode.github.io/totem-kit",
   "files": [
     "dist"
@@ -39,6 +39,8 @@
     "prepack": "npm run build:lib",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "tokens": "node scripts/build-tokens.mjs",
+    "tokens:check": "node scripts/build-tokens.mjs --check",
     "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json && cp src/tokens.css dist/tokens.css",
     "lint": "oxlint",
     "preview": "vite preview",

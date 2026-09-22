@@ -52,19 +52,36 @@ pipes.
 
 ## Design tokens
 
-`src/tokens.css` is the source of truth: raw values live in `:root` / `.dark`
-(swap them there when real brand colors exist), aliased to utility classes
-(`bg-primary`, `text-muted-foreground`, `rounded-lg`, `shadow-md`, ...) via
-`@theme inline`. Colors come from two swappable ramps — an accent (indigo)
-behind `--primary`/`--ring` and a gray (neutral) behind everything
-structural — grouped by role: backgrounds → subtle surfaces → solid
-actions → borders. These are the values to sync out to Figma variables
-later. `--cursor-*` tokens keep the regular arrow on interactive elements
-rather than `pointer`. Toggle the "Theme" control in the Storybook toolbar
-to preview light/dark.
+The source of truth is **`tokens/*.json`**, in the W3C
+[DTCG](https://tr.designtokens.org/format/) format. `npm run tokens` runs
+`scripts/build-tokens.mjs` over them and writes every downstream artefact:
 
-Components should always use the semantic tokens (`bg-primary`, not
-`bg-neutral-900`) so a token swap doesn't require touching component code.
+| Generated | What reads it |
+| --- | --- |
+| `src/tokens.css` | every component, as custom properties |
+| `src/theme/palettes.ts` | `Theme`'s `accentColor` / `grayColor` unions |
+| `src/foundations/palette.ts` | the Primitives story |
+| `tokens/design-tokens.json` | the flattened export — this is what goes to Figma |
+
+Those four files carry a `GENERATED` header and must not be hand-edited;
+`npm run tokens:check` fails CI if they drift from the JSON.
+
+`tokens/primitives.json` holds the raw ramps (17 accents × 9 grays × 11
+steps). `tokens/semantic.json` holds what components actually read, and
+every colour in it is an **alias** — `{gray.950}`, `{accent.solid}` — so no
+semantic token carries a literal and swapping a ramp swaps everything
+downstream. Components use the semantic names (`var(--primary)`, never
+`var(--gray-900)`) for the same reason.
+
+The generator is not a templating pass: it *measures*. Each accent's solid
+step and label colour are chosen by computing OKLCH → sRGB → WCAG contrast
+and taking the first step that clears 4.5:1, and the focus ring is a
+separate pick against the page at 3:1. Edit a ramp so that no step can
+carry a readable label and the build throws rather than shipping it.
+
+`--cursor-*` tokens keep the regular arrow on interactive elements rather
+than `pointer`. Toggle the "Theme" control in the Storybook toolbar to
+preview light/dark.
 
 ### Custom themes
 
@@ -96,14 +113,8 @@ cover. Full write-up in
 Globally, it is plain CSS — redeclare the variables after Totem Kit's
 stylesheet, or set `data-accent` / `data-gray` on `<html>`.
 
-`registry.json`'s `tokens` item mirrors the token values for the
-copy-source path, and its `theme` item ships the component. One known quirk: `shadcn add`-ing it into a project that already has
-its own shadcn-generated theme produces a few harmless duplicate/self-
-referencing `--shadow-elevation-*` lines inside `@theme inline` (a limitation
-in how the shadcn CLI merges a value that references a variable outside the
-`theme` cssVars band) — the correct `:root`/`.dark` values still win in the
-cascade, verified end-to-end, but it's worth knowing if you go looking at
-the merged file.
+`registry.json`'s `tokens` item ships `tokens.css` itself for the
+copy-source path, and its `theme` item ships the component.
 
 ## Using Totem Kit in a project
 

@@ -1,6 +1,13 @@
 import { Slot } from '@/lib/slot'
 import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
+/* The palette names come out of the same build as the [data-accent] /
+   [data-gray] blocks they have to match, so a hue cannot exist in one and
+   not the other. Re-exported here because this is where consumers look. */
+import type { AccentColor, GrayColor } from './palettes'
+
+export { ACCENT_COLORS, GRAY_COLORS } from './palettes'
+export type { AccentColor, GrayColor }
 
 export type Appearance = 'light' | 'dark' | 'inherit'
 
@@ -18,17 +25,6 @@ const RADIUS_PRESETS: Record<Radius, Record<string, string>> = {
   large: { 'radius-factor': '1.5', 'radius-full': '0px' },
   full: { 'radius-factor': '1.5', 'radius-full': '9999px' },
 }
-
-export const ACCENT_COLORS = [
-  'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal',
-  'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose',
-] as const
-export type AccentColor = (typeof ACCENT_COLORS)[number]
-
-export const GRAY_COLORS = [
-  'slate', 'gray', 'zinc', 'neutral', 'stone', 'mauve', 'olive', 'mist', 'taupe',
-] as const
-export type GrayColor = (typeof GRAY_COLORS)[number]
 
 export const SCALINGS = ['90%', '95%', '100%', '105%', '110%'] as const
 export type Scaling = (typeof SCALINGS)[number]
