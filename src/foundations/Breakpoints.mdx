@@ -1,0 +1,101 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as BreakpointsStories from './Breakpoints.stories'
+
+<Meta of={BreakpointsStories} />
+
+# Breakpoints
+
+Five breakpoints, inherited from Tailwind v4 without modification. Totem
+Kit declares no `--breakpoint-*` of its own.
+
+| Prefix | Min width | At a 16px root |
+| --- | --- | --- |
+| *(none)* | `0` | 0px |
+| `sm:` | `40rem` | 640px |
+| `md:` | `48rem` | 768px |
+| `lg:` | `64rem` | 1024px |
+| `xl:` | `80rem` | 1280px |
+| `2xl:` | `96rem` | 1536px |
+
+<Canvas of={BreakpointsStories.Scale} />
+
+The box below reports the breakpoint currently in effect. Resize the
+preview — or use Storybook's viewport toolbar — and it changes.
+
+<Canvas of={BreakpointsStories.Active} />
+
+## They are min-width, and that has a direction
+
+`md:flex` means "flex at 768px **and above**". There is no maximum, so
+unprefixed utilities are the small-screen case and every prefix is an
+override for larger screens. Write the phone layout first and widen it;
+writing the desktop layout first means every breakpoint has to undo
+something.
+
+Tailwind can express the other direction — `max-md:` caps a utility below
+a breakpoint — but mixing both in one component is where responsive CSS
+usually becomes unreadable. Pick min-width and stay there.
+
+## Breakpoints are in rem
+
+`40rem`, not `640px`. A reader who raises their browser's default font
+size gets the layout to break earlier, because the layout responds to how
+large the text actually is rather than to the device. That is the correct
+behaviour and it is worth not overriding: a `px` breakpoint holds a
+multi-column layout together long after its text has stopped fitting.
+
+The px column above is only true at the default 16px root.
+
+## The kit has no opinion yet
+
+**No component here uses a breakpoint.** Button and TextInput are
+inline-sized — they fill whatever their container gives them and have no
+layout of their own to rearrange. The stories on this page are the only
+responsive code in the repo.
+
+That is expected at this stage: breakpoints are a **layout** concern, and
+layout is the [Patterns](?path=/docs/patterns-overview--docs) tier, which
+is empty. Marketing sections, dashboards and checkout flows are where
+these will actually get used, and where the kit will need an opinion about
+which of the five are load-bearing. Most design systems end up leaning on
+two or three.
+
+## Container queries are usually the better tool
+
+A breakpoint asks how wide the *viewport* is. A component almost always
+wants to know how wide **its own container** is — the same card is narrow
+in a sidebar and wide in a main column at one identical viewport width.
+
+Tailwind v4 ships container queries in core: mark the parent `@container`
+and size the child with `@sm:`, `@md:` and so on, against the
+`--container-*` scale (`20rem` through `48rem` and up) rather than
+`--breakpoint-*`.
+
+```html
+<div class="@container">
+  <div class="flex flex-col @md:flex-row">…</div>
+</div>
+```
+
+When a component is built here that needs to reflow, it should reach for
+`@container` first and a viewport breakpoint only when the thing being
+arranged really is the page.
+
+## Customization
+
+Breakpoints are theme keys like any other, redefined in the `@theme`
+block:
+
+```css
+@theme {
+  --breakpoint-sm: 30rem;
+  --breakpoint-3xl: 120rem;
+}
+```
+
+Two cautions. These generate utility *variants*, so they cannot be
+overridden per-scope by `Theme` the way a color can — a variant is
+compiled into a media query at build time, and there is no runtime
+variable to swap. And removing a default breakpoint removes its prefix
+entirely, so any existing `lg:` becomes a silent no-op rather than an
+error.

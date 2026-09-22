@@ -33,7 +33,7 @@ Storybook sidebar is ordered Foundations → Components → Patterns (`.storyboo
 
 | Tier (atomic design) | Folder | Storybook title | What goes here |
 | --- | --- | --- | --- |
-| **Foundations** (atoms) | `src/foundations/` | `Foundations/*` | Design tokens: color, typography, spacing, radius, shadows, cursors — mirrors [Radix Themes' own foundation categories](https://www.radix-ui.com/themes/docs/theme/overview) |
+| **Foundations** (atoms) | `src/foundations/` | `Foundations/*` | Overview, color, dark mode, typography, spacing, breakpoints, radius, shadows, cursors — the same set [Radix Themes documents](https://www.radix-ui.com/themes/docs/theme/overview) |
 | **Components** (molecules) | `src/components/<category>/` | `Components/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
 | **Patterns** (organisms) | `src/patterns/<category>/` | `Patterns/<Category>/*` | Full sections assembled from Components (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
 
@@ -67,8 +67,24 @@ in the Storybook toolbar to preview light/dark.
 Components should always use the semantic tokens (`bg-primary`, not
 `bg-neutral-900`) so a token swap doesn't require touching component code.
 
-`registry.json`'s `theme` item mirrors these tokens for the copy-source
-path. One known quirk: `shadcn add`-ing it into a project that already has
+### Custom themes
+
+Global overrides are plain CSS — redeclare the variables after Totem Kit's
+stylesheet. For anything narrower, `src/theme/Theme.tsx` scopes an
+appearance and/or token overrides to a subtree:
+
+```tsx
+<Theme appearance="dark" tokens={{ radius: '1.5rem', primary: 'oklch(0.55 0.2 264)' }}>
+```
+
+`appearance` takes `light` / `dark` / `inherit`, and scopes nest in either
+direction — light values are declared on `:root, .light`, so a light island
+inside a dark shell resolves correctly. `tokens` accepts any custom
+property, including ones Totem Kit doesn't define. Full write-up in
+[Foundations → Overview](https://nguucode.github.io/totem-kit/?path=/docs/foundations-overview--docs).
+
+`registry.json`'s `tokens` item mirrors the token values for the
+copy-source path, and its `theme` item ships the component. One known quirk: `shadcn add`-ing it into a project that already has
 its own shadcn-generated theme produces a few harmless duplicate/self-
 referencing `--shadow-elevation-*` lines inside `@theme inline` (a limitation
 in how the shadcn CLI merges a value that references a variable outside the
@@ -92,7 +108,8 @@ In a project that already has Tailwind v4 (run `npx shadcn@latest init`
 there first if it doesn't have a `components.json` yet):
 
 ```bash
-npx shadcn@latest add https://nguucode.github.io/totem-kit/r/theme.json   # design tokens, once
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/tokens.json  # design tokens, once
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/theme.json   # <Theme> scope component
 npx shadcn@latest add https://nguucode.github.io/totem-kit/r/button.json
 npx shadcn@latest add https://nguucode.github.io/totem-kit/r/text-input.json
 ```

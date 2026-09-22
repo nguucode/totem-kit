@@ -1,0 +1,125 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as OverviewStories from './Overview.stories'
+
+<Meta of={OverviewStories} />
+
+# Foundations
+
+Foundations are the decisions every component inherits: color, type,
+spacing, radius, elevation, cursors, and the breakpoints layouts respond
+to. They live in **one file** — `src/tokens.css` — as CSS custom
+properties, mapped onto Tailwind utilities through `@theme inline`.
+
+There is no JavaScript theme object, no `ThemeProvider` that owns values,
+and no build step that generates a stylesheet. A token is a CSS variable,
+which means the platform already knows how to scope it, cascade it,
+inherit it and override it. Everything on this page follows from that.
+
+## The three layers
+
+| Layer | Where | Example |
+| --- | --- | --- |
+| Raw value | `:root` / `.dark` in `tokens.css` | `--primary: oklch(0.205 0 0)` |
+| Tailwind mapping | `@theme inline` in `tokens.css` | `--color-primary: var(--primary)` |
+| Usage | component source | `className="bg-primary"` |
+
+Components only ever touch the third layer. That is what makes a rebrand a
+change to one file, and what keeps `dark:` variants out of component code
+entirely — the variable under `bg-primary` changes, the class does not.
+
+## The pages
+
+- **[Color](?path=/docs/foundations-colors--docs)** — semantic tokens, the
+  contrast measurements, and where every value comes from.
+- **[Dark mode](?path=/docs/foundations-dark-mode--docs)** — how the two
+  modes are declared and switched.
+- **[Typography](?path=/docs/foundations-typography--docs)** — the type
+  scale, and the typeface decision that has not been made.
+- **[Spacing](?path=/docs/foundations-spacing--docs)** — one multiplier,
+  and why the scale cannot enforce itself.
+- **[Breakpoints](?path=/docs/foundations-breakpoints--docs)** — the
+  responsive range, and the kit's lack of opinion about it.
+- **[Radius](?path=/docs/foundations-radius--docs)** — four steps off one
+  base, and what happens at the extremes.
+- **[Shadows](?path=/docs/foundations-shadows--docs)** — elevation, and why
+  dark mode needs its own alphas.
+- **[Cursors](?path=/docs/foundations-cursors--docs)** — two tokens and one
+  contested convention.
+
+## Theming
+
+Overriding tokens globally is just CSS — redeclare them after Totem Kit's
+stylesheet loads:
+
+```css
+:root {
+  --radius: 1rem;
+  --primary: oklch(0.55 0.2 264);
+}
+```
+
+For anything narrower than the whole document, use `Theme`. It is a thin
+wrapper that applies an appearance class and writes token overrides as
+inline custom properties on one element, so everything inside it resolves
+against those values.
+
+```tsx
+import { Theme } from 'totem-kit/theme'
+
+<Theme appearance="dark" tokens={{ radius: '1.5rem' }}>
+  <Button>Inside a dark, rounder scope</Button>
+</Theme>
+```
+
+### Appearance
+
+`appearance` takes `light`, `dark`, or `inherit` (the default, which
+leaves the surrounding mode alone).
+
+<Canvas of={OverviewStories.Appearance} />
+
+### Token overrides
+
+`tokens` takes any custom property, with or without the `--` prefix. It is
+not limited to tokens Totem Kit defines — the component writes whatever
+you pass onto the element, so a token your own components read works the
+same way.
+
+<Canvas of={OverviewStories.TokenOverride} />
+
+Overrides cascade, so a nested `Theme` inherits what it does not restate.
+Because they are inline styles they also beat any stylesheet rule, which
+is what makes a scoped override reliable — and what makes `Theme` the
+wrong tool for setting global defaults. Use CSS for those.
+
+### Nesting
+
+Scopes nest in either direction: a dark panel on a light page, or a light
+island inside a dark one.
+
+<Canvas of={OverviewStories.Nested} />
+
+The light island works because `tokens.css` declares the light values on
+`:root, .light`, not on `:root` alone. `.dark` is declared afterwards at
+equal specificity, so the nearer scope's class is what an element inside
+it resolves against.
+
+**One caveat.** Tailwind's own `dark:` variant is
+`@custom-variant dark (&:is(.dark *))` — a descendant selector, which
+still matches inside a light island nested in a dark ancestor. Totem Kit's
+components never use `dark:` variants, so they are unaffected; if your own
+code does, that code will read the wrong mode in that one arrangement.
+Prefer the tokens over `dark:` and the problem does not arise.
+
+## Installing
+
+Both distribution paths carry the same tokens:
+
+- **Registry** — `npx shadcn@latest add https://nguucode.github.io/totem-kit/r/tokens.json`
+  merges the values into the consuming project's own stylesheet, and
+  `.../r/theme.json` adds the `Theme` component beside them.
+- **npm** — `@import "totem-kit/tokens.css"` after your own
+  `@import "tailwindcss"`.
+
+See the [repo README](https://github.com/nguucode/totem-kit) for the full
+setup of either.

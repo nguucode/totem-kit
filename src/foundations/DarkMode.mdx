@@ -1,0 +1,98 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as DarkModeStories from './DarkMode.stories'
+
+<Meta of={DarkModeStories} />
+
+# Dark mode
+
+Dark mode is **a class, not a media query.** `tokens.css` declares the
+light values on `:root, .light` and the dark values on `.dark`, and
+`@custom-variant dark (&:is(.dark *))` wires Tailwind's `dark:` variant to
+the same class.
+
+Nothing is automatic about it. Adding `class="dark"` to `<html>` is what
+switches the document; without that, a device set to dark mode gets the
+light theme. That is the trade — see **Following the system** below.
+
+<Canvas of={DarkModeStories.SideBySide} />
+
+## Components don't know about it
+
+Neither `Button.tsx` nor `TextInput.tsx` contains a single `dark:`
+variant. `bg-primary` resolves through `var(--primary)`, and it is the
+variable that changes; the class is identical in both modes.
+
+This is the main reason to use the tokens rather than reaching for a
+Tailwind primitive. `bg-neutral-900` is a fixed near-black in both modes
+and needs a `dark:bg-neutral-100` beside it to survive a theme switch;
+`bg-primary` needs nothing. Every `dark:` in a codebase is a place the
+theme was hardcoded and then patched.
+
+## Dark is not an inversion
+
+Flipping lightness would produce the wrong result in three places, and the
+palette deliberately doesn't:
+
+- **`--background` is neutral-950, not black.** A pure-black page makes
+  the halation around light text worse and leaves no room to sit a surface
+  *below* the page level.
+- **Surfaces go up, not down.** `--card` and `--popover` are a step
+  *lighter* than the page in dark mode and identical to it in light mode.
+  Elevation in dark mode is carried by lightness, because a drop shadow
+  has almost nothing left to darken (see
+  [Shadows](?path=/docs/foundations-shadows--docs)).
+- **Strong fills become light, so their labels become dark.**
+  `--primary` goes from near-black to near-white, and
+  `--primary-foreground` inverts with it. `--destructive` does the same,
+  red-600 to red-400 — which is exactly where the palette's one contrast
+  bug lived: keeping the near-white label on the lightened red measured
+  2.77:1. It is now neutral-900 at 6.19:1. Inverting a fill without
+  inverting its foreground is the single easiest dark-mode mistake to
+  make.
+
+Full measurements for both modes are in
+[Color → Contrast](?path=/docs/foundations-colors--docs).
+
+## Alpha for edges
+
+`--border` and `--input` are the one place the palette uses transparency:
+opaque neutral-200 in light, `white / 10%` and `white / 15%` in dark. An
+opaque dark border would have to be re-chosen for every surface it sits
+on; a translucent white edge lightens whatever is underneath, so the same
+token reads correctly on `--background` and on a lifted `--card`.
+
+## Scoping
+
+`Theme` switches an appearance for a subtree rather than the document —
+a dark footer on a light page, a light popover inside a dark shell. See
+[Overview → Nesting](?path=/docs/foundations-overview--docs) for how the
+nesting resolves and the one `dark:` caveat that comes with it.
+
+```tsx
+<Theme appearance="dark">
+  <Footer />
+</Theme>
+```
+
+## Following the system
+
+The kit ships no `prefers-color-scheme` handling, because the choice
+between "follow the OS" and "remember what the user picked" belongs to the
+app, not the component library. The usual shape:
+
+```ts
+const media = window.matchMedia('(prefers-color-scheme: dark)')
+const stored = localStorage.getItem('theme') // 'light' | 'dark' | null
+const dark = stored ? stored === 'dark' : media.matches
+document.documentElement.classList.toggle('dark', dark)
+```
+
+Two things worth getting right. Run it **before first paint** — in a
+blocking inline script in `<head>`, not in a `useEffect` — or the page
+renders light and flips, which is the flash every themed site has had at
+some point. And keep listening to `media` afterwards so a user changing
+their OS setting mid-session is followed, unless they have made an
+explicit choice.
+
+In this Storybook, the **Theme** toolbar control does the class toggle for
+you; there is no persistence and no system detection.

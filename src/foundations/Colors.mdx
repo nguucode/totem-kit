@@ -83,20 +83,15 @@ uses transparency.
 
 ## Dark mode
 
-Dark mode is a class, not a media query: `@custom-variant dark (&:is(.dark *))`
-in `tokens.css` means every token switches when `dark` is present on an
-ancestor — normally `<html>`. Use the **Theme** control in the toolbar to
-flip this Storybook; in an app, toggle the class yourself.
+Every token on this page has a counterpart under `.dark`, switched by a
+class rather than a media query, and dark is not a mechanical inversion of
+light — surfaces go *up* rather than down, and strong fills get lighter so
+their foregrounds flip to dark text. The Light/Dark columns in the
+contrast table below cover both.
 
-Because both modes declare the same variable names, component code never
-branches on theme. Nothing in `Button.tsx` or `TextInput.tsx` contains a
-`dark:` variant.
-
-Dark is not a mechanical inversion. `--background` goes to neutral-950
-rather than to black, card and popover land *above* the page rather than
-below it, and the fills that read as "strong" in light (`--primary`,
-`--destructive`) become *lighter* than their surroundings rather than
-darker — so their foregrounds flip to dark text.
+The mechanism, the three places an inversion would have gone wrong, and
+how to follow the OS setting are on their own page:
+**[Dark mode](?path=/docs/foundations-dark-mode--docs)**.
 
 ## Contrast
 

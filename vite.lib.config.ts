@@ -13,6 +13,7 @@ export default defineConfig({
       entry: {
         'components/actions/Button': 'src/components/actions/Button.tsx',
         'components/inputs/TextInput': 'src/components/inputs/TextInput.tsx',
+        'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },
       formats: ['es'],

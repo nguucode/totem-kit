@@ -11,8 +11,10 @@
       ]
     },
     {
-      "name": "theme",
+      "name": "tokens",
       "type": "registry:theme",
+      "title": "Design tokens",
+      "description": "The color, radius, shadow and cursor custom properties, light and dark.",
       "cssVars": {
         "theme": {
           "radius": "0.625rem",
@@ -74,6 +76,21 @@
           "shadow-elevation-xl": "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
         }
       }
+    },
+    {
+      "name": "theme",
+      "type": "registry:component",
+      "title": "Theme",
+      "description": "Scopes an appearance and token overrides to a subtree.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "src/theme/Theme.tsx",
+          "type": "registry:component",
+          "target": "components/totem/theme.tsx"
+        }
+      ]
     },
     {
       "name": "button",

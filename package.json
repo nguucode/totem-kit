@@ -20,6 +20,10 @@
       "types": "./dist/components/inputs/TextInput.d.ts",
       "import": "./dist/components/inputs/TextInput.js"
     },
+    "./theme": {
+      "types": "./dist/theme/Theme.d.ts",
+      "import": "./dist/theme/Theme.js"
+    },
     "./utils": {
       "types": "./dist/lib/utils.d.ts",
       "import": "./dist/lib/utils.js"
