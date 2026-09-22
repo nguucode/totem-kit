@@ -38,7 +38,7 @@ export interface ThemeProps extends HTMLAttributes<HTMLDivElement> {
   appearance?: Appearance
   /**
    * The brand hue. Drives `--primary` and `--ring` — not the token named
-   * `--accent`, which is a subtle surface inherited from the shadcn contract.
+   * `--accent`, which is a subtle surface and a different thing entirely.
    */
   accentColor?: AccentColor
   /** The neutral ramp behind backgrounds, text, borders and muted surfaces. */

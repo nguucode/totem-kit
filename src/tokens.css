@@ -1,5 +1,5 @@
 /*
- * Design tokens — semantic layer on top of Tailwind's palette.
+ * Design tokens — the semantic layer every component resolves against.
  * This file is the source of truth for now; values here get pushed to
  * Figma variables later, not the other way around. Swap the raw values
  * in :root / .dark once real brand colors exist — nothing that consumes
@@ -7,7 +7,7 @@
  *
  * Distributed standalone (npm package: totem-kit/tokens.css) so a project
  * that only takes components via the copy-source registry, or via npm,
- * can `@import` just the tokens after its own `@import "tailwindcss"`.
+ * can `@import` just the tokens after its own base stylesheet.
  */
 @custom-variant dark (&:is(.dark *));
 
@@ -28,9 +28,9 @@
   /* Multiplies spacing and the type scale — the Theme `scaling` prop. */
   --scaling: 1;
 
-  /* Cursors — matches Radix Themes' convention: interactive elements that
-     don't navigate keep the regular arrow, only disabled gets an explicit
-     cursor. Add a token here per component as it's built, not ahead of it. */
+  /* Cursors — interactive elements that don't navigate keep the regular
+     arrow, only disabled gets an explicit cursor. Add a token here per
+     component as it's built, not ahead of it. */
   --cursor-button: default;
   --cursor-disabled: not-allowed;
 
@@ -432,20 +432,18 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* system-ui first, unlike Tailwind's default stack which starts at
-     -apple-system. It is the standards-track keyword and resolves to the
-     platform UI face rather than its general-purpose sans — see
+  /* system-ui first: the standards-track keyword, which resolves to the
+     platform UI face rather than its general-purpose sans. See
      Foundations/Typography for the one known caveat. */
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
     'Liberation Mono', monospace;
 
-  /* Type roles, following the Atlassian Design System scale. Each carries its
-     size, line height and weight, so one utility sets the whole role; the
-     weight is emitted as a fallback, so a font-* utility still overrides it.
-     Line heights are ratios of Atlassian's px pairs, which keeps them correct
-     under --scaling. */
+  /* Type roles. Each carries its size, line height and weight, so one
+     utility sets the whole role; the weight is emitted as a fallback, so a
+     font-* utility still overrides it. Line heights are stored as ratios,
+     which keeps them correct under --scaling. */
   --text-heading-2xl: calc(2rem * var(--scaling));
   --text-heading-2xl--line-height: calc(36 / 32);
   --text-heading-2xl--font-weight: 700;
@@ -479,8 +477,8 @@
   --text-body-sm--font-weight: 400;
 
   /* Scaling — one multiplier over spacing and the type scale, so density is a
-     single setting. Line heights are unitless ratios in Tailwind and scale
-     with the font size on their own, so they are deliberately left alone. */
+     single setting. Line heights are unitless ratios and scale with the font
+     size on their own, so they are deliberately left alone. */
   --spacing: calc(0.25rem * var(--scaling));
   --text-xs: calc(0.75rem * var(--scaling));
   --text-sm: calc(0.875rem * var(--scaling));
@@ -494,7 +492,7 @@
   --text-6xl: calc(3.75rem * var(--scaling));
 
   /* Steps: the base scale, multiplied by the factor so one knob rescales all
-     of them. Overrides Tailwind's own radius scale. */
+     of them. Replaces the built-in radius scale. */
   --radius-sm: calc((var(--radius) - 4px) * var(--radius-factor));
   --radius-md: calc((var(--radius) - 2px) * var(--radius-factor));
   --radius-lg: calc(var(--radius) * var(--radius-factor));
@@ -508,7 +506,7 @@
   --radius-field: calc((var(--radius) - 2px) * var(--radius-factor));
   --radius-panel: calc(var(--radius) * var(--radius-factor));
 
-  /* Overrides Tailwind's built-in shadow scale, so shadow-sm/md/lg/xl stay
+  /* Replaces the built-in shadow scale, so shadow-sm/md/lg/xl stay
      dark-mode-aware without a new utility namespace. */
   --shadow-sm: var(--shadow-elevation-sm);
   --shadow-md: var(--shadow-elevation-md);

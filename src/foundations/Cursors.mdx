@@ -14,9 +14,7 @@ get `cursor: pointer`.**
 over a link. Browsers have never applied it to `<button>`, `<select>` or a
 checkbox, and neither does this kit. Interactive elements that act on the
 current page keep the regular arrow; only a link gets the hand. This is
-the same position [Radix Themes
-takes](https://www.radix-ui.com/themes/docs/theme/cursors), and it is a
-deliberate departure from the very common `button { cursor: pointer }`
+a deliberate departure from the very common `button { cursor: pointer }`
 reset.
 
 It is worth knowing the argument on the other side: a large body of
@@ -58,9 +56,9 @@ choice, and this token is for the first branch of it.
 
 ## Adding tokens
 
-Radix ships nine cursor variables covering buttons, checkboxes, links,
-menu items, radios, switches and slider thumbs. This kit has two, because
-it has two components.
+A mature system ends up with a token per interactive component —
+buttons, checkboxes, links, menu items, radios, switches, slider thumbs.
+This kit has two, because it has two components.
 
 **Add a token when the component that needs it is built, not before.** A
 `--cursor-slider-thumb` with no Slider is a value nobody can verify and

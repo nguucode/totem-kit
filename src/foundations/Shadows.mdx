@@ -6,9 +6,9 @@ import * as ShadowsStories from './Shadows.stories'
 # Shadows
 
 Four elevation steps. Rather than adding a new utility namespace, these
-**override Tailwind's own `--shadow-*` theme keys**, so `shadow-sm`
-through `shadow-xl` are the normal Tailwind utilities — they just resolve
-to Totem Kit's values and follow the theme.
+**replace the built-in `--shadow-*` theme keys**, so `shadow-sm` through
+`shadow-xl` stay the ordinary utilities — they just resolve to Totem
+Kit's values and follow the theme.
 
 | Utility | Light | Dark |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ not as settled values.
 
 ## A note on rings and shadows
 
-Tailwind composes `box-shadow` from several variables at once —
+`box-shadow` is composed from several variables at once —
 `--tw-shadow`, `--tw-ring-shadow`, `--tw-inset-shadow` and others — so
 `shadow-md` and `ring-2` coexist on one element rather than overwriting
 each other. Setting a raw `box-shadow` in a `style` attribute *does*
@@ -60,8 +60,8 @@ anything focusable.
 ## Customization
 
 The raw values are `--shadow-elevation-sm` through `-xl` in `:root` and
-`.dark`; the `@theme inline` block maps them onto Tailwind's `--shadow-*`
-keys and does not need to change.
+`.dark`; the `@theme inline` block maps them onto the `--shadow-*` keys
+and does not need to change.
 
 Keep the two modes as separate decisions — copying the light values into
 `.dark` is exactly the mistake the alpha bump exists to prevent.

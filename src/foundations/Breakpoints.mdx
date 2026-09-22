@@ -5,8 +5,8 @@ import * as BreakpointsStories from './Breakpoints.stories'
 
 # Breakpoints
 
-Five breakpoints, inherited from Tailwind v4 without modification. Totem
-Kit declares no `--breakpoint-*` of its own.
+Five breakpoints, inherited from the underlying CSS framework without
+modification. Totem Kit declares no `--breakpoint-*` of its own.
 
 | Prefix | Min width | At a 16px root |
 | --- | --- | --- |
@@ -32,8 +32,8 @@ override for larger screens. Write the phone layout first and widen it;
 writing the desktop layout first means every breakpoint has to undo
 something.
 
-Tailwind can express the other direction — `max-md:` caps a utility below
-a breakpoint — but mixing both in one component is where responsive CSS
+The other direction is expressible — `max-md:` caps a utility below a
+breakpoint — but mixing both in one component is where responsive CSS
 usually becomes unreadable. Pick min-width and stay there.
 
 ## Breakpoints are in rem
@@ -66,7 +66,7 @@ A breakpoint asks how wide the *viewport* is. A component almost always
 wants to know how wide **its own container** is — the same card is narrow
 in a sidebar and wide in a main column at one identical viewport width.
 
-Tailwind v4 ships container queries in core: mark the parent `@container`
+Container queries are available: mark the parent `@container`
 and size the child with `@sm:`, `@md:` and so on, against the
 `--container-*` scale (`20rem` through `48rem` and up) rather than
 `--breakpoint-*`.

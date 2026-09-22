@@ -2,7 +2,7 @@
 
 > **Early stage, not production-ready.** Only two components exist
 > (Button, Text Input) and no Figma file has been applied yet — the
-> palettes are Tailwind's ramps, picked for contrast rather than designed.
+> palettes are placeholders, picked for contrast rather than designed.
 > Expect breaking changes on any `0.x` version bump. Fine to poke around
 > or reference the setup; not ready to build a real product on top of yet.
 
@@ -32,7 +32,7 @@ Storybook sidebar is ordered Foundations → Components → Patterns (`.storyboo
 
 | Tier (atomic design) | Folder | Storybook title | What goes here |
 | --- | --- | --- | --- |
-| **Foundations** (atoms) | `src/foundations/` | `Foundations/*` | Overview, color, dark mode, typography, spacing, breakpoints, radius, shadows, cursors — the same set [Radix Themes documents](https://www.radix-ui.com/themes/docs/theme/overview) |
+| **Foundations** (atoms) | `src/foundations/` | `Foundations/*` | Overview, color, dark mode, typography, spacing, breakpoints, radius, shadows, cursors |
 | **Components** (molecules) | `src/components/<category>/` | `Components/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
 | **Patterns** (organisms) | `src/patterns/<category>/` | `Patterns/<Category>/*` | Full sections assembled from Components (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
 
@@ -52,17 +52,15 @@ pipes.
 ## Design tokens
 
 `src/tokens.css` is the source of truth: raw values live in `:root` / `.dark`
-(swap them there when real brand colors exist), aliased to Tailwind utilities
+(swap them there when real brand colors exist), aliased to utility classes
 (`bg-primary`, `text-muted-foreground`, `rounded-lg`, `shadow-md`, ...) via
-`@theme inline`. Colors come from two swappable Tailwind ramps — an accent
-(indigo) behind `--primary`/`--ring` and a gray (neutral) behind everything
-structural — grouped the way [Radix Themes groups its color
-scale](https://www.radix-ui.com/themes/docs/theme/color) (backgrounds →
-subtle surfaces → solid actions → borders). These are the values to sync
-out to Figma variables later. `--cursor-*` tokens follow [Radix's cursor
-convention](https://www.radix-ui.com/themes/docs/theme/cursors): interactive
-elements keep the regular arrow, not `pointer`. Toggle the "Theme" control
-in the Storybook toolbar to preview light/dark.
+`@theme inline`. Colors come from two swappable ramps — an accent (indigo)
+behind `--primary`/`--ring` and a gray (neutral) behind everything
+structural — grouped by role: backgrounds → subtle surfaces → solid
+actions → borders. These are the values to sync out to Figma variables
+later. `--cursor-*` tokens keep the regular arrow on interactive elements
+rather than `pointer`. Toggle the "Theme" control in the Storybook toolbar
+to preview light/dark.
 
 Components should always use the semantic tokens (`bg-primary`, not
 `bg-neutral-900`) so a token swap doesn't require touching component code.
@@ -110,7 +108,7 @@ the merged file.
 
 Two ways to consume it — pick per project.
 
-### Copy-source (recommended), shadcn/ui-style
+### Copy-source (recommended)
 
 No package to install or keep in sync; the component's source lands directly
 in the consumer's repo. [`registry.json`](registry.json) declares each item;
@@ -172,7 +170,7 @@ automated by CI).
 
 ## Adding a component
 
-1. Build it in `src/components/<category>/` (pick a category from the Components overview), styling with Tailwind and Radix primitives — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes. Import shared code via the `@/` alias (e.g. `@/lib/utils`), not a relative path — that's what lets the CLI rewrite it to the consumer's own alias.
+1. Build it in `src/components/<category>/` (pick a category from the Components overview) — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes. Import shared code via the `@/` alias (e.g. `@/lib/utils`), not a relative path — that's what lets the CLI rewrite it to the consumer's own alias.
 2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`, tagged `['autodocs']` with a real `parameters.docs.description.component`.
 3. Add an entry for it in [`registry.json`](registry.json) so it's installable via the CLI.
 4. Figma designs will be synced in as the source of truth for new components.

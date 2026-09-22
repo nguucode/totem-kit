@@ -34,7 +34,7 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  /** Merge props onto the single child instead of rendering a `<button>` (Radix Slot). */
+  /** Merge props onto the single child instead of rendering a `<button>`. */
   asChild?: boolean
 }
 

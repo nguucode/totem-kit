@@ -7,8 +7,8 @@ import * as DarkModeStories from './DarkMode.stories'
 
 Dark mode is **a class, not a media query.** `tokens.css` declares the
 light values on `:root, .light` and the dark values on `.dark`, and
-`@custom-variant dark (&:is(.dark *))` wires Tailwind's `dark:` variant to
-the same class.
+`@custom-variant dark (&:is(.dark *))` wires the `dark:` variant to the
+same class.
 
 Nothing is automatic about it. Adding `class="dark"` to `<html>` is what
 switches the document; without that, a device set to dark mode gets the
@@ -22,8 +22,8 @@ Neither `Button.tsx` nor `TextInput.tsx` contains a single `dark:`
 variant. `bg-primary` resolves through `var(--primary)`, and it is the
 variable that changes; the class is identical in both modes.
 
-This is the main reason to use the tokens rather than reaching for a
-Tailwind primitive. `bg-neutral-900` is a fixed near-black in both modes
+This is the main reason to use the tokens rather than reaching for a raw
+palette class. `bg-neutral-900` is a fixed near-black in both modes
 and needs a `dark:bg-neutral-100` beside it to survive a theme switch;
 `bg-primary` needs nothing. Every `dark:` in a codebase is a place the
 theme was hardcoded and then patched.

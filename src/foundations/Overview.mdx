@@ -8,7 +8,7 @@ import * as OverviewStories from './Overview.stories'
 Foundations are the decisions every component inherits: color, type,
 spacing, radius, elevation, cursors, and the breakpoints layouts respond
 to. They live in **one file** — `src/tokens.css` — as CSS custom
-properties, mapped onto Tailwind utilities through `@theme inline`.
+properties, mapped onto utility classes through `@theme inline`.
 
 There is no JavaScript theme object, no `ThemeProvider` that owns values,
 and no build step that generates a stylesheet. A token is a CSS variable,
@@ -20,7 +20,7 @@ inherit it and override it. Everything on this page follows from that.
 | Layer | Where | Example |
 | --- | --- | --- |
 | Raw value | `:root` / `.dark` in `tokens.css` | `--primary: oklch(0.205 0 0)` |
-| Tailwind mapping | `@theme inline` in `tokens.css` | `--color-primary: var(--primary)` |
+| Utility mapping | `@theme inline` in `tokens.css` | `--color-primary: var(--primary)` |
 | Usage | component source | `className="bg-primary"` |
 
 Components only ever touch the third layer. That is what makes a rebrand a
@@ -33,8 +33,8 @@ entirely — the variable under `bg-primary` changes, the class does not.
   contrast measurements, and where every value comes from.
 - **[Dark mode](?path=/docs/foundations-dark-mode--docs)** — how the two
   modes are declared and switched.
-- **[Typography](?path=/docs/foundations-typography--docs)** — the type
-  scale, and the typeface decision that has not been made.
+- **[Typography](?path=/docs/foundations-typography--docs)** — the
+  role-based type scale, and the system font stack behind it.
 - **[Spacing](?path=/docs/foundations-spacing--docs)** — one multiplier,
   and why the scale cannot enforce itself.
 - **[Breakpoints](?path=/docs/foundations-breakpoints--docs)** — the
@@ -92,8 +92,8 @@ the lighter solids miss the 3:1 a focus indicator needs.
 <Canvas of={OverviewStories.AccentColor} />
 
 **`accentColor` sets `--primary`, not `--accent`.** The token named
-`--accent` is a subtle hover surface from the shadcn contract — a
-different thing that happens to share the word.
+`--accent` is a subtle hover surface — a different thing that happens to
+share the word.
 
 ### Gray color
 
@@ -126,7 +126,6 @@ leaves the surrounding mode alone).
 
 <Canvas of={OverviewStories.Appearance} />
 
-
 ### Token overrides
 
 `tokens` takes any custom property, with or without the `--` prefix. It is
@@ -153,7 +152,7 @@ The light island works because `tokens.css` declares the light values on
 equal specificity, so the nearer scope's class is what an element inside
 it resolves against.
 
-**One caveat.** Tailwind's own `dark:` variant is
+**One caveat.** The `dark:` variant is
 `@custom-variant dark (&:is(.dark *))` — a descendant selector, which
 still matches inside a light island nested in a dark ancestor. Totem Kit's
 components never use `dark:` variants, so they are unaffected; if your own
@@ -162,13 +161,10 @@ Prefer the tokens over `dark:` and the problem does not arise.
 
 ## Installing
 
-Both distribution paths carry the same tokens:
+Both distribution paths carry the same tokens. Copy-source drops the
+component's own source into your repo and merges these values into your
+stylesheet; the npm package ships them as `totem-kit/tokens.css`, which
+you import after your base stylesheet.
 
-- **Registry** — `npx shadcn@latest add https://nguucode.github.io/totem-kit/r/tokens.json`
-  merges the values into the consuming project's own stylesheet, and
-  `.../r/theme.json` adds the `Theme` component beside them.
-- **npm** — `@import "totem-kit/tokens.css"` after your own
-  `@import "tailwindcss"`.
-
-See the [repo README](https://github.com/nguucode/totem-kit) for the full
-setup of either.
+The exact commands for either are in the
+[repo README](https://github.com/nguucode/totem-kit).

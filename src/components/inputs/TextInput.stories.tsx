@@ -24,7 +24,7 @@ export const Default: Story = {
 }
 
 export const LabelAssociation: Story = {
-  // Radix Label.Root focuses the input it's `htmlFor` when clicked.
+  // Clicking the label focuses the input it is `htmlFor`.
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByText('Email'))
     await expect(canvas.getByLabelText('Email')).toHaveFocus()

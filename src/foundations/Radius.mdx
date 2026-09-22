@@ -18,8 +18,7 @@ panel — rather than a fixed number.
 
 ## Presets
 
-Five, matching [Radix Themes](https://www.radix-ui.com/themes/docs/theme/radius):
-`none`, `small`, `medium` (the default), `large`, `full`.
+Five: `none`, `small`, `medium` (the default), `large`, `full`.
 
 <Canvas of={RadiusStories.Presets} />
 
@@ -78,17 +77,17 @@ token system exists to prevent.
 
 ## Steps
 
-The raw scale, still available as the normal Tailwind utilities
+The raw scale, still available as the ordinary utilities
 (`rounded-sm` through `rounded-xl`) for anything that is genuinely
 decorative rather than a control, field or panel.
 
 <Canvas of={RadiusStories.Steps} />
 
-These override Tailwind's own radius scale, so `rounded-md` in application
+These replace the built-in radius scale, so `rounded-md` in application
 code follows the theme rather than being a fixed `0.375rem`.
 
-`rounded-full` is untouched — it is a static Tailwind utility
-(`2147483647px`), not driven by `--radius-full`, so an avatar stays round
+`rounded-full` is untouched — it is a static utility (`2147483647px`),
+not driven by `--radius-full`, so an avatar stays round
 at every preset.
 
 ## Scoping and overriding

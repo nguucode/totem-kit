@@ -5,15 +5,13 @@ import * as TypographyStories from './Typography.stories'
 
 # Typography
 
-Type is **role-based**, following the [Atlassian Design
-System](https://atlassian.design/foundations/typography) scale: you pick
-`text-heading-lg` or `text-body`, not a size. Each role carries its size,
-line height and weight together, so a heading cannot accidentally be set
-at body weight or a body line height.
+Type is **role-based**: you pick `text-heading-lg` or `text-body`, not a
+size. Each role carries its size, line height and weight together, so a
+heading cannot end up at body weight or a body line height by omission.
 
-That is the one structural difference from Tailwind's default type scale,
-which is purely dimensional — `text-2xl` says how big, never what it is
-for. Both are available; the roles are what components use.
+The alternative — a purely dimensional scale, where `text-2xl` says how
+big and never what it is for — is still available underneath. The roles
+are what components use.
 
 ## The typeface
 
@@ -24,22 +22,22 @@ system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
 sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'
 ```
 
-This is deliberately *not* Tailwind's default stack, which starts at
-`-apple-system` and omits `system-ui` entirely. `system-ui` is the
-standards-track keyword and resolves to the platform's **UI** face — San
-Francisco on Apple platforms, Segoe UI Variable on Windows, Roboto on
-Android — which is the face those platforms' own controls use. Everything
-after it is a fallback for browsers that do not support the keyword.
+`system-ui` is the standards-track keyword, and it resolves to the
+platform's **UI** face — San Francisco on Apple platforms, Segoe UI
+Variable on Windows, Roboto on Android — which is the face those platforms
+use for their own controls. Everything after it is a fallback for browsers
+that do not support the keyword.
 
 <Canvas of={TypographyStories.Families} />
 
-**The known caveat.** Tailwind omits `system-ui` because on some Linux and
-older Android configurations the keyword resolves through fontconfig to
-whatever is aliased as the system font, which has historically produced a
-serif or a missing-glyph fallback for non-Latin text. The fallbacks after
-it do not help, because the keyword *did* resolve — just badly. If you
-ship to those platforms and see the wrong face, drop `system-ui` from the
-front of the stack; everything else in the kit is unaffected.
+**The known caveat.** On some Linux and older Android configurations
+`system-ui` resolves through fontconfig to whatever is aliased as the
+system font, which has historically produced a serif, or a
+missing-glyph fallback for non-Latin text. The rest of the stack does not
+rescue it, because the keyword *did* resolve — just badly. This is the
+reason some systems leave `system-ui` out of the stack entirely. If you
+ship to those platforms and see the wrong face, drop it from the front;
+nothing else in the kit depends on it.
 
 Nothing is downloaded, so the kit renders in a different face on every
 platform by design. That is the right default for product UI and the wrong
@@ -48,24 +46,19 @@ one for a brand with its own type — see **Customization** below.
 ## Headings
 
 Seven steps, all bold. The line height tightens as the size grows, which
-is the part a purely dimensional scale gets wrong when it applies one
-ratio everywhere.
+is the thing a single ratio applied across a whole scale gets wrong.
 
 <Canvas of={TypographyStories.Headings} />
 
-| Role | Size | Line height | Atlassian |
-| --- | --- | --- | --- |
-| `text-heading-2xl` | 2rem / 32px | 36px | `font.heading.xxlarge` |
-| `text-heading-xl` | 1.75rem / 28px | 32px | `font.heading.xlarge` |
-| `text-heading-lg` | 1.5rem / 24px | 28px | `font.heading.large` |
-| `text-heading-md` | 1.25rem / 20px | 24px | `font.heading.medium` |
-| `text-heading-sm` | 1rem / 16px | 20px | `font.heading.small` |
-| `text-heading-xs` | 0.875rem / 14px | 20px | `font.heading.xsmall` |
-| `text-heading-2xs` | 0.75rem / 12px | 16px | `font.heading.xxsmall` |
-
-The suffixes are Tailwind's (`2xl` … `2xs`) rather than Atlassian's
-(`xxlarge` … `xxsmall`) so they read the same way as every other size in
-the kit. The mapping above is one to one.
+| Role | Size | Line height |
+| --- | --- | --- |
+| `text-heading-2xl` | 2rem / 32px | 36px |
+| `text-heading-xl` | 1.75rem / 28px | 32px |
+| `text-heading-lg` | 1.5rem / 24px | 28px |
+| `text-heading-md` | 1.25rem / 20px | 24px |
+| `text-heading-sm` | 1rem / 16px | 20px |
+| `text-heading-xs` | 0.875rem / 14px | 20px |
+| `text-heading-2xs` | 0.75rem / 12px | 16px |
 
 Note that headings go *below* body size: `text-heading-2xs` is 12px. Those
 bottom steps are for labels and section eyebrows — a heading role is about
@@ -73,16 +66,17 @@ the semantic weight of the text, not about being large.
 
 ## Body
 
-Three steps. `text-body` is the default at 14px, which is Atlassian's
-default and one step down from the 16px most Tailwind projects start at.
+Three steps. `text-body` is the default at 14px — one step down from the
+16px a lot of interfaces start at, which is deliberate for dense product
+UI and worth knowing before you reach for it in long-form content.
 
 <Canvas of={TypographyStories.Body} />
 
-| Role | Size | Line height | Atlassian |
-| --- | --- | --- | --- |
-| `text-body-lg` | 1rem / 16px | 24px | `font.body.large` |
-| `text-body` | 0.875rem / 14px | 20px | `font.body` |
-| `text-body-sm` | 0.75rem / 12px | 16px | `font.body.small` |
+| Role | Size | Line height |
+| --- | --- | --- |
+| `text-body-lg` | 1rem / 16px | 24px |
+| `text-body` | 0.875rem / 14px | 20px |
+| `text-body-sm` | 0.75rem / 12px | 16px |
 
 **Every component uses these.** Button, the field label, the input itself,
 and the helper and error text are all `text-body`; only the large Button
@@ -90,21 +84,20 @@ steps up to `text-body-lg`.
 
 ## Weights
 
-Four, matching Atlassian's set. Tailwind defines nine; the other five are
-not part of this system.
+Four. Anything outside this set is not part of the system.
 
 <Canvas of={TypographyStories.Weights} />
 
-| Utility | Value | Atlassian |
-| --- | --- | --- |
-| `font-normal` | 400 | regular |
-| `font-medium` | 500 | medium |
-| `font-semibold` | 600 | bold (body) |
-| `font-bold` | 700 | bold (heading) |
+| Utility | Value |
+| --- | --- |
+| `font-normal` | 400 |
+| `font-medium` | 500 |
+| `font-semibold` | 600 |
+| `font-bold` | 700 |
 
-**A weight utility always beats the role.** Tailwind emits the role's
-weight as `font-weight: var(--tw-font-weight, 700)`, and `font-*` sets
-`--tw-font-weight` — so the role's value is a fallback, not a rule, and
+**A weight utility always beats the role.** The role's weight compiles to
+`font-weight: var(--tw-font-weight, 700)` and the `font-*` utilities set
+that variable — so the role's value is a fallback, not a rule, and
 overriding it does not depend on class order. That is why Button can be
 `text-body font-medium` without the 400 in `text-body` fighting it.
 
@@ -117,24 +110,23 @@ everywhere; verify 600 on the platforms you support.
 
 Every size above is `calc(<base> * var(--scaling))`, so the
 [`scaling`](?path=/docs/foundations-overview--docs) setting moves type and
-spacing together. Line heights are stored as *ratios* of Atlassian's px
-pairs — `calc(20 / 14)` rather than `1.25rem` — so they follow the font
-size instead of having to be rescaled themselves.
+spacing together. Line heights are stored as *ratios* — `calc(20 / 14)`
+rather than `1.25rem` — so they follow the font size instead of having to
+be rescaled themselves.
 
 ## What is not here
 
-**Metric tokens.** Atlassian has `font.metric.*` for large figures. Their
-sizes are identical to three of the heading steps; the real difference is
-tabular figures, which Tailwind already covers with `tabular-nums`. There
-is no stat component yet, so the role would be three tokens nothing reads.
+**A metric role for large figures.** Its sizes would be identical to three
+of the heading steps; the real difference is tabular figures, which the
+`tabular-nums` utility already covers. There is no stat component yet, so
+it would be a role nothing reads.
 
-**`font.code`.** Same size as `text-body-sm`, differing only by family.
+**A code role.** Same size as `text-body-sm`, differing only by family.
 `font-mono` covers it until a Code component exists.
 
-**The raw scale.** `text-xs` through `text-6xl` still exist and still
-scale — they are Tailwind's and removing them would break expectations.
-Prefer a role in component code; reach for the raw scale for one-off
-display type that no role describes.
+**The dimensional scale is still there.** `text-xs` through `text-6xl`
+exist and still scale. Prefer a role in component code; reach for a raw
+size for one-off display type that no role describes.
 
 ## Customization
 

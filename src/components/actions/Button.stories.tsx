@@ -75,7 +75,7 @@ export const AsChild: Story = {
     children: <a href="#totem">Button</a>,
   },
   play: async ({ canvas }) => {
-    // Radix Slot should merge the button styles onto the <a>, not render a <button>.
+    // asChild should merge the button styles onto the <a>, not render a <button>.
     const link = canvas.getByRole('link', { name: 'Button' })
     await expect(link).toHaveAttribute('href', '#totem')
     await expect(canvas.queryByRole('button')).not.toBeInTheDocument()

@@ -12,10 +12,9 @@ anywhere in `tokens.css`, because there is no list.
 
 ## The scale is computed, not enumerated
 
-This is the part that differs from Tailwind v3 and from most design
-systems. In v3, `p-13` was an error — the scale was a fixed map and 13 was
-not in it. In v4 the value is computed, so `p-13` (52px), `p-4.5` (18px)
-and `p-[7px]` all work.
+This is the part that differs from most design systems. Where a scale is
+a fixed map, `p-13` is an error because 13 is not in it. Here the value
+is computed, so `p-13` (52px), `p-4.5` (18px) and `p-[7px]` all work.
 
 That has a real consequence: **the scale cannot enforce itself.** Nothing
 will stop a component from using `gap-7` where the rest of the kit uses
