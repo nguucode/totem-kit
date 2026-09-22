@@ -46,19 +46,22 @@
   },
 
   "shadow": {
-    "$description": "Elevation. Dark raises the alpha because a flat black shadow has almost nothing left to darken on a dark surface.",
-    "light": {
-      "elevation-sm": { "$type": "shadow", "$value": "0 1px 2px 0 rgb(0 0 0 / 0.05)" },
-      "elevation-md": { "$type": "shadow", "$value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" },
-      "elevation-lg": { "$type": "shadow", "$value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)" },
-      "elevation-xl": { "$type": "shadow", "$value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" }
+    "$description": "Elevation, as a height `h` in pixels. Every step is the same two layers: an ambient layer `0 h 2h -h/2` for the spread of light around a raised object, under a tighter contact layer `0 h/2 h -h/2` for where it meets the surface. h doubles through the lower steps and eases off at the top, so the scale reads as distance rather than as seven unrelated blurs.\n\nOnly the light values are written. The generator derives dark from them, because a black shadow has little left to darken on a dark surface — see $extensions.",
+    "$extensions": {
+      "dark": {
+        "alphaScale": 4,
+        "alphaMax": 0.6,
+        "$description": "Dark multiplies every alpha and clamps it. The clamp matters: past roughly 0.6 a shadow stops reading as elevation and starts reading as a dark smudge, so the top step gains contrast by other means (a lighter surface) rather than by a heavier shadow."
+      }
     },
-    "dark": {
-      "elevation-sm": { "$type": "shadow", "$value": "0 1px 2px 0 rgb(0 0 0 / 0.3)" },
-      "elevation-md": { "$type": "shadow", "$value": "0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4)" },
-      "elevation-lg": { "$type": "shadow", "$value": "0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4)" },
-      "elevation-xl": { "$type": "shadow", "$value": "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)" }
-    }
+    "elevation-none": { "$type": "shadow", "$value": "0 0 #0000" },
+    "elevation-2xs": { "$type": "shadow", "$value": "0 1px 2px 0 rgb(0 0 0 / 0.05)" },
+    "elevation-xs": { "$type": "shadow", "$value": "0 2px 4px -1px rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04)" },
+    "elevation-sm": { "$type": "shadow", "$value": "0 4px 8px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05)" },
+    "elevation-md": { "$type": "shadow", "$value": "0 8px 16px -4px rgb(0 0 0 / 0.09), 0 4px 8px -4px rgb(0 0 0 / 0.06)" },
+    "elevation-lg": { "$type": "shadow", "$value": "0 12px 24px -6px rgb(0 0 0 / 0.1), 0 6px 12px -6px rgb(0 0 0 / 0.07)" },
+    "elevation-xl": { "$type": "shadow", "$value": "0 20px 40px -10px rgb(0 0 0 / 0.12), 0 10px 20px -10px rgb(0 0 0 / 0.08)" },
+    "elevation-2xl": { "$type": "shadow", "$value": "0 32px 64px -16px rgb(0 0 0 / 0.16), 0 16px 32px -16px rgb(0 0 0 / 0.1)" }
   },
 
   "root": {

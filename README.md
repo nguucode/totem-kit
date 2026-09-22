@@ -92,6 +92,13 @@ The stylesheet and the export are built by different code paths, so the
 generator follows every alias back to its literal and asserts the two
 agree. They cannot drift apart silently.
 
+Shadows export as **structured layers** (`offsetX` / `offsetY` / `blur` /
+`spread` / `color`) rather than CSS strings, which is both what the token
+spec defines and what an effect-style importer can read. They land as
+Figma effect styles, not variables, so they import on a separate path from
+everything else. The generator re-composes every exported layer and
+asserts it rebuilds the exact CSS declaration.
+
 Two things do not survive the trip: values are `oklch()`, so a plugin that
 only parses hex needs a conversion step; and the 16 non-default accents are
 selected at runtime by `[data-accent]`, which Figma has no equivalent for —

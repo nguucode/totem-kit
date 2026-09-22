@@ -92,6 +92,61 @@ const decls = (obj, indent = '  ') =>
     .map(([k, v]) => `${indent}--${k}: ${v.$value};`)
     .join('\n')
 
+/**
+ * Only the light shadows are authored. Dark scales every alpha and clamps
+ * it, so the two modes cannot drift: editing a step edits both.
+ */
+const { alphaScale, alphaMax } = semantic.shadow.$extensions.dark
+const SHADOW_STEPS = entries(semantic.shadow)
+const shadowDecls = (mode, indent = '  ') =>
+  SHADOW_STEPS.map(([k, v]) => {
+    const value =
+      mode === 'light'
+        ? v.$value
+        : v.$value.replace(/rgb\(0 0 0 \/ ([\d.]+)\)/g, (_, a) => {
+            const scaled = Math.min(Number(a) * alphaScale, alphaMax)
+            // Trailing zeros would churn the diff on every regeneration.
+            return `rgb(0 0 0 / ${Number(scaled.toFixed(3))})`
+          })
+    return `${indent}--${k}: ${value};`
+  }).join('\n')
+
+/**
+ * The CSS strings above are the authored form; the token spec wants layers.
+ * Parsing back out is safe because this file also wrote the string — and the
+ * assertion further down re-composes each layer and checks it round-trips.
+ */
+const LAYER = /^(-?\d+)px (-?\d+)px (-?\d+)px (-?\d+)px rgb\(0 0 0 \/ ([\d.]+)\)$/
+const shadowLayers = (mode) =>
+  Object.fromEntries(
+    SHADOW_STEPS.filter(([k]) => k !== 'elevation-none').map(([k]) => {
+      const css = shadowDecls(mode, '').split('\n').find((l) => l.startsWith(`--${k}:`))
+      const value = css.slice(`--${k}: `.length, -1)
+      return [
+        k.replace('elevation-', ''),
+        {
+          $type: 'shadow',
+          $value: value.split(', ').map((layer) => {
+            // `0 8px` is shorthand for `0px 8px 0px 0px`; normalise before parsing.
+            const parts = layer.split(' ')
+            const nums = parts.slice(0, parts.length - 4)
+            while (nums.length < 4) nums.push('0px')
+            const m = `${nums.map((n) => (n === '0' ? '0px' : n)).join(' ')} ${parts.slice(-4).join(' ')}`.match(LAYER)
+            if (!m) throw new Error(`cannot parse shadow layer: "${layer}" in --${k}`)
+            const [, offsetX, offsetY, blur, spread, alpha] = m
+            return {
+              color: `rgb(0 0 0 / ${alpha})`,
+              offsetX: `${offsetX}px`,
+              offsetY: `${offsetY}px`,
+              blur: `${blur}px`,
+              spread: `${spread}px`,
+            }
+          }),
+        },
+      ]
+    }),
+  )
+
 const DEFAULT_ACCENT = 'indigo'
 const DEFAULT_GRAY = 'neutral'
 const defaults = palettes.find((p) => p.hue === DEFAULT_ACCENT)
@@ -167,13 +222,13 @@ ${GRAYS.map((hue) => `[data-gray='${hue}'] {\n${grayVars(hue)}\n}`).join('\n')}
 .light {
 ${colorBlock('light')}
 
-${decls(semantic.shadow.light)}
+${shadowDecls('light')}
 }
 
 .dark {
 ${colorBlock('dark')}
 
-${decls(semantic.shadow.dark)}
+${shadowDecls('dark')}
 }
 
 /* A custom property that reads another one is resolved where it is DECLARED
@@ -248,10 +303,7 @@ ${textDecls}
 ${leadingDecls}
 
   /* Shadows read from the elevation tokens each appearance sets. */
-  --shadow-sm: var(--elevation-sm);
-  --shadow-md: var(--elevation-md);
-  --shadow-lg: var(--elevation-lg);
-  --shadow-xl: var(--elevation-xl);
+${SHADOW_STEPS.map(([k]) => `  --${k.replace('elevation-', 'shadow-')}: var(--${k});`).join('\n')}
 }
 `
 
@@ -333,6 +385,36 @@ const dtcg = {
   space: semantic.space,
   text: semantic.text,
   radius: { radius: semantic.root.radius },
+  shadow: {
+    $description:
+      'Elevation as structured layers rather than CSS strings, which is the shape the token spec defines and the shape an effect-style importer can read. Figma maps these to effect styles, not to variables, so they import separately from everything above.',
+    light: shadowLayers('light'),
+    dark: shadowLayers('dark'),
+  },
+}
+
+/* The shadow export parses the CSS strings apart. Re-compose every layer and
+   assert it rebuilds the exact declaration, so a parser that quietly drops a
+   spread or an alpha cannot ship a Figma library that renders differently. */
+for (const mode of ['light', 'dark']) {
+  const authored = Object.fromEntries(
+    shadowDecls(mode, '')
+      .split('\n')
+      .map((l) => [l.slice(2, l.indexOf(':')), l.slice(l.indexOf(': ') + 2, -1)]),
+  )
+  for (const [step, entry] of entries(dtcg.shadow[mode])) {
+    const rebuilt = entry.$value
+      .map((l) => `${l.offsetX} ${l.offsetY} ${l.blur} ${l.spread} ${l.color}`)
+      .join(', ')
+      // The authored form uses CSS shorthand where a trailing value is zero.
+      .replace(/^0px /, '0 ')
+      .replace(/, 0px /g, ', 0 ')
+      .replace(/ 0px rgb/g, ' 0 rgb')
+    if (rebuilt !== authored[`elevation-${step}`])
+      throw new Error(
+        `shadow round-trip failed for ${mode} ${step}:\n  authored ${authored[`elevation-${step}`]}\n  rebuilt  ${rebuilt}`,
+      )
+  }
 }
 
 /* The export and the stylesheet are built from the same JSON but by different
