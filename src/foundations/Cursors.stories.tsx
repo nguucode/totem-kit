@@ -41,23 +41,12 @@ function CursorTokens() {
   )
 }
 
+// Narrative and prose live in Cursors.mdx, which supersedes this file's
+// autodocs page — this story exists to be embedded there via <Canvas>.
 const meta = {
   title: 'Foundations/Cursors',
   render: () => <CursorTokens />,
-  tags: ['autodocs'],
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component: `Follows [Radix Themes' cursor convention](https://www.radix-ui.com/themes/docs/theme/cursors):
-interactive elements that don't navigate to another page keep the
-browser's regular arrow cursor, and only disabled elements get an
-explicit one. Add a token here per component as it's built (checkbox,
-radio, switch, ...) rather than ahead of it — each row below explains
-why its component does or doesn't actually use the token.`,
-      },
-    },
-  },
+  parameters: { layout: 'padded' },
 } satisfies Meta
 
 export default meta

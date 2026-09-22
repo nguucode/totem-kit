@@ -18,21 +18,12 @@ function RadiusScale() {
   )
 }
 
+// Narrative and prose live in Radius.mdx, which supersedes this file's
+// autodocs page — this story exists to be embedded there via <Canvas>.
 const meta = {
   title: 'Foundations/Radius',
   render: () => <RadiusScale />,
-  tags: ['autodocs'],
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component: `Four steps derived from a single \`--radius\` base (0.625rem): \`sm\` is
-\`base - 4px\`, \`md\` is \`base - 2px\`, \`lg\` is the base itself, \`xl\` is
-\`base + 4px\`. Change \`--radius\` in \`src/tokens.css\` to restyle every
-rounded corner in the kit at once.`,
-      },
-    },
-  },
+  parameters: { layout: 'padded' },
 } satisfies Meta
 
 export default meta

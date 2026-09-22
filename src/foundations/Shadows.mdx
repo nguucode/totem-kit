@@ -1,0 +1,29 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ShadowsStories from './Shadows.stories'
+
+<Meta of={ShadowsStories} />
+
+# Shadows
+
+Four elevation steps, overriding Tailwind's own `--shadow-*` theme
+namespace so `shadow-sm` through `shadow-xl` stay dark-mode-aware without a
+new utility class — components just use Tailwind's normal shadow
+utilities.
+
+## Why dark mode needs its own values
+
+Flat black shadows at a given opacity read fine on a light surface but go
+near-invisible on a dark one, so the `.dark` block in `src/tokens.css`
+bumps the alpha for each step. This page looks the same in both themes
+for that reason — flip the **Theme** control in the toolbar and the
+shadows stay readable rather than staying visually identical.
+
+## Scale
+
+<Canvas of={ShadowsStories.Scale} />
+
+## Customization
+
+Edit `--shadow-elevation-sm/md/lg/xl` in `:root` / `.dark` in
+`src/tokens.css` — the `@theme inline` mapping to Tailwind's `--shadow-*`
+keys stays untouched.

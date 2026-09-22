@@ -1,0 +1,35 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as TypographyStories from './Typography.stories'
+
+<Meta of={TypographyStories} />
+
+# Typography
+
+Tailwind's default type scale and font weights, unmodified — no custom font
+family or semantic role tokens (`heading`/`body`/`caption`) are defined
+yet. Reference a scale step directly (`text-sm`, `font-medium`) until real
+typographic roles get designed.
+
+## Type scale
+
+Ten steps, `text-xs` through `text-6xl`. Prefer the smallest step that
+still reads clearly for the job — a scale only stays legible as a system if
+most of the UI clusters around two or three of these, not all ten.
+
+<Canvas of={TypographyStories.Scale} />
+
+## Font weight
+
+Five steps, `font-light` through `font-bold`. `font-normal` and
+`font-medium` cover the large majority of UI text; reach for `font-bold`
+sparingly; the OS-default `system-ui` font stack may not even ship a
+distinct `font-light`/`font-thin` face, so verify before relying on it.
+
+<Canvas of={TypographyStories.Weight} />
+
+## Customization
+
+No `--font-*` tokens exist in `src/tokens.css` yet, so there's nothing to
+override today — the whole kit inherits the browser's `system-ui` stack.
+Adding a real typeface means defining a `--font-sans` (and mapping it in
+`@theme inline`) once one is chosen, not before.

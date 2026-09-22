@@ -1,0 +1,68 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ColorsStories from './Colors.stories'
+
+<Meta of={ColorsStories} />
+
+# Colors
+
+Components consume **semantic tokens** — `bg-primary`, never `bg-neutral-900`
+— so a rebrand only ever touches `src/tokens.css`. The tokens below are
+grouped the way [Radix Themes explains its own color
+scale](https://www.radix-ui.com/themes/docs/theme/color): backgrounds, then
+subtle surfaces, then solid actions, then borders — the same reading order,
+without Radix's 12-step-per-color scale (see **Primitives** at the bottom
+for the raw material instead).
+
+## Backgrounds
+
+Page and container surfaces — `background`/`foreground` for the page
+itself, `card` and `popover` for surfaces that sit a level above it.
+
+<Canvas of={ColorsStories.Backgrounds} />
+
+## Subtle surfaces
+
+Hover states, selected rows, low-emphasis fills — anything that needs to
+read as "responding to the user" without competing with a solid action.
+
+<Canvas of={ColorsStories.SubtleSurfaces} />
+
+## Solid actions
+
+Filled buttons and other high-emphasis controls. `destructive` is the only
+token in the whole default palette that isn't a shade of neutral — the one
+place an accent hue shows up until real brand colors exist.
+
+<Canvas of={ColorsStories.SolidActions} />
+
+## Borders & lines
+
+Dividers, input outlines, and the focus ring. These don't get a foreground
+pair — they're only ever used as a border or outline color, never a fill.
+
+<Canvas of={ColorsStories.BordersAndLines} />
+
+## Dark mode
+
+Every token above has a `.dark` counterpart declared in `src/tokens.css`,
+switched by toggling a `dark` class on `<html>`
+(`@custom-variant dark (&:is(.dark *));`). Use the **Theme** control in the
+Storybook toolbar to flip between them — nothing on this page changes
+shape, only which values the same variable names resolve to.
+
+## Primitives
+
+The full default Tailwind palette — 22 hues × 11 shades — force-generated
+via `@source inline(...)` in `src/index.css`, since none of these classes
+are otherwise referenced anywhere in the kit. This is the raw material the
+semantic tokens above are cut from; reach for a primitive directly only
+when defining the *next* semantic token, not from application code.
+
+<Canvas of={ColorsStories.Primitives} />
+
+## Customization
+
+Swap the raw values in `:root` / `.dark` in `src/tokens.css` — nothing that
+consumes `bg-primary`, `text-muted-foreground`, etc. has to change. These
+are also the values meant to sync out to Figma variables later, once real
+brand colors exist, not the other way around.

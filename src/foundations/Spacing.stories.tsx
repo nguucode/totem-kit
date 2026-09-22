@@ -21,21 +21,12 @@ function SpacingScale() {
   )
 }
 
+// Narrative and prose live in Spacing.mdx, which supersedes this file's
+// autodocs page — this story exists to be embedded there via <Canvas>.
 const meta = {
   title: 'Foundations/Spacing',
   render: () => <SpacingScale />,
-  tags: ['autodocs'],
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component: `Tailwind's spacing scale is a single \`--spacing\` multiplier (default
-\`0.25rem\`); every step is \`calc(var(--spacing) * n)\`. Retokenizing the
-multiplier (e.g. from Figma) rescales every \`p-*\`/\`gap-*\`/\`w-*\` utility
-in the kit at once — nothing below needs to change to stay in sync.`,
-      },
-    },
-  },
+  parameters: { layout: 'padded' },
 } satisfies Meta
 
 export default meta

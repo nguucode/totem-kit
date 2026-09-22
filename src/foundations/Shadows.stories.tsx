@@ -15,22 +15,12 @@ function ShadowScale() {
   )
 }
 
+// Narrative and prose live in Shadows.mdx, which supersedes this file's
+// autodocs page — this story exists to be embedded there via <Canvas>.
 const meta = {
   title: 'Foundations/Shadows',
   render: () => <ShadowScale />,
-  tags: ['autodocs'],
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component: `Overrides Tailwind's own \`--shadow-*\` theme namespace, so \`shadow-sm\`
-through \`shadow-xl\` stay dark-mode-aware without a new utility. Flat black
-shadows read fine on a light surface but go near-invisible on a dark one,
-so the \`.dark\` values in \`src/tokens.css\` bump the alpha — this page
-looks the same in both themes for that reason, by design.`,
-      },
-    },
-  },
+  parameters: { layout: 'padded' },
 } satisfies Meta
 
 export default meta

@@ -1,0 +1,22 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as RadiusStories from './Radius.stories'
+
+<Meta of={RadiusStories} />
+
+# Radius
+
+Four steps derived from a single `--radius` base (`0.625rem`): `sm` is
+`base - 4px`, `md` is `base - 2px`, `lg` is the base itself, `xl` is
+`base + 4px`. Components should reach for `rounded-sm`/`rounded-md`/etc.
+rather than an arbitrary radius value, so a change to `--radius` reaches
+every rounded corner in the kit.
+
+## Scale
+
+<Canvas of={RadiusStories.Scale} />
+
+## Customization
+
+Change `--radius` in `src/tokens.css`; the four derived steps recompute
+from it automatically via `calc()` in `@theme inline` — nothing else in
+this file needs to change.

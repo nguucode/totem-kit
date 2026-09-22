@@ -1,0 +1,28 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as CursorsStories from './Cursors.stories'
+
+<Meta of={CursorsStories} />
+
+# Cursors
+
+Follows [Radix Themes' cursor
+convention](https://www.radix-ui.com/themes/docs/theme/cursors):
+interactive elements that don't navigate to another page keep the
+browser's regular arrow cursor, and only disabled elements get an explicit
+one — not `pointer` on every clickable thing, which is a common default
+that Radix (and this kit) deliberately skips.
+
+## Tokens
+
+Add a token here per component as it's built (checkbox, radio, switch,
+...) rather than ahead of it. Each row explains why its component does or
+doesn't actually use the token — `--cursor-disabled` exists as a
+convention for a future component, not because Button uses it today.
+
+<Canvas of={CursorsStories.Tokens} />
+
+## Customization
+
+Both are plain CSS values (`default`, `not-allowed`) in `src/tokens.css`,
+not colors — override them the same way, and load any override after
+Totem Kit's own CSS so the cascade picks it up.

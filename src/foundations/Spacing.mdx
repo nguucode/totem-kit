@@ -1,0 +1,21 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SpacingStories from './Spacing.stories'
+
+<Meta of={SpacingStories} />
+
+# Spacing
+
+Tailwind's spacing scale is a single `--spacing` multiplier (default
+`0.25rem`); every step below is `calc(var(--spacing) * n)`. Any utility
+that takes a spacing value — `p-*`, `gap-*`, `w-*`, `h-*`, and so on —
+resolves through this same multiplier.
+
+## Scale
+
+<Canvas of={SpacingStories.Scale} />
+
+## Customization
+
+Retokenizing `--spacing` in `src/tokens.css` rescales every spacing
+utility in the kit at once — none of the values above need to change
+individually to stay in sync with it.
