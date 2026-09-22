@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect } from 'storybook/test'
 import { Theme } from '@/theme/Theme'
 import docs from './docs.module.css'
 
@@ -82,7 +83,6 @@ export const Modes: Story = {
     </div>
   ),
   play: async ({ canvas }) => {
-    const { expect } = await import('storybook/test')
     // The point of the alpha scale: the same token is not the same value in
     // both modes. If someone copies the light values into .dark, this fails.
     const shadows = (['light', 'dark'] as const).map((mode) =>

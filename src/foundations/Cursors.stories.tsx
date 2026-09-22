@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect } from 'storybook/test'
 import { Button } from '@/components/actions/Button'
 import { TextInput } from '@/components/inputs/TextInput'
 import docs from './docs.module.css'
@@ -74,7 +75,6 @@ type Story = StoryObj<typeof meta>
 
 export const Tokens: Story = {
   play: async ({ canvas }) => {
-    const { expect } = await import('storybook/test')
     const cursor = (el: Element) => getComputedStyle(el).cursor
     // The three cases have to stay distinct, and the button/link split is the
     // whole point of the page — assert it rather than describing it in prose.
