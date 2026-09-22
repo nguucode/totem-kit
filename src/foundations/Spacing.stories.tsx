@@ -22,7 +22,7 @@ function SpacingScale() {
 }
 
 const meta = {
-  title: 'Atoms/Foundations/Spacing',
+  title: 'Foundations/Spacing',
   render: () => <SpacingScale />,
   parameters: { layout: 'padded' },
 } satisfies Meta

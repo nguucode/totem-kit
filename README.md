@@ -22,13 +22,13 @@ npm run dev          # app shell at http://localhost:5173
 
 ## Structure (Atomic Design)
 
-Storybook sidebar is ordered Atoms → Molecules → Organisms (`.storybook/preview.tsx`).
+Storybook sidebar is ordered Foundations → Components → Patterns (`.storybook/preview.tsx`).
 
-| Tier | Folder | Storybook title | What goes here |
+| Tier (atomic design) | Folder | Storybook title | What goes here |
 | --- | --- | --- | --- |
-| **Atoms** | `src/foundations/` | `Atoms/Foundations/*` | Design tokens: color, typography, spacing, radius |
-| **Molecules** | `src/components/<category>/` | `Molecules/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
-| **Organisms** | `src/patterns/<category>/` | `Organisms/<Category>/*` | Full sections assembled from Molecules (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
+| **Foundations** (atoms) | `src/foundations/` | `Foundations/*` | Design tokens: color, typography, spacing, radius |
+| **Components** (molecules) | `src/components/<category>/` | `Components/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
+| **Patterns** (organisms) | `src/patterns/<category>/` | `Patterns/<Category>/*` | Full sections assembled from Components (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
 
 ## Design tokens
 
@@ -44,6 +44,6 @@ Components should always use the semantic tokens (`bg-primary`, not
 
 ## Adding a component
 
-1. Build it in `src/components/<category>/` (pick a category from the Molecules overview), styling with Tailwind and Radix primitives — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes.
-2. Add a `*.stories.tsx` file next to it, titled `Molecules/<Category>/<Component>`.
+1. Build it in `src/components/<category>/` (pick a category from the Components overview), styling with Tailwind and Radix primitives — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes.
+2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`.
 3. Figma designs will be synced in as the source of truth for new components.

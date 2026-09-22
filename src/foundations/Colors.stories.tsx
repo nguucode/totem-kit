@@ -81,7 +81,7 @@ function Primitives() {
 }
 
 const meta = {
-  title: 'Atoms/Foundations/Colors',
+  title: 'Foundations/Colors',
   parameters: { layout: 'padded' },
 } satisfies Meta
 

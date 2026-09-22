@@ -39,7 +39,7 @@ function TypeScale() {
 }
 
 const meta = {
-  title: 'Atoms/Foundations/Typography',
+  title: 'Foundations/Typography',
   render: () => <TypeScale />,
   parameters: { layout: 'padded' },
 } satisfies Meta

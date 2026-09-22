@@ -3,7 +3,7 @@ import { expect } from 'storybook/test'
 import { TextInput } from './TextInput'
 
 const meta = {
-  title: 'Molecules/Inputs/TextInput',
+  title: 'Components/Inputs/TextInput',
   component: TextInput,
   tags: ['autodocs'],
   args: {

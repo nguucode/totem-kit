@@ -19,7 +19,7 @@ function RadiusScale() {
 }
 
 const meta = {
-  title: 'Atoms/Foundations/Radius',
+  title: 'Foundations/Radius',
   render: () => <RadiusScale />,
   parameters: { layout: 'padded' },
 } satisfies Meta

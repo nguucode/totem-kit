@@ -3,7 +3,7 @@ import { expect, fn } from 'storybook/test'
 import { Button } from './Button'
 
 const meta = {
-  title: 'Molecules/Actions/Button',
+  title: 'Components/Actions/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {

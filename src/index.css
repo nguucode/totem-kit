@@ -2,9 +2,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Force-generate the full default color palette so Atoms/Foundations/Colors
-   can show the raw Tailwind scale (the material the semantic tokens below
-   are cut from) with dynamic classNames instead of listing every class
+/* Force-generate the full default color palette so Foundations/Colors can
+   show the raw Tailwind scale (the material the semantic tokens below are
+   cut from) with dynamic classNames instead of listing every class
    literally. */
 @source inline("bg-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
 
