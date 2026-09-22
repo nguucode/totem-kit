@@ -1,0 +1,72 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Getting Started/Introduction" />
+
+# Totem Kit
+
+A front-end UI kit for React, documented here in Storybook. Components are
+plain elements styled with CSS Modules against a layer of CSS custom
+properties. There is no CSS framework, no primitive library, and one
+runtime dependency.
+
+<div style={{
+  border: '1px solid var(--destructive)',
+  borderRadius: 'var(--radius-panel)',
+  padding: 'var(--space-4)',
+  margin: 'var(--space-6) 0',
+}}>
+
+**Early stage — not production-ready.** Two components exist (Button, Text
+Input). No design review has happened beyond the contrast measurements in
+these docs, and no Figma file has been applied, so the palettes are chosen
+for contrast rather than designed. **Expect breaking changes on any `0.x`
+version bump.**
+
+Fine to read, install, or borrow the setup from. Not ready to build a real
+product on top of yet.
+
+</div>
+
+## What it is
+
+The whole kit resolves against one stylesheet of custom properties. A
+component never holds a colour, a size or a radius — it reads a token:
+
+```css
+.button {
+  background: var(--primary);
+  border-radius: var(--radius-control);
+  font-size: var(--text-body);
+}
+```
+
+Three consequences follow, and most of these docs are about them:
+
+- **Theming is scoping.** `<Theme accentColor="violet" appearance="dark">`
+  redeclares tokens on a subtree; everything inside re-resolves. No
+  context, no re-render, no theme object.
+- **Rebranding is one file.** Change what `--primary` means and every rule
+  reading it moves. No component is touched.
+- **There is no build step on your side.** No config, no content scanning,
+  no plugin. It is a stylesheet.
+
+## How to read these docs
+
+**[Foundations](?path=/docs/foundations-overview--docs)** is the substance —
+colour, type, spacing, radius, elevation, cursors, and the reasoning and
+measurements behind each. Start with its Overview.
+
+**[Components](?path=/docs/components-overview--docs)** is what exists so
+far, plus the full category list of what does not.
+
+**[Patterns](?path=/docs/patterns-overview--docs)** is empty on purpose:
+patterns are assembled from components, and there are two.
+
+Each topic has a hand-written page rather than a generated blurb, and they
+are written as reference docs — what a token is *for*, where its value came
+from, what the known gotchas are, and how to override it.
+
+## Next
+
+**[Installation](?path=/docs/getting-started-installation--docs)** — two
+ways to consume the kit, and which to pick.

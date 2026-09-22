@@ -27,6 +27,9 @@ jobs:
       # Fails if a generated file was hand-edited, or if a ramp was changed so
       # that an accent can no longer carry a readable label.
       - run: npm run tokens:check
+      # The copy-source path has no build step on our side, so a registry item
+      # that ships an unresolvable import only fails in someone else's repo.
+      - run: npm run registry:check
       - run: npx playwright install --with-deps chromium
       - run: npx tsc -b
       - run: npx vitest --project storybook run

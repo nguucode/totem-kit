@@ -16,7 +16,6 @@ against a token layer of CSS custom properties.
 
 - **Vite** — build tool
 - **CSS Modules** — component styling, scoped per file
-- **class-variance-authority** — variant styling for components
 - **Storybook** — component catalog / docs
 
 ## Getting started
@@ -104,8 +103,8 @@ only parses hex needs a conversion step; and the 16 non-default accents are
 selected at runtime by `[data-accent]`, which Figma has no equivalent for —
 they export as primitives only.
 
-`--cursor-*` tokens keep the regular arrow on interactive elements rather
-than `pointer`. Toggle the "Theme" control in the Storybook toolbar to
+`--cursor-*` tokens keep the regular arrow on elements that act on the
+current page and the hand on ones that navigate. Toggle the "Theme" control in the Storybook toolbar to
 preview light/dark.
 
 ### Custom themes
@@ -174,10 +173,9 @@ so components can be added by name:
 npx shadcn@latest add @totem/button
 ```
 
-The CLI resolves `registryDependencies` (e.g. `button` → `utils`) and
-installs npm `dependencies` (`class-variance-authority`, ...)
-automatically, and rewrites the `@/...` import in the copied file to match
-whatever alias the target project uses.
+The CLI resolves `registryDependencies` (e.g. `button` → `utils`, `slot`)
+and installs npm `dependencies` automatically, and rewrites the `@/...`
+import in the copied file to match whatever alias the target project uses.
 
 ### npm package
 
@@ -201,8 +199,8 @@ import { TextInput } from 'totem-kit/text-input'
 Order matters: the component styles read the tokens. Nothing else is
 required — no framework config, no content scanning, no build plugin.
 
-`react`/`react-dom` are peer dependencies; `class-variance-authority`,
-`clsx` installs automatically. `npm run build:lib` builds
+`react`/`react-dom` are peer dependencies; `clsx` — the only runtime
+dependency — installs automatically. `npm run build:lib` builds
 `dist/` (bundled JS + `.d.ts` + `tokens.css`); CI runs it on every push so a
 breaking change surfaces before the next `npm publish` (a manual step, not
 automated by CI).

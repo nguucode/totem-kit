@@ -12,7 +12,10 @@
           "type": "registry:lib"
         }
       ],
-      "description": "The cn() class-name helper every component uses."
+      "description": "The cn() class-name helper every component uses.",
+      "dependencies": [
+        "clsx"
+      ]
     },
     {
       "name": "slot",
@@ -47,13 +50,19 @@
       "description": "Scopes an appearance and token overrides to a subtree.",
       "registryDependencies": [
         "utils",
-        "slot"
+        "slot",
+        "tokens"
       ],
       "files": [
         {
           "path": "src/theme/Theme.tsx",
           "type": "registry:component",
           "target": "components/totem/theme.tsx"
+        },
+        {
+          "path": "src/theme/palettes.ts",
+          "type": "registry:component",
+          "target": "components/totem/palettes.ts"
         }
       ]
     },

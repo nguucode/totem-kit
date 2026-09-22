@@ -41,6 +41,7 @@
     "build": "tsc -b && vite build",
     "tokens": "node scripts/build-tokens.mjs",
     "tokens:check": "node scripts/build-tokens.mjs --check",
+    "registry:check": "node scripts/check-registry.mjs",
     "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json && cp src/tokens.css dist/tokens.css",
     "lint": "oxlint",
     "preview": "vite preview",

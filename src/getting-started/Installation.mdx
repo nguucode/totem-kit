@@ -1,0 +1,128 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Getting Started/Installation" />
+
+# Installation
+
+Two ways to consume the kit. They ship the same components and the same
+tokens; the difference is who owns the source afterwards.
+
+| | Copy-source | npm package |
+| --- | --- | --- |
+| Source lives in | your repo | `node_modules` |
+| Editing a component | edit the file | fork or override |
+| Upgrading | re-run the CLI, review the diff | bump the version |
+| Best when | you expect to customise | you want to version-pin |
+
+**Pick copy-source unless you have a reason not to.** The kit is `0.x` and
+incomplete; owning the source means a breaking change is a diff you read
+rather than one that arrives.
+
+## Copy-source
+
+Components are served in the [shadcn CLI][cli] registry format, so the CLI
+copies the source into your project and rewrites its imports to match your
+path alias.
+
+[cli]: https://ui.shadcn.com/docs/cli
+
+The project needs a `components.json` — run `npx shadcn@latest init` first
+if it has none. Then:
+
+```bash
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/tokens.json
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/button.json
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/text-input.json
+npx shadcn@latest add https://nguucode.github.io/totem-kit/r/theme.json
+```
+
+Or register the kit once and add components by name:
+
+```json
+{ "registries": { "@totem": "https://nguucode.github.io/totem-kit/r/{name}.json" } }
+```
+
+```bash
+npx shadcn@latest add @totem/button
+```
+
+`tokens` only needs adding once — every component depends on it, so the CLI
+pulls it in with the first component anyway. Shared helpers (`utils`,
+`slot`) resolve the same way, and the one npm dependency (`clsx`) is
+installed for you.
+
+Import the token layer once, at your app's entry:
+
+```css
+@import "./components/totem/tokens.css";
+```
+
+The exact path depends on where your `components.json` puts files; the CLI
+prints it.
+
+## npm package
+
+```bash
+npm install totem-kit
+```
+
+```ts
+import { Button } from 'totem-kit/button'
+import { TextInput } from 'totem-kit/text-input'
+import { Theme } from 'totem-kit/theme'
+```
+
+```css
+@import "totem-kit/tokens.css";  /* the token layer */
+@import "totem-kit/styles.css";  /* the component styles */
+```
+
+**Order matters** — the component styles read the tokens, so `tokens.css`
+has to come first. Beyond those two lines there is nothing to configure.
+
+`react` and `react-dom` are peer dependencies. `clsx` is the only runtime
+dependency and installs with the package.
+
+## Verifying it works
+
+Render a Button inside a `Theme` and change the accent. If the button
+follows, the token layer is loaded and scoping works:
+
+```tsx
+<Theme accentColor="violet">
+  <Button>Violet</Button>
+</Theme>
+```
+
+If the button renders unstyled, `styles.css` is missing (npm path) or the
+component's `.module.css` did not come across (copy-source). If it renders
+styled but in a **serif** face, the token layer is missing — components
+declare `font-family: var(--font-sans)` explicitly, and with no tokens
+that resolves to nothing.
+
+## Using the theme
+
+Both paths ship the same `Theme` component, which scopes five independent
+settings to any subtree:
+
+```tsx
+<Theme accentColor="violet" grayColor="slate" appearance="dark" radius="large" scaling="105%">
+```
+
+It writes custom properties, so it nests in either direction — a dark panel
+on a light page, or a light island inside a dark one. The full write-up,
+including what each setting moves and how to override tokens directly, is
+in **[Foundations → Overview](?path=/docs/foundations-overview--docs)**.
+
+## Contributing to the kit itself
+
+```bash
+git clone https://github.com/nguucode/totem-kit
+npm install
+npm run storybook
+```
+
+Tokens are generated from `tokens/*.json` — run `npm run tokens` after
+editing them, never edit the generated files. `npm run tokens:check` and
+`node scripts/check-registry.mjs` both run in CI. The
+[README](https://github.com/nguucode/totem-kit) has the rest.
