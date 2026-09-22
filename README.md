@@ -26,21 +26,35 @@ Storybook sidebar is ordered Foundations → Components → Patterns (`.storyboo
 
 | Tier (atomic design) | Folder | Storybook title | What goes here |
 | --- | --- | --- | --- |
-| **Foundations** (atoms) | `src/foundations/` | `Foundations/*` | Design tokens: color, typography, spacing, radius |
+| **Foundations** (atoms) | `src/foundations/` | `Foundations/*` | Design tokens: color, typography, spacing, radius, shadows, cursors — mirrors [Radix Themes' own foundation categories](https://www.radix-ui.com/themes/docs/theme/overview) |
 | **Components** (molecules) | `src/components/<category>/` | `Components/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
 | **Patterns** (organisms) | `src/patterns/<category>/` | `Patterns/<Category>/*` | Full sections assembled from Components (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
 
 ## Design tokens
 
-`src/index.css` is the source of truth: raw values live in `:root` / `.dark`
+`src/tokens.css` is the source of truth: raw values live in `:root` / `.dark`
 (swap them there when real brand colors exist), aliased to Tailwind utilities
-(`bg-primary`, `text-muted-foreground`, `rounded-lg`, ...) via `@theme inline`.
-Currently seeded with Tailwind's default neutral scale as OKLCH values —
-these are the ones to sync out to Figma variables later. Toggle the "Theme"
-control in the Storybook toolbar to preview light/dark.
+(`bg-primary`, `text-muted-foreground`, `rounded-lg`, `shadow-md`, ...) via
+`@theme inline`. Colors are currently seeded with Tailwind's default neutral
+scale as OKLCH values, grouped the way [Radix Themes groups its color
+scale](https://www.radix-ui.com/themes/docs/theme/color) (backgrounds →
+subtle surfaces → solid actions → borders) — these are the values to sync
+out to Figma variables later. `--cursor-*` tokens follow [Radix's cursor
+convention](https://www.radix-ui.com/themes/docs/theme/cursors): interactive
+elements keep the regular arrow, not `pointer`. Toggle the "Theme" control
+in the Storybook toolbar to preview light/dark.
 
 Components should always use the semantic tokens (`bg-primary`, not
 `bg-neutral-900`) so a token swap doesn't require touching component code.
+
+`registry.json`'s `theme` item mirrors these tokens for the copy-source
+path. One known quirk: `shadcn add`-ing it into a project that already has
+its own shadcn-generated theme produces a few harmless duplicate/self-
+referencing `--shadow-elevation-*` lines inside `@theme inline` (a limitation
+in how the shadcn CLI merges a value that references a variable outside the
+`theme` cssVars band) — the correct `:root`/`.dark` values still win in the
+cascade, verified end-to-end, but it's worth knowing if you go looking at
+the merged file.
 
 ## Using Totem Kit in a project
 

@@ -1,14 +1,35 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-const PAIRS = [
-  ['background', 'foreground'],
-  ['card', 'card-foreground'],
-  ['popover', 'popover-foreground'],
-  ['primary', 'primary-foreground'],
-  ['secondary', 'secondary-foreground'],
-  ['muted', 'muted-foreground'],
-  ['accent', 'accent-foreground'],
-  ['destructive', 'destructive-foreground'],
+// Grouped the way Radix Themes explains its 12-step color scale (backgrounds,
+// interactive/subtle surfaces, borders, solid actions) — a flat token set
+// instead of a 12-step-per-color scale, but the same reading order.
+const BANDS = [
+  {
+    title: 'Backgrounds',
+    description: 'Page and container surfaces.',
+    pairs: [
+      ['background', 'foreground'],
+      ['card', 'card-foreground'],
+      ['popover', 'popover-foreground'],
+    ],
+  },
+  {
+    title: 'Subtle surfaces',
+    description: 'Hover states, selected rows, low-emphasis fills.',
+    pairs: [
+      ['muted', 'muted-foreground'],
+      ['accent', 'accent-foreground'],
+    ],
+  },
+  {
+    title: 'Solid actions',
+    description: 'Filled buttons and other high-emphasis controls.',
+    pairs: [
+      ['primary', 'primary-foreground'],
+      ['secondary', 'secondary-foreground'],
+      ['destructive', 'destructive-foreground'],
+    ],
+  },
 ] as const
 
 const LINES = ['border', 'input', 'ring'] as const
@@ -16,23 +37,27 @@ const LINES = ['border', 'input', 'ring'] as const
 function SemanticTokens() {
   return (
     <div className="flex flex-col gap-8">
+      {BANDS.map((band) => (
+        <section key={band.title}>
+          <h2 className="text-sm font-medium text-foreground">{band.title}</h2>
+          <p className="mb-3 text-xs text-muted-foreground">{band.description}</p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {band.pairs.map(([bg, fg]) => (
+              <div
+                key={bg}
+                className="flex h-24 flex-col justify-between rounded-lg border border-border p-3"
+                style={{ background: `var(--${bg})`, color: `var(--${fg})` }}
+              >
+                <span className="text-xs font-mono opacity-70">--{bg}</span>
+                <span className="text-xs font-mono opacity-70">--{fg}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
       <section>
-        <h2 className="mb-3 text-sm font-medium text-muted-foreground">Surface / foreground pairs</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {PAIRS.map(([bg, fg]) => (
-            <div
-              key={bg}
-              className="flex h-24 flex-col justify-between rounded-lg border border-border p-3"
-              style={{ background: `var(--${bg})`, color: `var(--${fg})` }}
-            >
-              <span className="text-xs font-mono opacity-70">--{bg}</span>
-              <span className="text-xs font-mono opacity-70">--{fg}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2 className="mb-3 text-sm font-medium text-muted-foreground">Lines</h2>
+        <h2 className="text-sm font-medium text-foreground">Borders &amp; lines</h2>
+        <p className="mb-3 text-xs text-muted-foreground">Dividers, input outlines, focus rings.</p>
         <div className="flex gap-6">
           {LINES.map((token) => (
             <div key={token} className="flex flex-col items-center gap-2">

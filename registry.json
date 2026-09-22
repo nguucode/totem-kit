@@ -15,7 +15,13 @@
       "type": "registry:theme",
       "cssVars": {
         "theme": {
-          "radius": "0.625rem"
+          "radius": "0.625rem",
+          "shadow-sm": "var(--shadow-elevation-sm)",
+          "shadow-md": "var(--shadow-elevation-md)",
+          "shadow-lg": "var(--shadow-elevation-lg)",
+          "shadow-xl": "var(--shadow-elevation-xl)",
+          "cursor-button": "default",
+          "cursor-disabled": "not-allowed"
         },
         "light": {
           "background": "oklch(1 0 0)",
@@ -36,7 +42,11 @@
           "destructive-foreground": "oklch(0.985 0 0)",
           "border": "oklch(0.922 0 0)",
           "input": "oklch(0.922 0 0)",
-          "ring": "oklch(0.708 0 0)"
+          "ring": "oklch(0.708 0 0)",
+          "shadow-elevation-sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+          "shadow-elevation-md": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+          "shadow-elevation-lg": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+          "shadow-elevation-xl": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)"
         },
         "dark": {
           "background": "oklch(0.145 0 0)",
@@ -57,7 +67,11 @@
           "destructive-foreground": "oklch(0.985 0 0)",
           "border": "oklch(1 0 0 / 10%)",
           "input": "oklch(1 0 0 / 15%)",
-          "ring": "oklch(0.556 0 0)"
+          "ring": "oklch(0.556 0 0)",
+          "shadow-elevation-sm": "0 1px 2px 0 rgb(0 0 0 / 0.3)",
+          "shadow-elevation-md": "0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4)",
+          "shadow-elevation-lg": "0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4)",
+          "shadow-elevation-xl": "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
         }
       }
     },
