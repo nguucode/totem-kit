@@ -54,11 +54,21 @@ installed for you.
 Import the token layer once, at your app's entry:
 
 ```css
-@import "./components/totem/tokens.css";
+@import "./styles/totem-tokens.css";
 ```
 
-The exact path depends on where your `components.json` puts files; the CLI
-prints it.
+The CLI prints where each file landed; the path above is relative to the
+`src` your `components.json` points at.
+
+**If your bundler needs CSS-module types**, add them once — Vite projects
+already get this from `vite/client`:
+
+```ts
+declare module '*.module.css' {
+  const classes: Record<string, string>
+  export default classes
+}
+```
 
 ## npm package
 

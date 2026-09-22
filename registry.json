@@ -49,9 +49,9 @@
       "title": "Theme",
       "description": "Scopes an appearance and token overrides to a subtree.",
       "registryDependencies": [
-        "utils",
-        "slot",
-        "tokens"
+        "https://nguucode.github.io/totem-kit/r/utils.json",
+        "https://nguucode.github.io/totem-kit/r/slot.json",
+        "https://nguucode.github.io/totem-kit/r/tokens.json"
       ],
       "files": [
         {
@@ -72,9 +72,9 @@
       "title": "Button",
       "description": "Button with six variants and four sizes, and asChild for rendering as a link.",
       "registryDependencies": [
-        "utils",
-        "slot",
-        "tokens"
+        "https://nguucode.github.io/totem-kit/r/utils.json",
+        "https://nguucode.github.io/totem-kit/r/slot.json",
+        "https://nguucode.github.io/totem-kit/r/tokens.json"
       ],
       "files": [
         {
@@ -85,7 +85,7 @@
         {
           "path": "src/components/actions/Button.module.css",
           "type": "registry:component",
-          "target": "components/totem/button.module.css"
+          "target": "components/totem/Button.module.css"
         }
       ]
     },
@@ -95,8 +95,8 @@
       "title": "Text Input",
       "description": "Labeled text input with helper and error text, wired for screen readers.",
       "registryDependencies": [
-        "utils",
-        "tokens"
+        "https://nguucode.github.io/totem-kit/r/utils.json",
+        "https://nguucode.github.io/totem-kit/r/tokens.json"
       ],
       "files": [
         {
@@ -107,7 +107,7 @@
         {
           "path": "src/components/inputs/TextInput.module.css",
           "type": "registry:component",
-          "target": "components/totem/text-input.module.css"
+          "target": "components/totem/TextInput.module.css"
         }
       ]
     }
