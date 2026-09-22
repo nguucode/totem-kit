@@ -18,8 +18,18 @@ npm run storybook   # component catalog at http://localhost:6006
 npm run dev          # app shell at http://localhost:5173
 ```
 
+## Structure (Atomic Design)
+
+Storybook sidebar is ordered Atoms → Molecules → Organisms (`.storybook/preview.tsx`).
+
+| Tier | Folder | Storybook title | What goes here |
+| --- | --- | --- | --- |
+| **Atoms** | `src/foundations/` | `Atoms/Foundations/*` | Design tokens: color, typography, spacing |
+| **Molecules** | `src/components/<category>/` | `Molecules/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
+| **Organisms** | `src/patterns/<category>/` | `Organisms/<Category>/*` | Full sections assembled from Molecules (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
+
 ## Adding a component
 
-1. Build the component in `src/components/`, styling with Tailwind and Radix primitives (see `Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes).
-2. Add a `*.stories.tsx` file next to it.
+1. Build it in `src/components/<category>/` (pick a category from the Molecules overview), styling with Tailwind and Radix primitives — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes.
+2. Add a `*.stories.tsx` file next to it, titled `Molecules/<Category>/<Component>`.
 3. Figma designs will be synced in as the source of truth for new components.
