@@ -45,9 +45,10 @@ const preview: Preview = {
     },
 
     options: {
-      // Atomic design order: Foundations (atoms) -> Components (molecules) -> Patterns (organisms).
+      // Introduction first, then atomic design order: Foundations (atoms) ->
+      // Components (molecules) -> Patterns (organisms).
       storySort: {
-        order: ['Foundations', 'Components', 'Patterns'],
+        order: ['Introduction', 'Foundations', 'Components', 'Patterns'],
       },
     },
   },

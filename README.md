@@ -1,5 +1,12 @@
 # Totem Kit
 
+> **Early stage, not production-ready.** Only two components exist
+> (Button, Text Input), the color palette is still Tailwind's untouched
+> default (no real brand/Figma tokens yet), and none of it has had a
+> design or accessibility review beyond what's in the test files. Expect
+> breaking changes on any `0.x` version bump. Fine to poke around or
+> reference the setup; not ready to build a real product on top of yet.
+
 Front-end UI kit built with React, TypeScript, Tailwind CSS, and Radix UI primitives, documented in Storybook.
 
 **Storybook:** https://nguucode.github.io/totem-kit/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
