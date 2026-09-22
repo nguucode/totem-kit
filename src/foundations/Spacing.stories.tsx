@@ -1,19 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import docs from './docs.module.css'
 
-// Tailwind's spacing scale is a single --spacing multiplier (default 0.25rem);
-// every step below is `calc(var(--spacing) * n)`, so this stays in sync if the
-// multiplier is ever retokenized (e.g. from Figma).
+// Every step is `calc(0.25rem * n * var(--scaling))`, so the whole scale moves
+// with one multiplier.
 const STEPS = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64]
 
 function SpacingScale() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={docs.stack}>
       {STEPS.map((step) => (
-        <div key={step} className="flex items-center gap-4">
-          <span className="w-10 shrink-0 font-mono text-xs text-muted-foreground">{step}</span>
+        <div key={step} className={docs.row}>
+          <span className={docs.caption} style={{ width: '2.5rem', flexShrink: 0 }}>
+            {step}
+          </span>
           <div
-            className="h-4 rounded-sm bg-primary"
-            style={{ width: `calc(var(--spacing) * ${step})` }}
+            style={{
+              height: '1rem',
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--primary)',
+              width: `calc(0.25rem * ${step} * var(--scaling))`,
+            }}
           />
         </div>
       ))}
@@ -21,8 +27,7 @@ function SpacingScale() {
   )
 }
 
-// Narrative and prose live in Spacing.mdx, which supersedes this file's
-// autodocs page — this story exists to be embedded there via <Canvas>.
+// Narrative and prose live in Spacing.mdx.
 const meta = {
   title: 'Foundations/Spacing',
   render: () => <SpacingScale />,

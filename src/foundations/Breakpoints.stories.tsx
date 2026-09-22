@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import docs from './docs.module.css'
 
 const BREAKPOINTS = [
   { name: 'base', min: '0', px: '0px' },
@@ -13,24 +14,23 @@ const BREAKPOINTS = [
 // exactly one is visible and it is the active one. Resize the preview to see
 // it change.
 const ACTIVE = [
-  'flex sm:hidden',
-  'hidden sm:flex md:hidden',
-  'hidden md:flex lg:hidden',
-  'hidden lg:flex xl:hidden',
-  'hidden xl:flex 2xl:hidden',
-  'hidden 2xl:flex',
+  docs.bpBase,
+  docs.bpSm,
+  docs.bpMd,
+  docs.bpLg,
+  docs.bpXl,
+  docs.bp2xl,
 ] as const
 
 function ActiveBreakpoint() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={docs.stack}>
       {BREAKPOINTS.map((bp, i) => (
-        <div
-          key={bp.name}
-          className={`${ACTIVE[i]} items-center gap-3 rounded-md bg-primary px-3 py-2 text-primary-foreground`}
-        >
-          <span className="font-mono text-sm font-medium">{bp.name}</span>
-          <span className="text-xs opacity-80">
+        <div key={bp.name} className={`${ACTIVE[i]} ${docs.bpChip}`}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-body)', fontWeight: 500 }}>
+            {bp.name}
+          </span>
+          <span style={{ fontSize: 'var(--text-body-sm)', opacity: 0.8 }}>
             active from {bp.min} ({bp.px}) up
           </span>
         </div>
@@ -41,15 +41,19 @@ function ActiveBreakpoint() {
 
 function Ladder() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={docs.stack}>
       {BREAKPOINTS.filter((b) => b.name !== 'base').map((bp) => (
-        <div key={bp.name} className="flex items-center gap-3">
-          <span className="w-10 shrink-0 font-mono text-xs text-muted-foreground">{bp.name}</span>
+        <div key={bp.name} className={docs.row} style={{ gap: 'var(--space-3)' }}>
+          <span className={docs.caption} style={{ width: '2.5rem', flexShrink: 0 }}>{bp.name}</span>
           <div
-            className="h-4 rounded-sm bg-muted"
-            style={{ width: `calc(${bp.min} / 96 * 100%)` }}
+            style={{
+              height: '1rem',
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--muted)',
+              width: `calc(${bp.min} / 96 * 100%)`,
+            }}
           />
-          <span className="font-mono text-xs text-muted-foreground">{bp.px}</span>
+          <span className={docs.caption}>{bp.px}</span>
         </div>
       ))}
     </div>

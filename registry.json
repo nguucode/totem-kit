@@ -28,136 +28,16 @@
     },
     {
       "name": "tokens",
-      "type": "registry:theme",
+      "type": "registry:file",
       "title": "Design tokens",
-      "description": "The color, radius, shadow and cursor custom properties, light and dark.",
-      "cssVars": {
-        "theme": {
-          "radius": "0.625rem",
-          "radius-factor": "1",
-          "radius-full": "0px",
-          "radius-sm": "calc((var(--radius) - 4px) * var(--radius-factor))",
-          "radius-md": "calc((var(--radius) - 2px) * var(--radius-factor))",
-          "radius-lg": "calc(var(--radius) * var(--radius-factor))",
-          "radius-xl": "calc((var(--radius) + 4px) * var(--radius-factor))",
-          "radius-control": "max(calc((var(--radius) - 2px) * var(--radius-factor)), var(--radius-full))",
-          "radius-field": "max( calc((var(--radius) - 2px) * var(--radius-factor)), min(calc(var(--radius) * var(--radius-factor)), var(--radius-full)) )",
-          "radius-panel": "max( calc(var(--radius) * var(--radius-factor)), min(calc((var(--radius) + 4px) * var(--radius-factor)), var(--radius-full)) )",
-          "shadow-sm": "var(--shadow-elevation-sm)",
-          "shadow-md": "var(--shadow-elevation-md)",
-          "shadow-lg": "var(--shadow-elevation-lg)",
-          "shadow-xl": "var(--shadow-elevation-xl)",
-          "cursor-button": "default",
-          "cursor-disabled": "not-allowed",
-          "scaling": "1",
-          "accent-solid-light": "oklch(51.1% 0.262 276.966)",
-          "accent-contrast-light": "oklch(0.985 0 0)",
-          "accent-ring-light": "oklch(45.7% 0.24 277.023)",
-          "accent-solid-dark": "oklch(67.3% 0.182 276.935)",
-          "accent-contrast-dark": "oklch(0.205 0 0)",
-          "accent-ring-dark": "oklch(67.3% 0.182 276.935)",
-          "gray-50": "oklch(98.5% 0 none)",
-          "gray-100": "oklch(97% 0 none)",
-          "gray-200": "oklch(92.2% 0 none)",
-          "gray-400": "oklch(70.8% 0 none)",
-          "gray-500": "oklch(55.6% 0 none)",
-          "gray-800": "oklch(26.9% 0 none)",
-          "gray-900": "oklch(20.5% 0 none)",
-          "gray-950": "oklch(14.5% 0 none)",
-          "font-sans": "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'",
-          "font-mono": "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace",
-          "text-heading-2xl": "calc(2rem * var(--scaling))",
-          "text-heading-2xl--line-height": "calc(36 / 32)",
-          "text-heading-2xl--font-weight": "700",
-          "text-heading-xl": "calc(1.75rem * var(--scaling))",
-          "text-heading-xl--line-height": "calc(32 / 28)",
-          "text-heading-xl--font-weight": "700",
-          "text-heading-lg": "calc(1.5rem * var(--scaling))",
-          "text-heading-lg--line-height": "calc(28 / 24)",
-          "text-heading-lg--font-weight": "700",
-          "text-heading-md": "calc(1.25rem * var(--scaling))",
-          "text-heading-md--line-height": "calc(24 / 20)",
-          "text-heading-md--font-weight": "700",
-          "text-heading-sm": "calc(1rem * var(--scaling))",
-          "text-heading-sm--line-height": "calc(20 / 16)",
-          "text-heading-sm--font-weight": "700",
-          "text-heading-xs": "calc(0.875rem * var(--scaling))",
-          "text-heading-xs--line-height": "calc(20 / 14)",
-          "text-heading-xs--font-weight": "700",
-          "text-heading-2xs": "calc(0.75rem * var(--scaling))",
-          "text-heading-2xs--line-height": "calc(16 / 12)",
-          "text-heading-2xs--font-weight": "700",
-          "text-body-lg": "calc(1rem * var(--scaling))",
-          "text-body-lg--line-height": "calc(24 / 16)",
-          "text-body-lg--font-weight": "400",
-          "text-body": "calc(0.875rem * var(--scaling))",
-          "text-body--line-height": "calc(20 / 14)",
-          "text-body--font-weight": "400",
-          "text-body-sm": "calc(0.75rem * var(--scaling))",
-          "text-body-sm--line-height": "calc(16 / 12)",
-          "text-body-sm--font-weight": "400",
-          "text-xs": "calc(0.75rem * var(--scaling))",
-          "text-sm": "calc(0.875rem * var(--scaling))",
-          "text-base": "calc(1rem * var(--scaling))",
-          "text-lg": "calc(1.125rem * var(--scaling))",
-          "text-xl": "calc(1.25rem * var(--scaling))",
-          "text-2xl": "calc(1.5rem * var(--scaling))",
-          "text-3xl": "calc(1.875rem * var(--scaling))",
-          "text-4xl": "calc(2.25rem * var(--scaling))",
-          "text-5xl": "calc(3rem * var(--scaling))",
-          "text-6xl": "calc(3.75rem * var(--scaling))"
-        },
-        "light": {
-          "background": "oklch(1 0 0)",
-          "foreground": "var(--gray-950)",
-          "card": "oklch(1 0 0)",
-          "card-foreground": "var(--gray-950)",
-          "popover": "oklch(1 0 0)",
-          "popover-foreground": "var(--gray-950)",
-          "primary": "var(--accent-solid-light)",
-          "primary-foreground": "var(--accent-contrast-light)",
-          "secondary": "var(--gray-100)",
-          "secondary-foreground": "var(--gray-900)",
-          "muted": "var(--gray-100)",
-          "muted-foreground": "var(--gray-500)",
-          "accent": "var(--gray-100)",
-          "accent-foreground": "var(--gray-900)",
-          "destructive": "oklch(0.577 0.245 27.325)",
-          "destructive-foreground": "oklch(0.985 0 0)",
-          "border": "var(--gray-200)",
-          "input": "var(--gray-200)",
-          "ring": "var(--accent-ring-light)",
-          "shadow-elevation-sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-          "shadow-elevation-md": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-          "shadow-elevation-lg": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-          "shadow-elevation-xl": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)"
-        },
-        "dark": {
-          "background": "var(--gray-950)",
-          "foreground": "var(--gray-50)",
-          "card": "var(--gray-900)",
-          "card-foreground": "var(--gray-50)",
-          "popover": "var(--gray-900)",
-          "popover-foreground": "var(--gray-50)",
-          "primary": "var(--accent-solid-dark)",
-          "primary-foreground": "var(--accent-contrast-dark)",
-          "secondary": "var(--gray-800)",
-          "secondary-foreground": "var(--gray-50)",
-          "muted": "var(--gray-800)",
-          "muted-foreground": "var(--gray-400)",
-          "accent": "var(--gray-800)",
-          "accent-foreground": "var(--gray-50)",
-          "destructive": "oklch(0.704 0.191 22.216)",
-          "destructive-foreground": "oklch(0.205 0 0)",
-          "border": "oklch(1 0 0 / 10%)",
-          "input": "oklch(1 0 0 / 15%)",
-          "ring": "var(--accent-ring-dark)",
-          "shadow-elevation-sm": "0 1px 2px 0 rgb(0 0 0 / 0.3)",
-          "shadow-elevation-md": "0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4)",
-          "shadow-elevation-lg": "0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4)",
-          "shadow-elevation-xl": "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
+      "description": "The whole token layer as one stylesheet: colors, radius, spacing, type, shadows, cursors, light and dark.",
+      "files": [
+        {
+          "path": "src/tokens.css",
+          "type": "registry:file",
+          "target": "styles/totem-tokens.css"
         }
-      }
+      ]
     },
     {
       "name": "theme",
@@ -181,18 +61,21 @@
       "type": "registry:component",
       "title": "Button",
       "description": "Button with cva variants and Radix Slot asChild support.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
       "registryDependencies": [
         "utils",
-        "slot"
+        "slot",
+        "tokens"
       ],
       "files": [
         {
           "path": "src/components/actions/Button.tsx",
           "type": "registry:component",
           "target": "components/totem/button.tsx"
+        },
+        {
+          "path": "src/components/actions/Button.module.css",
+          "type": "registry:component",
+          "target": "components/totem/button.module.css"
         }
       ]
     },
@@ -202,13 +85,19 @@
       "title": "Text Input",
       "description": "Labeled text input (Radix Label) with helper/error text.",
       "registryDependencies": [
-        "utils"
+        "utils",
+        "tokens"
       ],
       "files": [
         {
           "path": "src/components/inputs/TextInput.tsx",
           "type": "registry:component",
           "target": "components/totem/text-input.tsx"
+        },
+        {
+          "path": "src/components/inputs/TextInput.module.css",
+          "type": "registry:component",
+          "target": "components/totem/text-input.module.css"
         }
       ]
     }

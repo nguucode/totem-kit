@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from '@/components/actions/Button'
 import { TextInput } from '@/components/inputs/TextInput'
 import { Theme } from '@/theme/Theme'
+import docs from './docs.module.css'
 
 const PAIRS = [
   ['background', 'foreground'],
@@ -13,15 +14,23 @@ const PAIRS = [
 
 function Swatches() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={docs.stack}>
       {PAIRS.map(([bg, fg]) => (
         <div
           key={bg}
-          className="flex items-center justify-between rounded-md border border-border px-3 py-2"
-          style={{ background: `var(--${bg})`, color: `var(--${fg})` }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border)',
+            padding: 'var(--space-2) var(--space-3)',
+            background: `var(--${bg})`,
+            color: `var(--${fg})`,
+          }}
         >
-          <span className="font-mono text-xs">--{bg}</span>
-          <span className="font-mono text-xs opacity-70">--{fg}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-body-sm)' }}>--{bg}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-body-sm)', opacity: 0.7 }}>--{fg}</span>
         </div>
       ))}
     </div>
@@ -30,10 +39,10 @@ function Swatches() {
 
 function Sample() {
   return (
-    <div className="flex flex-col gap-4 bg-background p-4 text-foreground">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', background: 'var(--background)', color: 'var(--foreground)', padding: 'var(--space-4)' }}>
       <Swatches />
       <TextInput label="Email" placeholder="you@example.com" />
-      <div className="flex gap-2">
+      <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
         <Button>Save</Button>
         <Button variant="destructive">Delete</Button>
         <Button variant="outline">Cancel</Button>
@@ -54,11 +63,11 @@ type Story = StoryObj<typeof meta>
 export const SideBySide: Story = {
   name: 'Side by side',
   render: () => (
-    <div className="grid gap-4 sm:grid-cols-2">
-      <Theme appearance="light" className="overflow-hidden rounded-lg border border-border">
+    <div className={docs.gridHalves} style={{ gap: 'var(--space-4)' }}>
+      <Theme appearance="light" style={{ overflow: 'hidden', borderRadius: 'var(--radius-panel)', border: '1px solid var(--border)' }}>
         <Sample />
       </Theme>
-      <Theme appearance="dark" className="overflow-hidden rounded-lg border border-border">
+      <Theme appearance="dark" style={{ overflow: 'hidden', borderRadius: 'var(--radius-panel)', border: '1px solid var(--border)' }}>
         <Sample />
       </Theme>
     </div>

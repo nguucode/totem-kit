@@ -9,8 +9,6 @@
  * that only takes components via the copy-source registry, or via npm,
  * can `@import` just the tokens after its own base stylesheet.
  */
-@custom-variant dark (&:is(.dark *));
-
 /* Appearance-independent tokens live on :root ALONE, never on `.light`. A
    nested light scope re-matches every `.light` rule, so anything declared
    there would reset back to its default instead of inheriting the value an
@@ -27,6 +25,14 @@
 
   /* Multiplies spacing and the type scale — the Theme `scaling` prop. */
   --scaling: 1;
+
+  /* system-ui first: the standards-track keyword, which resolves to the
+     platform UI face rather than its general-purpose sans. See
+     Foundations/Typography for the one known caveat. */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
 
   /* Cursors — interactive elements that don't navigate keep the regular
      arrow, only disabled gets an explicit cursor. Add a token here per
@@ -411,94 +417,20 @@
   --accent-foreground: var(--gray-50);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  /* system-ui first: the standards-track keyword, which resolves to the
-     platform UI face rather than its general-purpose sans. See
-     Foundations/Typography for the one known caveat. */
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-    'Liberation Mono', monospace;
-
-  /* Type roles. Each carries its size, line height and weight, so one
-     utility sets the whole role; the weight is emitted as a fallback, so a
-     font-* utility still overrides it. Line heights are stored as ratios,
-     which keeps them correct under --scaling. */
-  --text-heading-2xl: calc(2rem * var(--scaling));
-  --text-heading-2xl--line-height: calc(36 / 32);
-  --text-heading-2xl--font-weight: 700;
-  --text-heading-xl: calc(1.75rem * var(--scaling));
-  --text-heading-xl--line-height: calc(32 / 28);
-  --text-heading-xl--font-weight: 700;
-  --text-heading-lg: calc(1.5rem * var(--scaling));
-  --text-heading-lg--line-height: calc(28 / 24);
-  --text-heading-lg--font-weight: 700;
-  --text-heading-md: calc(1.25rem * var(--scaling));
-  --text-heading-md--line-height: calc(24 / 20);
-  --text-heading-md--font-weight: 700;
-  --text-heading-sm: calc(1rem * var(--scaling));
-  --text-heading-sm--line-height: calc(20 / 16);
-  --text-heading-sm--font-weight: 700;
-  --text-heading-xs: calc(0.875rem * var(--scaling));
-  --text-heading-xs--line-height: calc(20 / 14);
-  --text-heading-xs--font-weight: 700;
-  --text-heading-2xs: calc(0.75rem * var(--scaling));
-  --text-heading-2xs--line-height: calc(16 / 12);
-  --text-heading-2xs--font-weight: 700;
-
-  --text-body-lg: calc(1rem * var(--scaling));
-  --text-body-lg--line-height: calc(24 / 16);
-  --text-body-lg--font-weight: 400;
-  --text-body: calc(0.875rem * var(--scaling));
-  --text-body--line-height: calc(20 / 14);
-  --text-body--font-weight: 400;
-  --text-body-sm: calc(0.75rem * var(--scaling));
-  --text-body-sm--line-height: calc(16 / 12);
-  --text-body-sm--font-weight: 400;
-
-  /* Scaling — one multiplier over spacing and the type scale, so density is a
-     single setting. Line heights are unitless ratios and scale with the font
-     size on their own, so they are deliberately left alone. */
-  --spacing: calc(0.25rem * var(--scaling));
-  --text-xs: calc(0.75rem * var(--scaling));
-  --text-sm: calc(0.875rem * var(--scaling));
-  --text-base: calc(1rem * var(--scaling));
-  --text-lg: calc(1.125rem * var(--scaling));
-  --text-xl: calc(1.25rem * var(--scaling));
-  --text-2xl: calc(1.5rem * var(--scaling));
-  --text-3xl: calc(1.875rem * var(--scaling));
-  --text-4xl: calc(2.25rem * var(--scaling));
-  --text-5xl: calc(3rem * var(--scaling));
-  --text-6xl: calc(3.75rem * var(--scaling));
-
-  /* Steps: the base scale, multiplied by the factor so one knob rescales all
-     of them. Replaces the built-in radius scale. */
+/* Derived tokens are declared on `*`, not `:root`, and that is load-bearing.
+   A custom property that reads another one is resolved where it is DECLARED.
+   Put these on :root and they freeze at the document root, so a Theme that
+   sets --scaling or --radius-factor further down would change nothing. On `*`
+   every element recomputes them from what it inherits, which is what makes
+   scoping work. */
+* {
+  /* Radius steps — the base scale multiplied by the factor. */
   --radius-sm: calc((var(--radius) - 4px) * var(--radius-factor));
   --radius-md: calc((var(--radius) - 2px) * var(--radius-factor));
   --radius-lg: calc(var(--radius) * var(--radius-factor));
   --radius-xl: calc((var(--radius) + 4px) * var(--radius-factor));
 
-  /* Intent: what components actually use.
+  /* Radius intent — what components actually use.
 
      --radius-full is 0 except under radius="full", where it is 9999px. So
      max(step, --radius-full) resolves to the step normally and to a pill at
@@ -519,8 +451,44 @@
     min(calc((var(--radius) + 4px) * var(--radius-factor)), var(--radius-full))
   );
 
-  /* Replaces the built-in shadow scale, so shadow-sm/md/lg/xl stay
-     dark-mode-aware without a new utility namespace. */
+  /* Spacing — one multiplier. Every gap and pad in the kit is a multiple of
+     this, so --scaling moves all of them at once. */
+  --space-1: calc(0.25rem * var(--scaling));
+  --space-1-5: calc(0.375rem * var(--scaling));
+  --space-2: calc(0.5rem * var(--scaling));
+  --space-3: calc(0.75rem * var(--scaling));
+  --space-4: calc(1rem * var(--scaling));
+  --space-6: calc(1.5rem * var(--scaling));
+  --space-8: calc(2rem * var(--scaling));
+  --space-10: calc(2.5rem * var(--scaling));
+  --space-12: calc(3rem * var(--scaling));
+
+  /* Type roles. Each has a size, a line height and a weight; the line height
+     is a ratio so it follows the size under --scaling on its own. */
+  --text-heading-2xl: calc(2rem * var(--scaling));
+  --text-heading-xl: calc(1.75rem * var(--scaling));
+  --text-heading-lg: calc(1.5rem * var(--scaling));
+  --text-heading-md: calc(1.25rem * var(--scaling));
+  --text-heading-sm: calc(1rem * var(--scaling));
+  --text-heading-xs: calc(0.875rem * var(--scaling));
+  --text-heading-2xs: calc(0.75rem * var(--scaling));
+  --text-body-lg: calc(1rem * var(--scaling));
+  --text-body: calc(0.875rem * var(--scaling));
+  --text-body-sm: calc(0.75rem * var(--scaling));
+
+  --leading-heading-2xl: calc(36 / 32);
+  --leading-heading-xl: calc(32 / 28);
+  --leading-heading-lg: calc(28 / 24);
+  --leading-heading-md: calc(24 / 20);
+  --leading-heading-sm: calc(20 / 16);
+  --leading-heading-xs: calc(20 / 14);
+  --leading-heading-2xs: calc(16 / 12);
+  --leading-body-lg: calc(24 / 16);
+  --leading-body: calc(20 / 14);
+  --leading-body-sm: calc(16 / 12);
+
+  /* Shadows resolve per mode, so they are read from the elevation tokens the
+     light and dark blocks set. */
   --shadow-sm: var(--shadow-elevation-sm);
   --shadow-md: var(--shadow-elevation-md);
   --shadow-lg: var(--shadow-elevation-lg);

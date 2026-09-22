@@ -3,13 +3,17 @@ import { expect } from 'storybook/test'
 import { Button } from '@/components/actions/Button'
 import { TextInput } from '@/components/inputs/TextInput'
 import { ACCENT_COLORS, GRAY_COLORS, SCALINGS, Theme } from '@/theme/Theme'
+import docs from './docs.module.css'
 
 function Panel({ label }: { label: string }) {
   return (
-    <div className="flex flex-col gap-3 rounded-panel border border-border bg-card p-4 text-card-foreground">
-      <span className="text-sm font-medium">{label}</span>
+    <div
+      className={docs.card}
+      style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', background: 'var(--card)', color: 'var(--card-foreground)' }}
+    >
+      <span style={{ fontSize: 'var(--text-body)', fontWeight: 500 }}>{label}</span>
       <TextInput label="Email" placeholder="you@example.com" />
-      <div className="flex gap-2">
+      <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
         <Button>Primary</Button>
         <Button variant="secondary">Secondary</Button>
       </div>
@@ -30,15 +34,15 @@ type Story = StoryObj<typeof meta>
 export const AccentColor: Story = {
   name: 'Accent color',
   render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap gap-2">
+    <div className={docs.stackWide} style={{ gap: 'var(--space-4)' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
         {ACCENT_COLORS.map((accent) => (
           <Theme key={accent} accentColor={accent} asChild>
             <Button size="sm">{accent}</Button>
           </Theme>
         ))}
       </div>
-      <p className="text-sm text-muted-foreground">
+      <p className={docs.note}>
         Every label above clears 4.5:1 on its own fill — the warm hues take dark
         labels rather than white.
       </p>
@@ -55,12 +59,21 @@ export const AccentColor: Story = {
 export const GrayColor: Story = {
   name: 'Gray color',
   render: () => (
-    <div className="grid gap-3 sm:grid-cols-3">
+    <div className={docs.gridThirds}>
       {GRAY_COLORS.map((gray) => (
-        <Theme key={gray} grayColor={gray} appearance="dark" className="rounded-panel p-3">
-          <div className="flex items-center justify-between rounded-field bg-background px-3 py-2">
-            <span className="text-sm text-foreground">{gray}</span>
-            <span className="text-sm text-muted-foreground">muted</span>
+        <Theme key={gray} grayColor={gray} appearance="dark" style={{ borderRadius: 'var(--radius-panel)', padding: 'var(--space-3)' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderRadius: 'var(--radius-field)',
+              background: 'var(--background)',
+              padding: 'var(--space-2) var(--space-3)',
+            }}
+          >
+            <span style={{ fontSize: 'var(--text-body)', color: 'var(--foreground)' }}>{gray}</span>
+            <span style={{ fontSize: 'var(--text-body)', color: 'var(--muted-foreground)' }}>muted</span>
           </div>
         </Theme>
       ))}
@@ -70,12 +83,12 @@ export const GrayColor: Story = {
 
 export const Scaling: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
+    <div className={docs.stackWide} style={{ gap: 'var(--space-4)' }}>
       {SCALINGS.map((scaling) => (
-        <Theme key={scaling} scaling={scaling} className="flex items-center gap-3">
-          <span className="w-12 shrink-0 font-mono text-xs text-muted-foreground">{scaling}</span>
+        <Theme key={scaling} scaling={scaling} className={docs.row} style={{ gap: 'var(--space-3)' }}>
+          <span className={docs.caption} style={{ width: '3rem', flexShrink: 0 }}>{scaling}</span>
           <Button>Button</Button>
-          <TextInput placeholder="Input" className="w-40" />
+          <TextInput placeholder="Input" style={{ width: '10rem' }} />
         </Theme>
       ))}
     </div>
@@ -90,11 +103,11 @@ export const Scaling: Story = {
 
 export const Appearance: Story = {
   render: () => (
-    <div className="grid gap-4 sm:grid-cols-2">
-      <Theme appearance="light" className="rounded-panel bg-background p-4">
+    <div className={docs.gridHalves} style={{ gap: 'var(--space-4)' }}>
+      <Theme appearance="light" style={{ borderRadius: 'var(--radius-panel)', background: 'var(--background)', padding: 'var(--space-4)' }}>
         <Panel label="appearance=&quot;light&quot;" />
       </Theme>
-      <Theme appearance="dark" className="rounded-panel bg-background p-4">
+      <Theme appearance="dark" style={{ borderRadius: 'var(--radius-panel)', background: 'var(--background)', padding: 'var(--space-4)' }}>
         <Panel label="appearance=&quot;dark&quot;" />
       </Theme>
     </div>
@@ -110,11 +123,11 @@ export const Appearance: Story = {
 export const TokenOverride: Story = {
   name: 'Token override',
   render: () => (
-    <div className="grid gap-4 sm:grid-cols-2">
-      <Theme className="rounded-panel p-4">
+    <div className={docs.gridHalves} style={{ gap: 'var(--space-4)' }}>
+      <Theme style={{ borderRadius: 'var(--radius-panel)', padding: 'var(--space-4)' }}>
         <Panel label="default tokens" />
       </Theme>
-      <Theme className="rounded-panel p-4" tokens={{ radius: '1.5rem', primary: 'oklch(0.55 0.2 150)' }}>
+      <Theme style={{ borderRadius: 'var(--radius-panel)', padding: 'var(--space-4)' }} tokens={{ radius: '1.5rem', primary: 'oklch(0.55 0.2 150)' }}>
         <Panel label="radius + primary overridden" />
       </Theme>
     </div>
@@ -127,10 +140,10 @@ export const TokenOverride: Story = {
 
 export const Nested: Story = {
   render: () => (
-    <Theme appearance="dark" className="rounded-panel bg-background p-4">
-      <div className="flex flex-col gap-4">
+    <Theme appearance="dark" style={{ borderRadius: 'var(--radius-panel)', background: 'var(--background)', padding: 'var(--space-4)' }}>
+      <div className={docs.stackWide} style={{ gap: 'var(--space-4)' }}>
         <Panel label="dark page" />
-        <Theme appearance="light" className="rounded-panel bg-background p-4">
+        <Theme appearance="light" style={{ borderRadius: 'var(--radius-panel)', background: 'var(--background)', padding: 'var(--space-4)' }}>
           <Panel label="light island inside it" />
         </Theme>
       </div>

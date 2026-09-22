@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import docs from './docs.module.css'
 
 const TOKENS = [
   {
@@ -17,23 +18,33 @@ const TOKENS = [
 
 function CursorTokens() {
   return (
-    <div className="flex flex-col gap-4">
+    <div className={docs.stackWide} style={{ gap: 'var(--space-4)' }}>
       {TOKENS.map(({ token, value, usage, note }) => (
-        <div key={token} className="flex flex-col gap-2 rounded-lg border border-border p-4">
-          <div className="flex items-center gap-3">
+        <div key={token} className={docs.card} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <div
-              className="flex h-12 w-32 items-center justify-center rounded-md bg-secondary text-sm text-secondary-foreground"
-              style={{ cursor: `var(${token})` }}
+              style={{
+                display: 'flex',
+                height: '3rem',
+                width: '8rem',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--secondary)',
+                color: 'var(--secondary-foreground)',
+                fontSize: 'var(--text-body)',
+                cursor: `var(${token})`,
+              }}
             >
               hover me
             </div>
-            <div className="flex flex-col">
-              <span className="font-mono text-sm text-foreground">{token}</span>
-              <span className="font-mono text-xs text-muted-foreground">{value}</span>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-body)' }}>{token}</span>
+              <span className={docs.caption}>{value}</span>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">{usage}.</span> {note}
+          <p className={docs.note}>
+            <strong style={{ color: 'var(--foreground)', fontWeight: 500 }}>{usage}.</strong> {note}
           </p>
         </div>
       ))}

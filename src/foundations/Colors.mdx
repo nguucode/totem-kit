@@ -8,14 +8,13 @@ import * as ColorsStories from './Colors.stories'
 Every color in the system is a CSS custom property declared in
 `src/tokens.css`, with a counterpart under the `.dark` class. There is no
 separate dark palette file and no JS theme object — one stylesheet holds
-both modes, and `@theme inline` maps each token onto a utility class.
+both modes.
 
-**Use the utility classes the tokens generate** — `bg-card`,
-`text-muted-foreground`, `border-border` — rather than the raw variables.
-The utility already resolves through `var(--card)`, so dark mode works
-without writing a single `dark:` variant in your own code. Reach for
-`var(--card)` directly only where no utility exists, such as an inline
-`style` on a swatch (which is what the demos on this page do).
+**Read them with `var()`** — `background: var(--card)`,
+`color: var(--muted-foreground)`, `border-color: var(--border)`. Because
+the variable changes rather than the rule, a component written this way
+switches theme without a single conditional: there is no light branch and
+no dark branch anywhere in the kit's CSS.
 
 **The swatches below read their values out of the live document**, so a
 color shown here is the value the components actually get. The token
@@ -210,8 +209,8 @@ shows up in a component, a token is missing.
 ## Customization
 
 Swap the raw values in `:root` and `.dark` in `src/tokens.css`. Nothing
-that consumes `bg-primary` or `text-muted-foreground` changes, because the
-utilities resolve through the variables rather than the values.
+that reads `var(--primary)` or `var(--muted-foreground)` changes, because
+every rule points at the variable rather than the value.
 
 Two things to carry through a rebrand: re-measure the pairs in the
 contrast table — a brand hue at the same *lightness* as neutral-900 will

@@ -1,13 +1,20 @@
-@import "tailwindcss";
 @import "./tokens.css";
 
-/* Force-generate the full default color palette so Foundations/Colors can
-   show the raw Tailwind scale (the material the semantic tokens in
-   tokens.css are cut from) with dynamic classNames instead of listing
-   every class literally. */
-@source inline("bg-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }

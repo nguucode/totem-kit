@@ -1,0 +1,179 @@
+/* Layout for the Foundations demos. Not part of the kit's public surface —
+   these exist so the documentation pages can lay themselves out without
+   reaching for a utility framework the kit no longer depends on. */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stackWide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.rowBaseline {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.rowWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-6);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+@media (width >= 40rem) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .gridThirds {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .gridHalves {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.gridThirds,
+.gridHalves {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  color: var(--muted-foreground);
+}
+
+.sectionTitle {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-weight: 500;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.sectionNote {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  color: var(--muted-foreground);
+  margin: 0 0 var(--space-3);
+}
+
+.note {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--muted-foreground);
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  padding: var(--space-4);
+}
+
+.swatchPair {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  padding: var(--space-3);
+}
+
+.swatchLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-body-sm);
+  opacity: 0.7;
+}
+
+.rampRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.rampName {
+  width: 5rem;
+  flex-shrink: 0;
+  font-size: var(--text-body);
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--muted-foreground);
+}
+
+.ramp {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.rampStep {
+  height: 2.5rem;
+  flex: 1;
+}
+
+/* Active-breakpoint readout: each chip hides itself once the next breakpoint
+   is reached, so exactly one is ever visible. */
+.bpChip {
+  align-items: center;
+  gap: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: var(--space-2) var(--space-3);
+}
+
+.bpBase {
+  display: flex;
+}
+.bpSm,
+.bpMd,
+.bpLg,
+.bpXl,
+.bp2xl {
+  display: none;
+}
+
+@media (width >= 40rem) {
+  .bpBase { display: none; }
+  .bpSm { display: flex; }
+}
+@media (width >= 48rem) {
+  .bpSm { display: none; }
+  .bpMd { display: flex; }
+}
+@media (width >= 64rem) {
+  .bpMd { display: none; }
+  .bpLg { display: flex; }
+}
+@media (width >= 80rem) {
+  .bpLg { display: none; }
+  .bpXl { display: flex; }
+}
+@media (width >= 96rem) {
+  .bpXl { display: none; }
+  .bp2xl { display: flex; }
+}

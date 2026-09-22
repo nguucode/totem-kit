@@ -1,42 +1,53 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect } from 'storybook/test'
+import type { CSSProperties } from 'react'
+import docs from './docs.module.css'
+
+/** A type role is a size, a line height and a weight together. */
+const role = (name: string, weight: number): CSSProperties => ({
+  fontSize: `var(--text-${name})`,
+  lineHeight: `var(--leading-${name})`,
+  fontWeight: weight,
+})
 
 const HEADINGS = [
-  { cls: 'text-heading-2xl', atlassian: 'xxlarge', px: '32 / 36' },
-  { cls: 'text-heading-xl', atlassian: 'xlarge', px: '28 / 32' },
-  { cls: 'text-heading-lg', atlassian: 'large', px: '24 / 28' },
-  { cls: 'text-heading-md', atlassian: 'medium', px: '20 / 24' },
-  { cls: 'text-heading-sm', atlassian: 'small', px: '16 / 20' },
-  { cls: 'text-heading-xs', atlassian: 'xsmall', px: '14 / 20' },
-  { cls: 'text-heading-2xs', atlassian: 'xxsmall', px: '12 / 16' },
+  { token: 'heading-2xl', px: '32 / 36' },
+  { token: 'heading-xl', px: '28 / 32' },
+  { token: 'heading-lg', px: '24 / 28' },
+  { token: 'heading-md', px: '20 / 24' },
+  { token: 'heading-sm', px: '16 / 20' },
+  { token: 'heading-xs', px: '14 / 20' },
+  { token: 'heading-2xs', px: '12 / 16' },
 ] as const
 
 const BODY = [
-  { cls: 'text-body-lg', atlassian: 'body.large', px: '16 / 24' },
-  { cls: 'text-body', atlassian: 'body', px: '14 / 20' },
-  { cls: 'text-body-sm', atlassian: 'body.small', px: '12 / 16' },
+  { token: 'body-lg', px: '16 / 24' },
+  { token: 'body', px: '14 / 20' },
+  { token: 'body-sm', px: '12 / 16' },
 ] as const
 
-function Row({ cls, atlassian, px }: { cls: string; atlassian: string; px: string }) {
+function Row({ token, px, weight }: { token: string; px: string; weight: number }) {
   return (
-    <div className="flex items-baseline gap-4 border-b border-border py-2">
-      <span className="w-40 shrink-0 font-mono text-body-sm text-muted-foreground">{cls}</span>
-      <span className={`flex-1 ${cls}`}>Totem Kit</span>
-      <span className="w-28 shrink-0 text-right font-mono text-body-sm text-muted-foreground">
-        {px}
+    <div
+      className={docs.rowBaseline}
+      style={{ borderBottom: '1px solid var(--border)', padding: 'var(--space-2) 0' }}
+    >
+      <span className={docs.caption} style={{ width: '10rem', flexShrink: 0 }}>
+        --text-{token}
       </span>
-      <span className="w-28 shrink-0 text-right font-mono text-body-sm text-muted-foreground">
-        {atlassian}
+      <span style={{ flex: 1, ...role(token, weight) }}>Totem Kit</span>
+      <span className={docs.caption} style={{ width: '7rem', textAlign: 'right' }}>
+        {px}
       </span>
     </div>
   )
 }
 
 const WEIGHTS = [
-  { cls: 'font-normal', value: 400, name: 'regular' },
-  { cls: 'font-medium', value: 500, name: 'medium' },
-  { cls: 'font-semibold', value: 600, name: 'semibold' },
-  { cls: 'font-bold', value: 700, name: 'bold' },
+  { value: 400, name: 'regular' },
+  { value: 500, name: 'medium' },
+  { value: 600, name: 'semibold' },
+  { value: 700, name: 'bold' },
 ] as const
 
 // Narrative and prose live in Typography.mdx.
@@ -50,60 +61,69 @@ type Story = StoryObj<typeof meta>
 
 export const Headings: Story = {
   render: () => (
-    <div className="flex flex-col">
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       {HEADINGS.map((h) => (
-        <Row key={h.cls} {...h} />
+        <Row key={h.token} {...h} weight={700} />
       ))}
     </div>
   ),
   play: async ({ canvas }) => {
-    // The role has to carry its weight, not just its size.
-    const el = canvas.getByText('Totem Kit', { selector: '.text-heading-lg' })
+    const el = canvas.getAllByText('Totem Kit')[0]
+    // A heading role carries its weight, not just its size.
     await expect(getComputedStyle(el).fontWeight).toBe('700')
+    await expect(Number.parseFloat(getComputedStyle(el).fontSize)).toBe(32)
   },
 }
 
 export const Body: Story = {
   render: () => (
-    <div className="flex flex-col">
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       {BODY.map((b) => (
-        <Row key={b.cls} {...b} />
+        <Row key={b.token} {...b} weight={400} />
       ))}
     </div>
   ),
+  play: async ({ canvas }) => {
+    const el = canvas.getAllByText('Totem Kit')[1]
+    // body is 14px, one step down from the 16px many interfaces start at.
+    await expect(Number.parseFloat(getComputedStyle(el).fontSize)).toBe(14)
+  },
 }
 
 export const Weights: Story = {
   render: () => (
-    <div className="flex flex-col gap-2">
-      {WEIGHTS.map(({ cls, value, name }) => (
-        <div key={cls} className="flex items-baseline gap-4">
-          <span className="w-32 shrink-0 font-mono text-body-sm text-muted-foreground">{cls}</span>
-          <span className={`text-body-lg ${cls}`}>Totem Kit</span>
-          <span className="font-mono text-body-sm text-muted-foreground">
-            {value} · {name}
+    <div className={docs.stack}>
+      {WEIGHTS.map(({ value, name }) => (
+        <div key={value} className={docs.rowBaseline}>
+          <span className={docs.caption} style={{ width: '8rem', flexShrink: 0 }}>
+            {value}
           </span>
+          <span style={{ ...role('body-lg', value) }}>Totem Kit</span>
+          <span className={docs.caption}>{name}</span>
         </div>
       ))}
     </div>
   ),
   play: async ({ canvas }) => {
-    // A weight utility must beat the weight baked into the role token.
-    const el = canvas.getByText('Totem Kit', { selector: '.font-bold' })
-    await expect(getComputedStyle(el).fontWeight).toBe('700')
+    const bold = canvas.getAllByText('Totem Kit').at(-1)!
+    await expect(getComputedStyle(bold).fontWeight).toBe('700')
   },
 }
 
 export const Families: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <span className="font-mono text-body-sm text-muted-foreground">font-sans</span>
-        <span className="text-heading-md font-sans">Totem Kit — system-ui 0123</span>
+    <div className={docs.stackWide}>
+      <div className={docs.stack}>
+        <span className={docs.caption}>--font-sans</span>
+        <span style={{ ...role('heading-md', 700), fontFamily: 'var(--font-sans)' }}>
+          Totem Kit — system-ui 0123
+        </span>
       </div>
-      <div className="flex flex-col gap-1">
-        <span className="font-mono text-body-sm text-muted-foreground">font-mono</span>
-        <span className="text-heading-md font-mono">Totem Kit — ui-monospace 0123</span>
+      <div className={docs.stack}>
+        <span className={docs.caption}>--font-mono</span>
+        <span style={{ ...role('heading-md', 700), fontFamily: 'var(--font-mono)' }}>
+          Totem Kit — ui-monospace 0123
+        </span>
       </div>
     </div>
   ),

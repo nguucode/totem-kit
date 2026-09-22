@@ -6,14 +6,16 @@
 > Expect breaking changes on any `0.x` version bump. Fine to poke around
 > or reference the setup; not ready to build a real product on top of yet.
 
-Front-end UI kit built with React, TypeScript and Tailwind CSS, documented in Storybook.
+Front-end UI kit for React, documented in Storybook. No CSS framework and no
+primitive library — components are plain elements styled with CSS Modules
+against a token layer of CSS custom properties.
 
 **Storybook:** https://nguucode.github.io/totem-kit/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
 
 ## Stack
 
 - **Vite** — build tool
-- **Tailwind CSS v4** — styling
+- **CSS Modules** — component styling, scoped per file
 - **class-variance-authority** — variant styling for components
 - **Storybook** — component catalog / docs
 
@@ -115,8 +117,8 @@ in the consumer's repo. [`registry.json`](registry.json) declares each item;
 (deployed alongside Storybook, always live at
 https://nguucode.github.io/totem-kit/r/<name>.json).
 
-In a project that already has Tailwind v4 (run `npx shadcn@latest init`
-there first if it doesn't have a `components.json` yet):
+In a project with a `components.json` (run `npx shadcn@latest init` there
+first if it has none):
 
 ```bash
 npx shadcn@latest add https://nguucode.github.io/totem-kit/r/tokens.json  # design tokens, once
@@ -156,13 +158,15 @@ import { TextInput } from 'totem-kit/text-input'
 ```
 
 ```css
-/* after @import "tailwindcss"; */
-@import "totem-kit/tokens.css";
-@source "../node_modules/totem-kit/dist"; /* so Tailwind generates the utility classes the components use */
+@import "totem-kit/tokens.css";  /* the token layer */
+@import "totem-kit/styles.css";  /* the component styles */
 ```
 
+Order matters: the component styles read the tokens. Nothing else is
+required — no framework config, no content scanning, no build plugin.
+
 `react`/`react-dom` are peer dependencies; `class-variance-authority`,
-`clsx`, `tailwind-merge` install automatically. `npm run build:lib` builds
+`clsx` installs automatically. `npm run build:lib` builds
 `dist/` (bundled JS + `.d.ts` + `tokens.css`); CI runs it on every push so a
 breaking change surfaces before the next `npm publish` (a manual step, not
 automated by CI).

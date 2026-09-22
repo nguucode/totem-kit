@@ -8,7 +8,7 @@ import * as OverviewStories from './Overview.stories'
 Foundations are the decisions every component inherits: color, type,
 spacing, radius, elevation, cursors, and the breakpoints layouts respond
 to. They live in **one file** — `src/tokens.css` — as CSS custom
-properties, mapped onto utility classes through `@theme inline`.
+properties.
 
 There is no JavaScript theme object, no `ThemeProvider` that owns values,
 and no build step that generates a stylesheet. A token is a CSS variable,
@@ -19,13 +19,18 @@ inherit it and override it. Everything on this page follows from that.
 
 | Layer | Where | Example |
 | --- | --- | --- |
-| Raw value | `:root` / `.dark` in `tokens.css` | `--primary: oklch(0.205 0 0)` |
-| Utility mapping | `@theme inline` in `tokens.css` | `--color-primary: var(--primary)` |
-| Usage | component source | `className="bg-primary"` |
+| Raw value | `:root` / `.dark` in `tokens.css` | `--primary: oklch(51.1% 0.262 276.966)` |
+| Derived value | the `*` block in `tokens.css` | `--radius-control: max(…)` |
+| Usage | a component's `.module.css` | `background: var(--primary)` |
 
-Components only ever touch the third layer. That is what makes a rebrand a
-change to one file, and what keeps `dark:` variants out of component code
-entirely — the variable under `bg-primary` changes, the class does not.
+Components only ever read the variable. That is what makes a rebrand a
+change to one file, and what keeps theme conditionals out of component CSS
+entirely — the value behind `var(--primary)` changes, the rule does not.
+
+The derived layer is on `*` rather than `:root` on purpose: a custom
+property that reads another one resolves where it is *declared*, so
+putting these at the root would freeze them there and a `Theme` further
+down the tree could not move them.
 
 ## The pages
 
@@ -152,12 +157,11 @@ The light island works because `tokens.css` declares the light values on
 equal specificity, so the nearer scope's class is what an element inside
 it resolves against.
 
-**One caveat.** The `dark:` variant is
-`@custom-variant dark (&:is(.dark *))` — a descendant selector, which
-still matches inside a light island nested in a dark ancestor. Totem Kit's
-components never use `dark:` variants, so they are unaffected; if your own
-code does, that code will read the wrong mode in that one arrangement.
-Prefer the tokens over `dark:` and the problem does not arise.
+**One caveat.** If your own CSS branches on theme with a descendant
+selector — `.dark .thing { … }` — that selector still matches inside a
+light island nested in a dark ancestor, and will style it as dark. Totem
+Kit's own CSS never branches on theme, so it is unaffected. Read the
+tokens instead of matching on `.dark` and the problem does not arise.
 
 ## Installing
 

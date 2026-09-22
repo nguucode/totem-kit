@@ -1,5 +1,6 @@
 import { forwardRef, useId, type InputHTMLAttributes, type MouseEvent } from 'react'
 import { cn } from '@/lib/utils'
+import styles from './TextInput.module.css'
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -20,16 +21,16 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       undefined
 
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className={styles.field}>
         {label && (
           <label
             htmlFor={inputId}
-            className="text-body font-medium text-foreground"
+            className={styles.label}
             onMouseDown={preventSelectionOnDoubleClick}
           >
             {label}
             {required && (
-              <span aria-hidden="true" className="ml-0.5 text-destructive">
+              <span aria-hidden="true" className={styles.required}>
                 *
               </span>
             )}
@@ -41,22 +42,15 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           required={required}
           aria-invalid={!!error || undefined}
           aria-describedby={describedBy}
-          className={cn(
-            'h-10 w-full rounded-field border border-input bg-background px-3 text-body text-foreground transition-colors',
-            'placeholder:text-muted-foreground',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-            'disabled:cursor-not-allowed disabled:opacity-50',
-            error && 'border-destructive focus-visible:ring-destructive',
-            className,
-          )}
+          className={cn(styles.input, error && styles.invalid, className)}
           {...props}
         />
         {error ? (
-          <p id={errorId} className="text-body text-destructive">
+          <p id={errorId} className={styles.error}>
             {error}
           </p>
         ) : helperText ? (
-          <p id={helperId} className="text-body text-muted-foreground">
+          <p id={helperId} className={styles.helper}>
             {helperText}
           </p>
         ) : null}

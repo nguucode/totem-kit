@@ -17,17 +17,10 @@ export default defineConfig({
         'lib/utils': 'src/lib/utils.ts',
       },
       formats: ['es'],
+      cssFileName: 'styles',
     },
     rollupOptions: {
-      external: [
-        'react',
-        'react/jsx-runtime',
-        'react-dom',
-        'radix-ui',
-        'class-variance-authority',
-        'clsx',
-        'tailwind-merge',
-      ],
+      external: ['react', 'react/jsx-runtime', 'react-dom', 'clsx'],
     },
   },
 })

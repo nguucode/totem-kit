@@ -1,20 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import docs from './docs.module.css'
+import { PALETTE, STEPS } from './palette'
 
-type Band = {
-  pairs: readonly (readonly [string, string])[]
-}
-
-function BandSwatches({ pairs }: Band) {
+function BandSwatches({ pairs }: { pairs: readonly (readonly [string, string])[] }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <div className={docs.grid}>
       {pairs.map(([bg, fg]) => (
         <div
           key={bg}
-          className="flex h-24 flex-col justify-between rounded-lg border border-border p-3"
+          className={docs.swatchPair}
           style={{ background: `var(--${bg})`, color: `var(--${fg})` }}
         >
-          <span className="text-xs font-mono opacity-70">--{bg}</span>
-          <span className="text-xs font-mono opacity-70">--{fg}</span>
+          <span className={docs.swatchLabel}>--{bg}</span>
+          <span className={docs.swatchLabel}>--{fg}</span>
         </div>
       ))}
     </div>
@@ -25,42 +23,40 @@ const LINES = ['border', 'input', 'ring'] as const
 
 function LineSwatches() {
   return (
-    <div className="flex gap-6">
+    <div style={{ display: 'flex', gap: 'var(--space-6)' }}>
       {LINES.map((token) => (
-        <div key={token} className="flex flex-col items-center gap-2">
+        <div
+          key={token}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}
+        >
           <div
-            className="h-10 w-24 rounded-md"
-            style={{ boxShadow: `inset 0 0 0 2px var(--${token})` }}
+            style={{
+              height: '2.5rem',
+              width: '6rem',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: `inset 0 0 0 2px var(--${token})`,
+            }}
           />
-          <span className="font-mono text-xs text-muted-foreground">--{token}</span>
+          <span className={docs.caption}>--{token}</span>
         </div>
       ))}
     </div>
   )
 }
 
-const COLORS = [
-  'slate', 'gray', 'zinc', 'neutral', 'stone',
-  'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal',
-  'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose',
-] as const
-
-const SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
-
 function PrimitiveSwatches() {
   return (
-    <div className="flex flex-col gap-3">
-      {COLORS.map((color) => (
-        <div key={color} className="flex items-center gap-2">
-          <span className="w-20 shrink-0 text-sm font-medium capitalize text-muted-foreground">
-            {color}
-          </span>
-          <div className="flex flex-1 overflow-hidden rounded-md">
-            {SHADES.map((shade) => (
+    <div className={docs.stack}>
+      {Object.entries(PALETTE).map(([hue, values]) => (
+        <div key={hue} className={docs.rampRow}>
+          <span className={docs.rampName}>{hue}</span>
+          <div className={docs.ramp}>
+            {values.map((value, i) => (
               <div
-                key={shade}
-                title={`${color}-${shade}`}
-                className={`h-10 flex-1 bg-${color}-${shade}`}
+                key={STEPS[i]}
+                title={`${hue}-${STEPS[i]}`}
+                className={docs.rampStep}
+                style={{ background: value }}
               />
             ))}
           </div>
@@ -70,8 +66,8 @@ function PrimitiveSwatches() {
   )
 }
 
-// Narrative and prose live in Colors.mdx, which supersedes this file's
-// autodocs page — these stories exist to be embedded there via <Canvas>.
+// Narrative and prose live in Colors.mdx — these stories exist to be embedded
+// there via <Canvas>.
 const meta = {
   title: 'Foundations/Colors',
   parameters: { layout: 'padded' },

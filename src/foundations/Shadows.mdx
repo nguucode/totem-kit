@@ -6,16 +6,15 @@ import * as ShadowsStories from './Shadows.stories'
 # Shadows
 
 Four elevation steps. Rather than adding a new utility namespace, these
-**replace the built-in `--shadow-*` theme keys**, so `shadow-sm` through
-`shadow-xl` stay the ordinary utilities — they just resolve to Totem
-Kit's values and follow the theme.
+read as `var(--shadow-sm)` through `var(--shadow-xl)`, and each resolves
+per mode rather than being a fixed value.
 
-| Utility | Light | Dark |
+| Token | Light | Dark |
 | --- | --- | --- |
-| `shadow-sm` | 1px drop, 5% black | 1px drop, 30% black |
-| `shadow-md` | 4px + 2px, 10% black | 4px + 2px, 40% black |
-| `shadow-lg` | 10px + 4px, 10% black | 10px + 4px, 40% black |
-| `shadow-xl` | 20px + 8px, 10% black | 20px + 8px, 50% black |
+| `--shadow-sm` | 1px drop, 5% black | 1px drop, 30% black |
+| `--shadow-md` | 4px + 2px, 10% black | 4px + 2px, 40% black |
+| `--shadow-lg` | 10px + 4px, 10% black | 10px + 4px, 40% black |
+| `--shadow-xl` | 20px + 8px, 10% black | 20px + 8px, 50% black |
 
 <Canvas of={ShadowsStories.Scale} />
 
@@ -50,18 +49,18 @@ not as settled values.
 
 ## A note on rings and shadows
 
-`box-shadow` is composed from several variables at once —
-`--tw-shadow`, `--tw-ring-shadow`, `--tw-inset-shadow` and others — so
-`shadow-md` and `ring-2` coexist on one element rather than overwriting
-each other. Setting a raw `box-shadow` in a `style` attribute *does*
-overwrite all of it, including the focus ring. Use the utilities on
-anything focusable.
+`box-shadow` is a single property, so a shadow and a focus ring drawn the
+same way would overwrite each other. The kit draws focus with `outline`
+instead — it has its own property and its own `outline-offset`, and
+current browsers follow `border-radius` with it. An elevated surface can
+therefore carry a shadow and a focus ring at once without either fighting
+the other.
 
 ## Customization
 
 The raw values are `--shadow-elevation-sm` through `-xl` in `:root` and
-`.dark`; the `@theme inline` block maps them onto the `--shadow-*` keys
-and does not need to change.
+`.dark`; the `*` block maps them onto `--shadow-*` and does not need to
+change.
 
 Keep the two modes as separate decisions — copying the light values into
 `.dark` is exactly the mistake the alpha bump exists to prevent.

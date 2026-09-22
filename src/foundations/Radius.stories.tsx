@@ -3,16 +3,31 @@ import { expect } from 'storybook/test'
 import { Button } from '@/components/actions/Button'
 import { TextInput } from '@/components/inputs/TextInput'
 import { Theme, type Radius as RadiusPreset } from '@/theme/Theme'
+import docs from './docs.module.css'
+
+const COL: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: 'var(--space-2)',
+}
 
 const STEPS = ['radius-sm', 'radius-md', 'radius-lg', 'radius-xl'] as const
 
 function StepScale() {
   return (
-    <div className="flex flex-wrap items-end gap-6">
+    <div className={docs.rowWrap}>
       {STEPS.map((token) => (
-        <div key={token} className="flex flex-col items-center gap-2">
-          <div className="h-16 w-16 bg-primary" style={{ borderRadius: `var(--${token})` }} />
-          <span className="font-mono text-xs text-muted-foreground">--{token}</span>
+        <div key={token} style={COL}>
+          <div
+            style={{
+              height: '4rem',
+              width: '4rem',
+              background: 'var(--primary)',
+              borderRadius: `var(--${token})`,
+            }}
+          />
+          <span className={docs.caption}>--{token}</span>
         </div>
       ))}
     </div>
@@ -27,17 +42,26 @@ const INTENTS = [
 
 function Intents() {
   return (
-    <div className="flex flex-wrap items-end gap-6">
+    <div className={docs.rowWrap}>
       {INTENTS.map(({ token, label, note }) => (
-        <div key={token} className="flex flex-col items-center gap-2">
+        <div key={token} style={COL}>
           <div
-            className="flex h-16 w-28 items-center justify-center bg-secondary text-sm text-secondary-foreground"
-            style={{ borderRadius: `var(--${token})` }}
+            style={{
+              display: 'flex',
+              height: '4rem',
+              width: '7rem',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'var(--secondary)',
+              color: 'var(--secondary-foreground)',
+              fontSize: 'var(--text-body)',
+              borderRadius: `var(--${token})`,
+            }}
           >
             {label}
           </div>
-          <span className="font-mono text-xs text-muted-foreground">--{token}</span>
-          <span className="text-xs text-muted-foreground">{note}</span>
+          <span className={docs.caption}>--{token}</span>
+          <span className={docs.caption}>{note}</span>
         </div>
       ))}
     </div>
@@ -48,12 +72,22 @@ const PRESETS: RadiusPreset[] = ['none', 'small', 'medium', 'large', 'full']
 
 function PresetRow({ preset }: { preset: RadiusPreset }) {
   return (
-    <Theme radius={preset} className="flex flex-col gap-3">
-      <span className="font-mono text-xs text-muted-foreground">radius="{preset}"</span>
-      <div className="flex flex-wrap items-center gap-3">
+    <Theme radius={preset} className={docs.stack}>
+      <span className={docs.caption}>radius="{preset}"</span>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-3)' }}>
         <Button>Button</Button>
-        <TextInput placeholder="Input" className="w-40" />
-        <div className="rounded-panel border border-border bg-card px-4 py-2 text-sm text-card-foreground">
+        <TextInput placeholder="Input" style={{ width: '10rem' }} />
+        <div
+          data-panel
+          style={{
+            border: '1px solid var(--border)',
+            background: 'var(--card)',
+            color: 'var(--card-foreground)',
+            padding: 'var(--space-2) var(--space-4)',
+            fontSize: 'var(--text-body)',
+            borderRadius: 'var(--radius-panel)',
+          }}
+        >
           Panel
         </div>
       </div>
@@ -72,7 +106,7 @@ type Story = StoryObj<typeof meta>
 
 export const Presets: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
+    <div className={docs.stackWide}>
       {PRESETS.map((preset) => (
         <PresetRow key={preset} preset={preset} />
       ))}
@@ -87,7 +121,7 @@ export const Presets: Story = {
       return {
         control: px(scope.querySelector('button')!),
         field: px(scope.querySelector('input')!),
-        panel: px(scope.querySelector('.rounded-panel')!),
+        panel: px(scope.querySelector('[data-panel]')!),
       }
     }
 

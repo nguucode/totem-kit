@@ -85,11 +85,11 @@ What components actually use.
 
 <Canvas of={RadiusStories.Intent} />
 
-| Token | Utility | Used by | Pills at `full` |
-| --- | --- | --- | --- |
-| `--radius-control` | `rounded-control` | Button, and future badges/chips | yes |
-| `--radius-field` | `rounded-field` | TextInput, and future textareas/selects | no |
-| `--radius-panel` | `rounded-panel` | future cards, dialogs, popovers | no |
+| Token | Used by | Pills at `full` |
+| --- | --- | --- |
+| `--radius-control` | Button, and future badges/chips | yes |
+| `--radius-field` | TextInput, and future textareas/selects | no |
+| `--radius-panel` | future cards, dialogs, popovers | no |
 
 A new component should pick the intent that matches its shape, not a step.
 Getting this wrong is invisible at the default preset and only shows up
@@ -98,18 +98,18 @@ token system exists to prevent.
 
 ## Steps
 
-The raw scale, still available as the ordinary utilities
-(`rounded-sm` through `rounded-xl`) for anything that is genuinely
-decorative rather than a control, field or panel.
+The raw scale — `--radius-sm` through `--radius-xl` — for anything that is
+genuinely decorative rather than a control, field or panel.
 
 <Canvas of={RadiusStories.Steps} />
 
-These replace the built-in radius scale, so `rounded-md` in application
-code follows the theme rather than being a fixed `0.375rem`.
+These follow the preset like everything else, so a decorative corner in
+application code stays in step with the controls beside it.
 
-`rounded-full` is untouched — it is a static utility (`2147483647px`),
-not driven by `--radius-full`, so an avatar stays round
-at every preset.
+A genuinely circular element — an avatar, a status dot — should use
+`border-radius: 50%` rather than a token. `--radius-full` is the pill
+switch, not a "make this round" value: read directly it is `0` at every
+preset except `full`.
 
 ## Scoping and overriding
 
