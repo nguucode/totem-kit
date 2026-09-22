@@ -81,9 +81,8 @@ whatever alias the target project uses.
 
 ### npm package
 
-For projects that would rather version-pin than own the source. Not
-published yet (name `totem-kit` is free on npm; publishing is a separate,
-explicit step). Once published:
+For projects that would rather version-pin than own the source. Published
+at [npmjs.com/package/totem-kit](https://www.npmjs.com/package/totem-kit):
 
 ```bash
 npm install totem-kit
@@ -102,8 +101,9 @@ import { TextInput } from 'totem-kit/text-input'
 
 `react`/`react-dom` are peer dependencies; `radix-ui`, `class-variance-authority`,
 `clsx`, `tailwind-merge` install automatically. `npm run build:lib` builds
-`dist/` (bundled JS + `.d.ts` + `tokens.css`); CI runs it on every push to
-catch breakage even though nothing is published yet.
+`dist/` (bundled JS + `.d.ts` + `tokens.css`); CI runs it on every push so a
+breaking change surfaces before the next `npm publish` (a manual step, not
+automated by CI).
 
 ## Adding a component
 
