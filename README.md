@@ -69,19 +69,33 @@ Components should always use the semantic tokens (`bg-primary`, not
 
 ### Custom themes
 
-Global overrides are plain CSS — redeclare the variables after Totem Kit's
-stylesheet. For anything narrower, `src/theme/Theme.tsx` scopes an
-appearance and/or token overrides to a subtree:
+Customization is the point of the kit. `src/theme/Theme.tsx` scopes five
+independent settings to any subtree:
 
 ```tsx
-<Theme appearance="dark" tokens={{ radius: '1.5rem', primary: 'oklch(0.55 0.2 264)' }}>
+<Theme accentColor="violet" grayColor="slate" appearance="dark" radius="large" scaling="105%">
 ```
 
-`appearance` takes `light` / `dark` / `inherit`, and scopes nest in either
-direction — light values are declared on `:root, .light`, so a light island
-inside a dark shell resolves correctly. `tokens` accepts any custom
-property, including ones Totem Kit doesn't define. Full write-up in
+| Prop | Values |
+| --- | --- |
+| `accentColor` | 17 hues — drives `--primary` and `--ring` (default: **blue**) |
+| `grayColor` | 9 neutral ramps — surfaces, text, borders (default: neutral) |
+| `appearance` | `light` / `dark` / `inherit` |
+| `radius` | `none` / `small` / `medium` / `large` / `full` |
+| `scaling` | `90%` … `110%` — spacing and type together |
+
+Every accent's solid step and label colour are **computed** so each one
+clears WCAG AA (4.5:1) for its own label, and the focus ring clears 3:1
+against the page — which is why the warm hues carry dark labels and the
+ring uses a step darker than the fill.
+
+Scopes nest in either direction (light values live on `:root, .light`), and
+`tokens` still accepts any custom property for values the presets don't
+cover. Full write-up in
 [Foundations → Overview](https://nguucode.github.io/totem-kit/?path=/docs/foundations-overview--docs).
+
+Globally, it is plain CSS — redeclare the variables after Totem Kit's
+stylesheet, or set `data-accent` / `data-gray` on `<html>`.
 
 `registry.json`'s `tokens` item mirrors the token values for the
 copy-source path, and its `theme` item ships the component. One known quirk: `shadcn add`-ing it into a project that already has

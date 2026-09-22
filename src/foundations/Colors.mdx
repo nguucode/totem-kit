@@ -55,14 +55,21 @@ intent that should change will change.
 
 ## Solid actions
 
-Filled controls. `--primary` is the default button and the one token that
-inverts hardest between modes — near-black fill in light, near-white fill
-in dark — which is why `--primary-foreground` inverts with it.
+Filled controls. `--primary` is the default button and **the brand hue** —
+blue out of the box, and the one token the
+[`accentColor`](?path=/docs/foundations-overview--docs) setting moves. It
+lightens in dark mode rather than darkening, so `--primary-foreground`
+inverts with it.
 
-`--destructive` is the only token in the default palette that is not a
-shade of neutral. It is the single place a hue appears until real brand
-colors exist, which makes it the easiest token to misread as "the accent
-color". It is not; it is a status.
+`--destructive` is a hue too, but a fixed one: it stays red whatever the
+accent is. A status colour that follows the brand stops being a status —
+if the accent is already red, distinguish destructive actions by wording
+and placement, not by colour alone.
+
+A note on names: the token called `--accent` is **not** the brand hue. It
+is a subtle surface (hover, selected row), inherited from the shadcn
+contract. The brand hue is `--primary`. The collision is unfortunate and
+predates this kit.
 
 <Canvas of={ColorsStories.SolidActions} />
 
@@ -104,13 +111,17 @@ component boundaries such as a focus ring.
 | `background` / `foreground` | 19.79:1 | 18.96:1 |
 | `card` / `card-foreground` | 19.79:1 | 17.16:1 |
 | `popover` / `popover-foreground` | 19.79:1 | 17.16:1 |
-| `primary` / `primary-foreground` | 17.16:1 | 14.22:1 |
+| `primary` / `primary-foreground` | 5.03:1 | 6.79:1 |
 | `secondary` / `secondary-foreground` | 16.42:1 | 14.48:1 |
 | `accent` / `accent-foreground` | 16.42:1 | 14.48:1 |
 | `destructive` / `destructive-foreground` | 4.56:1 | 6.19:1 |
 | `muted` / `muted-foreground` | **4.34:1** | 5.83:1 |
 | `background` / `muted-foreground` | 4.73:1 | 7.63:1 |
-| `background` / `ring` | 4.73:1 | 4.18:1 |
+| `background` / `ring` | 6.82:1 | 7.51:1 |
+
+The `primary` row is the default blue accent. Every one of the seventeen
+accents is measured the same way and clears 4.5:1 for its own label — see
+[Overview → Accent color](?path=/docs/foundations-overview--docs).
 
 **`--muted-foreground` on `--muted` is 4.34:1 in light mode, under AA.**
 On the page background — where secondary text usually lives — the same
@@ -119,9 +130,11 @@ to avoid; if you need it, darken `--muted-foreground` to neutral-600
 (7.15:1 on muted) and accept that all secondary text in the kit gets
 heavier.
 
-**Two values here are deliberately not shadcn's.** `--ring` is neutral-500
-rather than neutral-400, because neutral-400 measures 2.59:1 against
-`--background` and a focus indicator has to clear 3:1 under WCAG 1.4.11.
+**Two values here are deliberately not shadcn's.** `--ring` follows the
+accent at its `-700` step rather than being a neutral, because a focus
+indicator has to clear 3:1 against the page under WCAG 1.4.11 and the
+lighter solids miss it — yellow-600 measures 2.93:1, so the ring uses a
+step darker than the fill for every accent.
 And dark `--destructive-foreground` is neutral-900 rather than near-white:
 dark mode inverts the destructive fill to red-400, and near-white on
 red-400 is 2.77:1, which makes the label of a destructive button in dark
@@ -136,33 +149,35 @@ meaning. The contrast numbers above are a floor, not a design review.
 
 ## Where the values come from
 
-**Every value is a Tailwind v4 ramp step, digit for digit** — the palette
-is shadcn's `neutral` base theme, which is Tailwind's own `neutral` ramp
-with the chroma already at zero, plus two steps of `red` for the
-destructive status. Nothing here was hand-picked or eyeballed.
+**Every value is a Tailwind v4 ramp step, digit for digit.** Nothing here
+was hand-picked or eyeballed. Two ramps feed the palette and each is
+swappable on its own: an **accent** (blue by default) for `--primary` and
+`--ring`, and a **gray** (neutral by default) for everything structural.
 
-| Token | Light | Dark |
-| --- | --- | --- |
-| `background` | white | neutral-950 |
-| `foreground` | neutral-950 | neutral-50 |
-| `card`, `popover` | white | neutral-900 |
-| `card-foreground`, `popover-foreground` | neutral-950 | neutral-50 |
-| `primary` | neutral-900 | neutral-200 |
-| `primary-foreground` | neutral-50 | neutral-900 |
-| `secondary`, `muted`, `accent` | neutral-100 | neutral-800 |
-| `secondary-foreground`, `accent-foreground` | neutral-900 | neutral-50 |
-| `muted-foreground` | neutral-500 | neutral-400 |
-| `destructive` | red-600 | red-400 |
-| `destructive-foreground` | neutral-50 | neutral-900 |
-| `border`, `input` | neutral-200 | white 10% / 15% |
-| `ring` | neutral-500 | neutral-500 |
+| Token | Light | Dark | Driven by |
+| --- | --- | --- | --- |
+| `background` | white | gray-950 | gray |
+| `foreground` | gray-950 | gray-50 | gray |
+| `card`, `popover` | white | gray-900 | gray |
+| `card-foreground`, `popover-foreground` | gray-950 | gray-50 | gray |
+| `primary` | accent-600 | accent-400 | **accent** |
+| `primary-foreground` | white or near-black | near-black | **accent** |
+| `secondary`, `muted`, `accent` | gray-100 | gray-800 | gray |
+| `secondary-foreground`, `accent-foreground` | gray-900 | gray-50 | gray |
+| `muted-foreground` | gray-500 | gray-400 | gray |
+| `destructive` | red-600 | red-400 | fixed |
+| `destructive-foreground` | neutral-50 | neutral-900 | fixed |
+| `border`, `input` | gray-200 | white 10% / 15% | gray |
+| `ring` | accent-700 | accent-400 | **accent** |
 
-The two exceptions are light `--background` (pure white, not neutral-50)
-and dark `--border`/`--input` (alpha, so edges work over any surface).
+The light accent step is `-600` for most hues but `-700` for sky, fuchsia,
+pink and rose, and the label is white or near-black depending on which one
+clears 4.5:1 on that fill — the warm hues take dark labels. Exceptions to
+the ramp rule: light `--background` (pure white, not gray-50) and dark
+`--border`/`--input` (alpha, so edges work over any surface).
 
-This palette is a placeholder. It is deliberately hueless so that nothing
-built on top of it can smuggle in a brand decision that has not been made
-yet — when a Figma file exists, these values are what it replaces.
+`--destructive` deliberately does **not** follow the accent. A status
+colour that changes with the brand stops being a status.
 
 ## Naming
 

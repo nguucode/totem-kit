@@ -19,9 +19,32 @@ const RADIUS_PRESETS: Record<Radius, Record<string, string>> = {
   full: { 'radius-factor': '1.5', 'radius-full': '9999px' },
 }
 
+export const ACCENT_COLORS = [
+  'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal',
+  'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose',
+] as const
+export type AccentColor = (typeof ACCENT_COLORS)[number]
+
+export const GRAY_COLORS = [
+  'slate', 'gray', 'zinc', 'neutral', 'stone', 'mauve', 'olive', 'mist', 'taupe',
+] as const
+export type GrayColor = (typeof GRAY_COLORS)[number]
+
+export const SCALINGS = ['90%', '95%', '100%', '105%', '110%'] as const
+export type Scaling = (typeof SCALINGS)[number]
+
 export interface ThemeProps extends HTMLAttributes<HTMLDivElement> {
   /** `inherit` (default) leaves the surrounding appearance alone. */
   appearance?: Appearance
+  /**
+   * The brand hue. Drives `--primary` and `--ring` — not the token named
+   * `--accent`, which is a subtle surface inherited from the shadcn contract.
+   */
+  accentColor?: AccentColor
+  /** The neutral ramp behind backgrounds, text, borders and muted surfaces. */
+  grayColor?: GrayColor
+  /** Multiplies spacing and the type scale. */
+  scaling?: Scaling
   /** Rescales rounding for this scope. Inherits when omitted. */
   radius?: Radius
   /**
@@ -35,14 +58,37 @@ export interface ThemeProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Theme = forwardRef<HTMLDivElement, ThemeProps>(
-  ({ appearance = 'inherit', radius, tokens, asChild, className, style, ...props }, ref) => {
+  (
+    {
+      appearance = 'inherit',
+      accentColor,
+      grayColor,
+      scaling,
+      radius,
+      tokens,
+      asChild,
+      className,
+      style,
+      ...props
+    },
+    ref,
+  ) => {
     const Comp = asChild ? Slot.Root : 'div'
-    // `tokens` is applied last so an explicit --radius-factor can override
-    // whatever preset `radius` selected.
-    const resolved = { ...(radius && RADIUS_PRESETS[radius]), ...tokens }
+    // `tokens` is applied last so an explicit --radius-factor or --scaling can
+    // override whatever preset selected it.
+    const resolved = {
+      ...(radius && RADIUS_PRESETS[radius]),
+      ...(scaling && { scaling: String(Number.parseInt(scaling, 10) / 100) }),
+      ...tokens,
+    }
     return (
       <Comp
         ref={ref}
+        // Attributes rather than inline styles: an accent is a whole palette
+        // of six values, and [data-accent] keeps them in the stylesheet
+        // instead of restating them on every scope.
+        data-accent={accentColor}
+        data-gray={grayColor}
         className={cn(appearance !== 'inherit' && appearance, className)}
         style={{ ...tokensToStyle(resolved), ...style } as CSSProperties}
         {...props}

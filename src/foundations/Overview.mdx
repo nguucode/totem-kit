@@ -66,10 +66,58 @@ against those values.
 ```tsx
 import { Theme } from 'totem-kit/theme'
 
-<Theme appearance="dark" tokens={{ radius: '1.5rem' }}>
-  <Button>Inside a dark, rounder scope</Button>
+<Theme accentColor="violet" grayColor="slate" appearance="dark" radius="large" scaling="105%">
+  <Button>Inside a violet, slate, dark, rounder, roomier scope</Button>
 </Theme>
 ```
+
+Five settings, each independent:
+
+| Prop | Values |
+| --- | --- |
+| `accentColor` | 17 hues — drives `--primary` and `--ring` |
+| `grayColor` | 9 neutral ramps — drives backgrounds, text, borders |
+| `appearance` | `light`, `dark`, `inherit` |
+| `radius` | `none`, `small`, `medium`, `large`, `full` |
+| `scaling` | `90%` … `110%` — spacing and type together |
+
+### Accent color
+
+The brand hue. Seventeen, all of them measured: the solid step and the
+label colour are chosen per hue so every accent clears 4.5:1 for its own
+label, which is why the warm hues below carry dark labels and the cool
+ones carry white. The focus ring uses a step darker than the fill, because
+the lighter solids miss the 3:1 a focus indicator needs.
+
+<Canvas of={OverviewStories.AccentColor} />
+
+**`accentColor` sets `--primary`, not `--accent`.** The token named
+`--accent` is a subtle hover surface from the shadcn contract — a
+different thing that happens to share the word.
+
+### Gray color
+
+The neutral ramp behind surfaces, text, borders and muted fills. The
+differences are subtle and cumulative; they read most clearly in dark
+mode, which is how they are shown here.
+
+<Canvas of={OverviewStories.GrayColor} />
+
+### Scaling
+
+One multiplier over both spacing and the type scale, so density is a
+single setting rather than a per-component decision. Line heights are
+unitless ratios and follow the font size on their own.
+
+<Canvas of={OverviewStories.Scaling} />
+
+Note that control heights scale too — at `90%` the default control is
+36px, which is getting close to the floor for a touch target.
+
+### Radius
+
+Covered on its own page, including why `full` pills a button but not a
+text field: **[Radius](?path=/docs/foundations-radius--docs)**.
 
 ### Appearance
 
@@ -78,13 +126,6 @@ leaves the surrounding mode alone).
 
 <Canvas of={OverviewStories.Appearance} />
 
-### Radius
-
-`radius` takes `none`, `small`, `medium`, `large` or `full`, and rescales
-rounding for the scope. It is the one preset-style prop on `Theme`;
-everything else goes through `tokens`. See
-**[Radius](?path=/docs/foundations-radius--docs)** for the scale it drives
-and why `full` pills a button but not a text field.
 
 ### Token overrides
 
