@@ -35,7 +35,10 @@
 
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* neutral-500, not shadcn's neutral-400: a focus ring is a UI component
+     boundary, so WCAG 1.4.11 wants 3:1 against what's behind it. neutral-400
+     lands at 2.59:1 on --background; this is 4.73:1. */
+  --ring: oklch(0.556 0 0);
 
   /* Elevation — flat black shadows read fine on a light surface; the .dark
      block below bumps the alpha since the same values go near-invisible
@@ -70,7 +73,10 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
+  /* Dark inverts the fill to red-400, so the label has to invert too — the
+     same rule --primary-foreground follows here. Near-white on red-400 is
+     2.77:1 and fails AA; neutral-900 on it is 6.19:1. */
+  --destructive-foreground: oklch(0.205 0 0);
 
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);

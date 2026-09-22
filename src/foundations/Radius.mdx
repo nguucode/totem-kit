@@ -5,18 +5,55 @@ import * as RadiusStories from './Radius.stories'
 
 # Radius
 
-Four steps derived from a single `--radius` base (`0.625rem`): `sm` is
-`base - 4px`, `md` is `base - 2px`, `lg` is the base itself, `xl` is
-`base + 4px`. Components should reach for `rounded-sm`/`rounded-md`/etc.
-rather than an arbitrary radius value, so a change to `--radius` reaches
-every rounded corner in the kit.
+Four steps, all derived from a single `--radius` base of `0.625rem` (10px)
+declared in `src/tokens.css`:
 
-## Scale
+| Token | Formula | At the default base |
+| --- | --- | --- |
+| `rounded-sm` | `calc(var(--radius) - 4px)` | 6px |
+| `rounded-md` | `calc(var(--radius) - 2px)` | 8px |
+| `rounded-lg` | `var(--radius)` | 10px |
+| `rounded-xl` | `calc(var(--radius) + 4px)` | 14px |
 
 <Canvas of={RadiusStories.Scale} />
+
+The four steps are close together on purpose — 6 to 14px is a narrow
+band. Radius is a weak signal: a viewer reads the difference between a
+card and a button from size, fill and position long before corner
+rounding, so a wide radius range buys inconsistency without buying
+hierarchy.
+
+## What the kit uses
+
+`rounded-md` (8px), on both components, and nothing else. Buttons and
+inputs sit next to each other constantly, so they share a corner; the
+other three steps are there for surfaces that do not exist yet — cards at
+`lg`, modals at `xl`.
+
+## The steps are offsets, not ratios
+
+`sm` is `base − 4px`, not `base × 0.6`. That matters as soon as you change
+the base:
+
+- at `--radius: 1rem` (16px) the steps are 12 / 14 / 16 / 20px — still a
+  4px spread, so a larger base makes the steps *proportionally* closer
+  together and the scale flattens.
+- at `--radius: 0.25rem` (4px) the steps are **0** / 2 / 4 / 8px — `sm`
+  collapses to a square corner, and any component using it silently loses
+  its rounding.
+
+shadcn's own theme uses ratios (`calc(var(--radius) * 0.6)`) for this
+reason. The offsets here are kept because they are what the shadcn
+registry's `theme` item writes into a consuming project, and having the
+same formula in both places matters more than having the better one — but
+if the base ever moves far from 10px, switch both to ratios rather than
+re-tuning the offsets.
 
 ## Customization
 
 Change `--radius` in `src/tokens.css`; the four derived steps recompute
-from it automatically via `calc()` in `@theme inline` — nothing else in
-this file needs to change.
+through `calc()` in the `@theme inline` block with no further edits.
+
+Nothing in the kit hard-codes a corner value, so the base is the only
+knob — with the caveat above about what happens at the extremes of its
+range.

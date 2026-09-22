@@ -5,31 +5,81 @@ import * as TypographyStories from './Typography.stories'
 
 # Typography
 
-Tailwind's default type scale and font weights, unmodified — no custom font
-family or semantic role tokens (`heading`/`body`/`caption`) are defined
-yet. Reference a scale step directly (`text-sm`, `font-medium`) until real
-typographic roles get designed.
+**Typography is the one foundation with no Totem Kit tokens in it.** There
+is no `--font-*` in `src/tokens.css`; the kit inherits Tailwind's defaults
+untouched. Everything on this page is Tailwind v4's own scale, documented
+here so the decisions that *have not* been made are visible rather than
+implied.
+
+## The typeface
+
+Tailwind's default `--font-sans` is a system stack — `-apple-system`,
+`BlinkMacSystemFont`, `Segoe UI`, `Roboto`, `Helvetica Neue`, `Noto Sans`,
+`Arial`, `sans-serif`, plus the emoji fallbacks. Nothing is downloaded, and
+the kit renders in a different typeface on macOS, Windows and Android by
+design.
+
+That is a reasonable default and a bad foundation for a design system:
+line lengths, optical sizes and available weights all shift per platform,
+so a layout tuned on one can break on another. Picking a real typeface is
+a pending decision, not an omission we are happy with.
 
 ## Type scale
 
-Ten steps, `text-xs` through `text-6xl`. Prefer the smallest step that
-still reads clearly for the job — a scale only stays legible as a system if
-most of the UI clusters around two or three of these, not all ten.
+Ten steps. Each carries a paired line height, so `text-sm` sets both
+`font-size: 0.875rem` and `line-height: calc(1.25 / 0.875)` — you do not
+normally need a separate `leading-*`.
+
+| Step | Size | Line height |
+| --- | --- | --- |
+| `text-xs` | 0.75rem / 12px | 1rem |
+| `text-sm` | 0.875rem / 14px | 1.25rem |
+| `text-base` | 1rem / 16px | 1.5rem |
+| `text-lg` | 1.125rem / 18px | 1.75rem |
+| `text-xl` | 1.25rem / 20px | 1.75rem |
+| `text-2xl` | 1.5rem / 24px | 2rem |
+| `text-3xl` | 1.875rem / 30px | 2.25rem |
+| `text-4xl` | 2.25rem / 36px | 2.5rem |
+| `text-5xl` | 3rem / 48px | 1 |
+| `text-6xl` | 3.75rem / 60px | 1 |
+
+From `text-5xl` up the line height drops to `1`, because at display sizes
+a proportional leading opens gaps rather than closing them. If you set
+those sizes in a paragraph rather than a heading, add leading back
+explicitly.
 
 <Canvas of={TypographyStories.Scale} />
 
+**In practice the kit uses two of these steps.** Every component ships
+`text-sm` — button label, input text, field label, helper and error text —
+except the large Button, which steps up to `text-base`. A scale only reads
+as a system when most of the UI clusters in a narrow band of it; the other
+eight steps exist for page-level content that does not exist yet.
+
 ## Font weight
 
-Five steps, `font-light` through `font-bold`. `font-normal` and
-`font-medium` cover the large majority of UI text; reach for `font-bold`
-sparingly; the OS-default `system-ui` font stack may not even ship a
-distinct `font-light`/`font-thin` face, so verify before relying on it.
+Tailwind defines nine weights, 100 through 900. Five are shown here; the
+kit uses exactly one.
 
 <Canvas of={TypographyStories.Weight} />
 
+**`font-medium` (500) is the only weight any component sets.** Everything
+else inherits 400. That is deliberate for now — with a system font stack,
+weight is the least portable axis available.
+
+Which is also the caveat: a system stack is not guaranteed to ship the
+weight you ask for. Where a real 300 or 600 face is missing the browser
+synthesises one, and synthesised weights are visibly worse than drawn
+ones. Verify `font-light` and `font-semibold` on the platforms you support
+before relying on them — this is not a problem you will see on a Mac.
+
 ## Customization
 
-No `--font-*` tokens exist in `src/tokens.css` yet, so there's nothing to
-override today — the whole kit inherits the browser's `system-ui` stack.
-Adding a real typeface means defining a `--font-sans` (and mapping it in
-`@theme inline`) once one is chosen, not before.
+Adding a typeface means declaring `--font-sans` inside the `@theme inline`
+block in `src/tokens.css` and loading the face itself; every `font-sans`
+utility and the default body text pick it up with no component change.
+
+Semantic role tokens — `heading`, `body`, `caption` — deliberately do not
+exist yet. Roles are worth defining once there is a typeface with known
+metrics to define them against; inventing them on top of an unknown system
+font would be encoding decisions that the next change invalidates.

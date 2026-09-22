@@ -5,25 +5,63 @@ import * as ShadowsStories from './Shadows.stories'
 
 # Shadows
 
-Four elevation steps, overriding Tailwind's own `--shadow-*` theme
-namespace so `shadow-sm` through `shadow-xl` stay dark-mode-aware without a
-new utility class — components just use Tailwind's normal shadow
-utilities.
+Four elevation steps. Rather than adding a new utility namespace, these
+**override Tailwind's own `--shadow-*` theme keys**, so `shadow-sm`
+through `shadow-xl` are the normal Tailwind utilities — they just resolve
+to Totem Kit's values and follow the theme.
 
-## Why dark mode needs its own values
-
-Flat black shadows at a given opacity read fine on a light surface but go
-near-invisible on a dark one, so the `.dark` block in `src/tokens.css`
-bumps the alpha for each step. This page looks the same in both themes
-for that reason — flip the **Theme** control in the toolbar and the
-shadows stay readable rather than staying visually identical.
-
-## Scale
+| Utility | Light | Dark |
+| --- | --- | --- |
+| `shadow-sm` | 1px drop, 5% black | 1px drop, 30% black |
+| `shadow-md` | 4px + 2px, 10% black | 4px + 2px, 40% black |
+| `shadow-lg` | 10px + 4px, 10% black | 10px + 4px, 40% black |
+| `shadow-xl` | 20px + 8px, 10% black | 20px + 8px, 50% black |
 
 <Canvas of={ShadowsStories.Scale} />
 
+## Why dark mode needs different values
+
+A drop shadow is black at low opacity. On a white page that darkens the
+pixels under it and reads as depth; on a near-black page there is almost
+nothing left to darken, so the same shadow is invisible. The `.dark` block
+in `tokens.css` therefore raises the alpha of every step — roughly 3× to
+5× — which is why this page looks broadly the same in both themes rather
+than fading out in one. Flip the **Theme** control and the shadows stay
+readable.
+
+Raising alpha only goes so far. Past a point a dark-mode shadow reads as a
+dark smudge instead of elevation, which is why the system also lifts
+surfaces by lightness: `--card` and `--popover` are a step *lighter* than
+`--background` in dark mode. **In dark mode, surface lightness is the
+primary elevation signal and the shadow is secondary.** In light mode it
+is the other way around.
+
+## Nothing uses these yet
+
+No component in the kit sets a shadow utility — Button and TextInput are
+both flat, bordered controls. These steps exist for the surfaces that will
+need them (popover, dropdown, modal, toast), and are documented now so
+those components adopt a shared scale instead of each inventing a
+`box-shadow`.
+
+That also means the steps are **untested against real components.** Treat
+them as a starting point to tune when the first floating surface lands,
+not as settled values.
+
+## A note on rings and shadows
+
+Tailwind composes `box-shadow` from several variables at once —
+`--tw-shadow`, `--tw-ring-shadow`, `--tw-inset-shadow` and others — so
+`shadow-md` and `ring-2` coexist on one element rather than overwriting
+each other. Setting a raw `box-shadow` in a `style` attribute *does*
+overwrite all of it, including the focus ring. Use the utilities on
+anything focusable.
+
 ## Customization
 
-Edit `--shadow-elevation-sm/md/lg/xl` in `:root` / `.dark` in
-`src/tokens.css` — the `@theme inline` mapping to Tailwind's `--shadow-*`
-keys stays untouched.
+The raw values are `--shadow-elevation-sm` through `-xl` in `:root` and
+`.dark`; the `@theme inline` block maps them onto Tailwind's `--shadow-*`
+keys and does not need to change.
+
+Keep the two modes as separate decisions — copying the light values into
+`.dark` is exactly the mistake the alpha bump exists to prevent.

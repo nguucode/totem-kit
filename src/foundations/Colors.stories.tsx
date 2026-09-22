@@ -80,7 +80,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Backgrounds: Story = {
+export const Surfaces: Story = {
   render: () => (
     <BandSwatches
       pairs={[
@@ -117,8 +117,8 @@ export const SolidActions: Story = {
   ),
 }
 
-export const BordersAndLines: Story = {
-  name: 'Borders & lines',
+export const LinesAndFocus: Story = {
+  name: 'Lines and focus',
   render: () => <LineSwatches />,
 }
 

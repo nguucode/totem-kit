@@ -37,11 +37,18 @@ Storybook sidebar is ordered Foundations → Components → Patterns (`.storyboo
 | **Components** (molecules) | `src/components/<category>/` | `Components/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
 | **Patterns** (organisms) | `src/patterns/<category>/` | `Patterns/<Category>/*` | Full sections assembled from Components (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
 
-Every story file tags its `meta` with `['autodocs']` and gives `component` a
-real description (`parameters.docs.description.component`) — a story alone
-is a visual, not documentation. That description is what shows up as the
-**Docs** entry in the sidebar; write it like you're explaining the concept
-to someone who's never seen the code.
+**Every topic gets a hand-written `.mdx` doc page**, not an autodocs blurb —
+a story alone is a visual, not documentation. The `.mdx` file imports its
+`.stories.tsx` neighbour, attaches with `<Meta of={...} />`, and embeds each
+story with `<Canvas of={...} />` under the section that explains it; the
+stories file keeps no `autodocs` tag and no description parameter.
+
+Write these like reference docs, not captions: what the tokens are, what
+each one is *for* (especially where two look identical and differ only in
+intent), the measured numbers, where the values came from, what the known
+gotchas are, and how to override. Markdown tables work — `remark-gfm` is
+enabled in `.storybook/main.ts`, without which tables render as literal
+pipes.
 
 ## Design tokens
 

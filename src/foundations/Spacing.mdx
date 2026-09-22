@@ -5,17 +5,59 @@ import * as SpacingStories from './Spacing.stories'
 
 # Spacing
 
-Tailwind's spacing scale is a single `--spacing` multiplier (default
-`0.25rem`); every step below is `calc(var(--spacing) * n)`. Any utility
-that takes a spacing value — `p-*`, `gap-*`, `w-*`, `h-*`, and so on —
-resolves through this same multiplier.
+The entire spacing system is **one number**. `--spacing` is `0.25rem`
+(4px), and every spacing utility multiplies it: `p-4` is
+`calc(var(--spacing) * 4)` — 16px. There is no list of allowed values
+anywhere in `tokens.css`, because there is no list.
 
-## Scale
+## The scale is computed, not enumerated
+
+This is the part that differs from Tailwind v3 and from most design
+systems. In v3, `p-13` was an error — the scale was a fixed map and 13 was
+not in it. In v4 the value is computed, so `p-13` (52px), `p-4.5` (18px)
+and `p-[7px]` all work.
+
+That has a real consequence: **the scale cannot enforce itself.** Nothing
+will stop a component from using `gap-7` where the rest of the kit uses
+`gap-6`; there is no build error, no lint failure, and the result looks
+almost right. The steps shown below are a convention the team keeps, not a
+constraint the tooling applies.
 
 <Canvas of={SpacingStories.Scale} />
 
+Steps below `1` exist and are worth knowing: `0.5` (2px) and `1.5` (6px)
+are what you reach for between a label and its input, or an icon and its
+label — gaps where a full 4px reads as a break rather than a pairing.
+
+## What the kit uses
+
+Every component here stays on whole steps, and on a small set of them:
+
+| Step | Used for |
+| --- | --- |
+| `1.5` (6px) | gap between a field label, its input and its helper text |
+| `2` (8px) | gap between a button's icon and its label |
+| `3` (12px) | horizontal padding, small button and all inputs |
+| `4` (16px) | horizontal padding, default button |
+| `6` (24px) | horizontal padding, large button |
+| `8` / `10` / `12` (32 / 40 / 48px) | the three control heights |
+
+The control heights are the load-bearing ones. A 40px default (`h-10`) is
+what makes a button and a text input line up in a row without either
+being nudged, and anything that should sit alongside them — a select, a
+date picker — has to land on the same three heights rather than pick its
+own.
+
 ## Customization
 
-Retokenizing `--spacing` in `src/tokens.css` rescales every spacing
-utility in the kit at once — none of the values above need to change
-individually to stay in sync with it.
+Change `--spacing` in `src/tokens.css` and the whole system rescales at
+once. Setting it to `0.2rem` makes every gap, pad and control height in
+the kit 20% tighter with no other edit.
+
+Two cautions. Control heights rescale with everything else, so a tighter
+`--spacing` shrinks the tap targets too — 40px is already close to the
+44px minimum recommended for touch, and much below it becomes an
+accessibility problem rather than a density preference. And because the
+base is in `rem`, every value inherits the user's root font size; that is
+the behaviour you want, but it means "40px" is only 40px at the default
+16px root.

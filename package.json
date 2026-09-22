@@ -1,12 +1,16 @@
 {
   "name": "totem-kit",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "type": "module",
   "description": "Totem Kit components (early stage, not production-ready — see README), published for npm install as an alternative to the copy-source registry.",
   "homepage": "https://nguucode.github.io/totem-kit",
-  "files": ["dist"],
-  "sideEffects": ["*.css"],
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     "./button": {
       "types": "./dist/components/actions/Button.d.ts",
@@ -54,12 +58,13 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
     "@vitest/browser-playwright": "latest",
     "@vitest/coverage-v8": "latest",
     "oxlint": "^1.81.0",
     "playwright": "latest",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remark-gfm": "^4.0.1",
     "shadcn": "^4.21.0",
     "storybook": "^10.6.0",
     "typescript": "~6.0.2",
