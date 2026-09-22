@@ -1,11 +1,35 @@
 {
   "name": "totem-kit",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "description": "Totem Kit components, published for npm install as an alternative to the copy-source registry.",
+  "homepage": "https://nguucode.github.io/totem-kit",
+  "files": ["dist"],
+  "sideEffects": ["*.css"],
+  "exports": {
+    "./button": {
+      "types": "./dist/components/actions/Button.d.ts",
+      "import": "./dist/components/actions/Button.js"
+    },
+    "./text-input": {
+      "types": "./dist/components/inputs/TextInput.d.ts",
+      "import": "./dist/components/inputs/TextInput.js"
+    },
+    "./utils": {
+      "types": "./dist/lib/utils.d.ts",
+      "import": "./dist/lib/utils.js"
+    },
+    "./tokens.css": "./dist/tokens.css"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json && cp src/tokens.css dist/tokens.css",
     "lint": "oxlint",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",

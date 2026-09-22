@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false
+  },
+  "include": [
+    "src/components/actions/Button.tsx",
+    "src/components/inputs/TextInput.tsx",
+    "src/lib/utils.ts"
+  ]
+}

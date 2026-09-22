@@ -44,10 +44,14 @@ Components should always use the semantic tokens (`bg-primary`, not
 
 ## Using Totem Kit in a project
 
-Copy-source, [shadcn/ui](https://ui.shadcn.com)-style — no npm package to
-install or keep in sync. [`registry.json`](registry.json) declares each
-component; `npx shadcn build` turns it into static JSON served at
-`/r/<name>.json` (deployed alongside Storybook, so it's always live at
+Two ways to consume it — pick per project.
+
+### Copy-source (recommended), shadcn/ui-style
+
+No package to install or keep in sync; the component's source lands directly
+in the consumer's repo. [`registry.json`](registry.json) declares each item;
+`npx shadcn build` turns it into static JSON served at `/r/<name>.json`
+(deployed alongside Storybook, always live at
 https://nguucode.github.io/totem-kit/r/<name>.json).
 
 In a project that already has Tailwind v4 (run `npx shadcn@latest init`
@@ -74,6 +78,32 @@ The CLI resolves `registryDependencies` (e.g. `button` → `utils`) and
 installs npm `dependencies` (`radix-ui`, `class-variance-authority`, ...)
 automatically, and rewrites the `@/...` import in the copied file to match
 whatever alias the target project uses.
+
+### npm package
+
+For projects that would rather version-pin than own the source. Not
+published yet (name `totem-kit` is free on npm; publishing is a separate,
+explicit step). Once published:
+
+```bash
+npm install totem-kit
+```
+
+```ts
+import { Button } from 'totem-kit/button'
+import { TextInput } from 'totem-kit/text-input'
+```
+
+```css
+/* after @import "tailwindcss"; */
+@import "totem-kit/tokens.css";
+@source "../node_modules/totem-kit/dist"; /* so Tailwind generates the utility classes the components use */
+```
+
+`react`/`react-dom` are peer dependencies; `radix-ui`, `class-variance-authority`,
+`clsx`, `tailwind-merge` install automatically. `npm run build:lib` builds
+`dist/` (bundled JS + `.d.ts` + `tokens.css`); CI runs it on every push to
+catch breakage even though nothing is published yet.
 
 ## Adding a component
 

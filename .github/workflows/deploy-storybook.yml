@@ -24,6 +24,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx tsc -b
+      - run: npx vitest --project storybook run
+      # Verifies the npm package still builds; output isn't published here
+      # (that's a separate, explicit `npm publish` step).
+      - run: npm run build:lib
       - run: npm run build-storybook
       # shadcn-CLI-compatible component registry, served at /r/<name>.json
       # so consumers can run `npx shadcn add https://.../totem-kit/r/button.json`.
