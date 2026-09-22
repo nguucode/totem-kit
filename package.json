@@ -1,7 +1,7 @@
 {
   "name": "totem-kit",
-  "private": true,
   "version": "0.1.0",
+  "license": "MIT",
   "type": "module",
   "description": "Totem Kit components, published for npm install as an alternative to the copy-source registry.",
   "homepage": "https://nguucode.github.io/totem-kit",
@@ -40,8 +40,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "radix-ui": "^1.6.7",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
     "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.3.3"
   },
@@ -56,6 +54,8 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "@vitest/browser-playwright": "latest",
     "@vitest/coverage-v8": "latest",
     "oxlint": "^1.81.0",
