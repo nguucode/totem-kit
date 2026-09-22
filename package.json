@@ -1,6 +1,6 @@
 {
   "name": "totem-kit",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "license": "MIT",
   "type": "module",
   "description": "Totem Kit components (early stage, not production-ready — see README), published for npm install as an alternative to the copy-source registry.",

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 const buttonVariants = cva(
   // No disabled cursor token: pointer-events-none makes the element
   // untargetable, so any cursor set on it would never render.
-  'inline-flex items-center justify-center gap-2 rounded-control text-sm font-medium whitespace-nowrap transition-colors cursor-(--cursor-button) disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring',
+  'inline-flex items-center justify-center gap-2 rounded-control text-body font-medium whitespace-nowrap transition-colors cursor-(--cursor-button) disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring',
   {
     variants: {
       variant: {
@@ -20,7 +20,7 @@ const buttonVariants = cva(
       size: {
         sm: 'h-8 px-3',
         md: 'h-10 px-4',
-        lg: 'h-12 px-6 text-base',
+        lg: 'h-12 px-6 text-body-lg',
         icon: 'size-10',
       },
     },
