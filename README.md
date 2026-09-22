@@ -2,6 +2,8 @@
 
 Front-end UI kit built with React, TypeScript, Tailwind CSS, and Radix UI primitives, documented in Storybook.
 
+**Storybook:** https://nguucode.github.io/totem-kit/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
+
 ## Stack
 
 - **Vite** — build tool
