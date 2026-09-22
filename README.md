@@ -6,7 +6,7 @@
 > Expect breaking changes on any `0.x` version bump. Fine to poke around
 > or reference the setup; not ready to build a real product on top of yet.
 
-Front-end UI kit built with React, TypeScript, Tailwind CSS, and Radix UI primitives, documented in Storybook.
+Front-end UI kit built with React, TypeScript and Tailwind CSS, documented in Storybook.
 
 **Storybook:** https://nguucode.github.io/totem-kit/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
 
@@ -14,7 +14,6 @@ Front-end UI kit built with React, TypeScript, Tailwind CSS, and Radix UI primit
 
 - **Vite** — build tool
 - **Tailwind CSS v4** — styling
-- **Radix UI** (`radix-ui` package) — unstyled, accessible primitives
 - **class-variance-authority** — variant styling for components
 - **Storybook** — component catalog / docs
 
@@ -138,7 +137,7 @@ npx shadcn@latest add @totem/button
 ```
 
 The CLI resolves `registryDependencies` (e.g. `button` → `utils`) and
-installs npm `dependencies` (`radix-ui`, `class-variance-authority`, ...)
+installs npm `dependencies` (`class-variance-authority`, ...)
 automatically, and rewrites the `@/...` import in the copied file to match
 whatever alias the target project uses.
 
@@ -162,7 +161,7 @@ import { TextInput } from 'totem-kit/text-input'
 @source "../node_modules/totem-kit/dist"; /* so Tailwind generates the utility classes the components use */
 ```
 
-`react`/`react-dom` are peer dependencies; `radix-ui`, `class-variance-authority`,
+`react`/`react-dom` are peer dependencies; `class-variance-authority`,
 `clsx`, `tailwind-merge` install automatically. `npm run build:lib` builds
 `dist/` (bundled JS + `.d.ts` + `tokens.css`); CI runs it on every push so a
 breaking change surfaces before the next `npm publish` (a manual step, not

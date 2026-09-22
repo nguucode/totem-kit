@@ -1,4 +1,4 @@
-import { Slot } from 'radix-ui'
+import { Slot } from '@/lib/slot'
 import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -73,7 +73,7 @@ export const Theme = forwardRef<HTMLDivElement, ThemeProps>(
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot.Root : 'div'
+    const Comp = asChild ? Slot : 'div'
     // `tokens` is applied last so an explicit --radius-factor or --scaling can
     // override whatever preset selected it.
     const resolved = {

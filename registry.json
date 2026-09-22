@@ -14,6 +14,19 @@
       ]
     },
     {
+      "name": "slot",
+      "type": "registry:lib",
+      "title": "Slot",
+      "description": "Renders its single child merged with the given props — what asChild is built on.",
+      "files": [
+        {
+          "path": "src/lib/slot.tsx",
+          "type": "registry:lib",
+          "target": "lib/slot.tsx"
+        }
+      ]
+    },
+    {
       "name": "tokens",
       "type": "registry:theme",
       "title": "Design tokens",
@@ -151,11 +164,9 @@
       "type": "registry:component",
       "title": "Theme",
       "description": "Scopes an appearance and token overrides to a subtree.",
-      "dependencies": [
-        "radix-ui"
-      ],
       "registryDependencies": [
-        "utils"
+        "utils",
+        "slot"
       ],
       "files": [
         {
@@ -171,11 +182,11 @@
       "title": "Button",
       "description": "Button with cva variants and Radix Slot asChild support.",
       "dependencies": [
-        "radix-ui",
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "utils",
+        "slot"
       ],
       "files": [
         {
@@ -190,9 +201,6 @@
       "type": "registry:component",
       "title": "Text Input",
       "description": "Labeled text input (Radix Label) with helper/error text.",
-      "dependencies": [
-        "radix-ui"
-      ],
       "registryDependencies": [
         "utils"
       ],

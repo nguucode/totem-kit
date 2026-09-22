@@ -1,5 +1,4 @@
-import { Label } from 'radix-ui'
-import { forwardRef, useId, type InputHTMLAttributes } from 'react'
+import { forwardRef, useId, type InputHTMLAttributes, type MouseEvent } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -23,14 +22,18 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <Label.Root htmlFor={inputId} className="text-body font-medium text-foreground">
+          <label
+            htmlFor={inputId}
+            className="text-body font-medium text-foreground"
+            onMouseDown={preventSelectionOnDoubleClick}
+          >
             {label}
             {required && (
               <span aria-hidden="true" className="ml-0.5 text-destructive">
                 *
               </span>
             )}
-          </Label.Root>
+          </label>
         )}
         <input
           ref={ref}
@@ -62,3 +65,11 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   },
 )
 TextInput.displayName = 'TextInput'
+
+// Double-clicking a label otherwise selects its text, which reads as a
+// glitch when the click was meant for the field. Clicks that land on a
+// nested control are left alone.
+function preventSelectionOnDoubleClick(event: MouseEvent<HTMLLabelElement>) {
+  if ((event.target as HTMLElement).closest('button, input, select, textarea')) return
+  if (event.detail > 1) event.preventDefault()
+}

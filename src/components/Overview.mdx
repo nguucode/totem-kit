@@ -21,3 +21,26 @@ one it fits, or propose a new category if none fit.
 | **Data Display** | Table, Card, Avatar, Divider, Carousel, Calendar |
 
 Unchecked = not built yet.
+
+## No primitive library
+
+Components are built on plain elements. The only shared piece of behaviour
+is `Slot` (`src/lib/slot.tsx`), the ~60 lines behind `asChild` — it merges
+props, composes refs, and chains event handlers onto a single child.
+
+That is enough for what exists today. Button needs `asChild`; Text Input
+needs a `<label htmlFor>`, which is native, plus one line to stop a
+double-click selecting the label text.
+
+**It will not be enough for the Overlay and Navigation rows.** A Modal
+needs a focus trap, scroll locking, an inert background and correct
+restore-focus behaviour; Select and Combobox need typeahead, virtual
+focus and a listbox ARIA contract; Menu and Tabs need roving tabindex.
+Those are not lines of code, they are years of accumulated edge cases in
+screen readers and browsers, and hand-rolling them is how design systems
+ship components that look right and are unusable with a keyboard.
+
+So this is a decision with an expiry date: own the trivial behaviour now,
+and when the first overlay component lands, either adopt a primitive
+library for it or budget the accessibility work honestly. Deciding that
+per component is fine. Drifting into reimplementing it by accident is not.
