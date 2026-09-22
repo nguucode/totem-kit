@@ -292,25 +292,73 @@ export const STEPS = [${DOC_STEPS.join(', ')}] as const
 
 // ------------------------------------------------------- DTCG export (Figma)
 
+/**
+ * Semantic entries keep their aliases here rather than being flattened to
+ * literals. A Figma variable's value is meant to *point at* another variable,
+ * so resolving `{accent.solid}` down to a hex would import 19 disconnected
+ * colours per mode instead of one palette wired to its ramp.
+ */
+const figmaAlias = (value, p) =>
+  value.replace(/\{([^}]+)\}/g, (_, ref) => {
+    const [group, ...rest] = ref.split('.')
+    if (rest.length === 2) return `{primitive.${group}.${rest[0]}.${rest[1]}}`
+    if (group === 'gray') return `{primitive.gray.${DEFAULT_GRAY}.${rest[0]}}`
+    if (rest[0] === 'solid') return `{primitive.accent.${DEFAULT_ACCENT}.${p.step}}`
+    if (rest[0] === 'ring') return `{primitive.accent.${DEFAULT_ACCENT}.${p.ringStep}}`
+    // The label colour is whichever end of the neutral ramp the measurement chose.
+    if (rest[0] === 'contrast')
+      return `{primitive.gray.neutral.${p.label === 'white' ? '50' : '900'}}`
+    throw new Error(`unmapped alias for the Figma export: {${ref}}`)
+  })
+
+const figmaMode = (mode, p) =>
+  Object.fromEntries(
+    entries(semantic.color[mode]).map(([k, v]) => [
+      k,
+      { $type: 'color', $value: figmaAlias(v.$value, p) },
+    ]),
+  )
+
 const dtcg = {
   $description:
-    'Totem Kit design tokens, resolved. Primitives are literal; semantic entries are resolved per appearance so an importer that does not follow aliases still gets usable values.',
+    'Totem Kit design tokens. `primitive` holds the literal ramps; `semantic` references them by alias, with light and dark as the two modes of one collection. Values are oklch() — Figma imports these as colours, but a plugin that only parses hex will need converting first.',
   primitive: primitives,
   semantic: {
-    light: Object.fromEntries(
-      entries(semantic.color.light).map(([k, v]) => [
-        k,
-        { $type: 'color', $value: alias(v.$value, { accent: { solid: defaults.light.solid, contrast: defaults.light.contrast, ring: defaults.ringLight.value }, gray: Object.fromEntries(GRAY_STEPS.map((s) => [s, ramp('gray', DEFAULT_GRAY, s)])) }) },
-      ]),
-    ),
-    dark: Object.fromEntries(
-      entries(semantic.color.dark).map(([k, v]) => [
-        k,
-        { $type: 'color', $value: alias(v.$value, { accent: { solid: defaults.dark.solid, contrast: defaults.dark.contrast, ring: defaults.ringDark.value }, gray: Object.fromEntries(GRAY_STEPS.map((s) => [s, ramp('gray', DEFAULT_GRAY, s)])) }) },
-      ]),
-    ),
+    $description: `Resolved against the default palette (${DEFAULT_ACCENT} accent, ${DEFAULT_GRAY} gray). The other 16 accents and 8 grays live under \`primitive\` and are selected at runtime by [data-accent] / [data-gray], which has no Figma equivalent.`,
+    light: figmaMode('light', { ...defaults.light, ringStep: defaults.ringLight.step }),
+    dark: figmaMode('dark', { ...defaults.dark, ringStep: defaults.ringDark.step }),
   },
-  dimension: { ...semantic.space, ...semantic.text, radius: semantic.root.radius },
+  // Kept as separate groups: in Figma these are different variable types and
+  // belong in different collections, which a flat `dimension` bag prevents.
+  space: semantic.space,
+  text: semantic.text,
+  radius: { radius: semantic.root.radius },
+}
+
+/* The export and the stylesheet are built from the same JSON but by different
+   code paths — one keeps aliases, the other resolves them. Follow every alias
+   back to its literal and assert the two agree, so the Figma library cannot
+   drift from what the components actually render. */
+for (const mode of ['light', 'dark']) {
+  const p = mode === 'light' ? defaults.light : defaults.dark
+  const resolved = { accent: accentOf(mode), gray: grayOf() }
+  for (const [key, entry] of entries(dtcg.semantic[mode])) {
+    const followed = entry.$value.replace(/\{([^}]+)\}/g, (_, ref) =>
+      ref.split('.').reduce((o, k) => o[k], dtcg).$value,
+    )
+    // The CSS emits `var(--accent-solid-light)` for the palette-dependent
+    // entries; those indirect through [data-accent], so compare to the value
+    // the default palette puts behind them.
+    const fromCss = alias(semantic.color[mode][key].$value, resolved)
+      .replace('var(--accent-solid-' + mode + ')', p.solid)
+      .replace('var(--accent-contrast-' + mode + ')', p.contrast)
+      .replace('var(--accent-ring-' + mode + ')', (mode === 'light' ? defaults.ringLight : defaults.ringDark).value)
+      .replace(/var\(--gray-(\d+)\)/g, (_, s) => ramp('gray', DEFAULT_GRAY, s))
+    if (followed !== fromCss)
+      throw new Error(
+        `export drift: semantic.${mode}.${key} exports ${followed} but tokens.css renders ${fromCss}`,
+      )
+  }
 }
 
 // ------------------------------------------------------------------- output

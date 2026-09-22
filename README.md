@@ -61,7 +61,7 @@ The source of truth is **`tokens/*.json`**, in the W3C
 | `src/tokens.css` | every component, as custom properties |
 | `src/theme/palettes.ts` | `Theme`'s `accentColor` / `grayColor` unions |
 | `src/foundations/palette.ts` | the Primitives story |
-| `tokens/design-tokens.json` | the flattened export — this is what goes to Figma |
+| `tokens/design-tokens.json` | the export — this is what goes to Figma |
 
 Those four files carry a `GENERATED` header and must not be hand-edited;
 `npm run tokens:check` fails CI if they drift from the JSON.
@@ -78,6 +78,24 @@ step and label colour are chosen by computing OKLCH → sRGB → WCAG contrast
 and taking the first step that clears 4.5:1, and the focus ring is a
 separate pick against the page at 3:1. Edit a ramp so that no step can
 carry a readable label and the build throws rather than shipping it.
+
+### Exporting to Figma
+
+`tokens/design-tokens.json` keeps `semantic` as **aliases** into `primitive`
+(`"primary": "{primitive.accent.indigo.600}"`) rather than flattening them,
+because a Figma variable is supposed to point at another variable — a
+flattened export imports as a pile of disconnected colours. `light` and
+`dark` are the two modes of one collection; `space`, `text` and `radius`
+stay separate groups because Figma types them differently.
+
+The stylesheet and the export are built by different code paths, so the
+generator follows every alias back to its literal and asserts the two
+agree. They cannot drift apart silently.
+
+Two things do not survive the trip: values are `oklch()`, so a plugin that
+only parses hex needs a conversion step; and the 16 non-default accents are
+selected at runtime by `[data-accent]`, which Figma has no equivalent for —
+they export as primitives only.
 
 `--cursor-*` tokens keep the regular arrow on interactive elements rather
 than `pointer`. Toggle the "Theme" control in the Storybook toolbar to
