@@ -1,11 +1,10 @@
 # Totem Kit
 
 > **Early stage, not production-ready.** Only two components exist
-> (Button, Text Input), the color palette is still Tailwind's untouched
-> default (no real brand/Figma tokens yet), and none of it has had a
-> design or accessibility review beyond what's in the test files. Expect
-> breaking changes on any `0.x` version bump. Fine to poke around or
-> reference the setup; not ready to build a real product on top of yet.
+> (Button, Text Input) and no Figma file has been applied yet — the
+> palettes are Tailwind's ramps, picked for contrast rather than designed.
+> Expect breaking changes on any `0.x` version bump. Fine to poke around
+> or reference the setup; not ready to build a real product on top of yet.
 
 Front-end UI kit built with React, TypeScript, Tailwind CSS, and Radix UI primitives, documented in Storybook.
 
@@ -55,10 +54,11 @@ pipes.
 `src/tokens.css` is the source of truth: raw values live in `:root` / `.dark`
 (swap them there when real brand colors exist), aliased to Tailwind utilities
 (`bg-primary`, `text-muted-foreground`, `rounded-lg`, `shadow-md`, ...) via
-`@theme inline`. Colors are currently seeded with Tailwind's default neutral
-scale as OKLCH values, grouped the way [Radix Themes groups its color
+`@theme inline`. Colors come from two swappable Tailwind ramps — an accent
+(indigo) behind `--primary`/`--ring` and a gray (neutral) behind everything
+structural — grouped the way [Radix Themes groups its color
 scale](https://www.radix-ui.com/themes/docs/theme/color) (backgrounds →
-subtle surfaces → solid actions → borders) — these are the values to sync
+subtle surfaces → solid actions → borders). These are the values to sync
 out to Figma variables later. `--cursor-*` tokens follow [Radix's cursor
 convention](https://www.radix-ui.com/themes/docs/theme/cursors): interactive
 elements keep the regular arrow, not `pointer`. Toggle the "Theme" control
@@ -78,7 +78,7 @@ independent settings to any subtree:
 
 | Prop | Values |
 | --- | --- |
-| `accentColor` | 17 hues — drives `--primary` and `--ring` (default: **blue**) |
+| `accentColor` | 17 hues — drives `--primary` and `--ring` (default: **indigo**) |
 | `grayColor` | 9 neutral ramps — surfaces, text, borders (default: neutral) |
 | `appearance` | `light` / `dark` / `inherit` |
 | `radius` | `none` / `small` / `medium` / `large` / `full` |

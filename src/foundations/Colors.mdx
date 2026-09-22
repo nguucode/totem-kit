@@ -56,7 +56,7 @@ intent that should change will change.
 ## Solid actions
 
 Filled controls. `--primary` is the default button and **the brand hue** —
-blue out of the box, and the one token the
+indigo out of the box, and the one token the
 [`accentColor`](?path=/docs/foundations-overview--docs) setting moves. It
 lightens in dark mode rather than darkening, so `--primary-foreground`
 inverts with it.
@@ -111,15 +111,15 @@ component boundaries such as a focus ring.
 | `background` / `foreground` | 19.79:1 | 18.96:1 |
 | `card` / `card-foreground` | 19.79:1 | 17.16:1 |
 | `popover` / `popover-foreground` | 19.79:1 | 17.16:1 |
-| `primary` / `primary-foreground` | 5.03:1 | 6.79:1 |
+| `primary` / `primary-foreground` | 6.17:1 | 5.74:1 |
 | `secondary` / `secondary-foreground` | 16.42:1 | 14.48:1 |
 | `accent` / `accent-foreground` | 16.42:1 | 14.48:1 |
 | `destructive` / `destructive-foreground` | 4.56:1 | 6.19:1 |
 | `muted` / `muted-foreground` | **4.34:1** | 5.83:1 |
 | `background` / `muted-foreground` | 4.73:1 | 7.63:1 |
-| `background` / `ring` | 6.82:1 | 7.51:1 |
+| `background` / `ring` | 8.07:1 | 6.34:1 |
 
-The `primary` row is the default blue accent. Every one of the seventeen
+The `primary` row is the default indigo accent. Every one of the seventeen
 accents is measured the same way and clears 4.5:1 for its own label — see
 [Overview → Accent color](?path=/docs/foundations-overview--docs).
 
@@ -151,7 +151,7 @@ meaning. The contrast numbers above are a floor, not a design review.
 
 **Every value is a Tailwind v4 ramp step, digit for digit.** Nothing here
 was hand-picked or eyeballed. Two ramps feed the palette and each is
-swappable on its own: an **accent** (blue by default) for `--primary` and
+swappable on its own: an **accent** (indigo by default) for `--primary` and
 `--ring`, and a **gray** (neutral by default) for everything structural.
 
 | Token | Light | Dark | Driven by |
