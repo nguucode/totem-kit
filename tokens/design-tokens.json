@@ -1,5 +1,5 @@
 {
-  "$description": "Totem Kit design tokens. `primitive` holds the literal ramps; `semantic` references them by alias, with light and dark as the two modes of one collection. Values are oklch() — Figma imports these as colours, but a plugin that only parses hex will need converting first.",
+  "$description": "Zweihänder design tokens. `primitive` holds the literal ramps; `semantic` references them by alias, with light and dark as the two modes of one collection. Values are oklch() — Figma imports these as colours, but a plugin that only parses hex will need converting first.",
   "primitive": {
     "$description": "Primitive ramps. Every semantic token resolves to one of these; nothing else in the system carries a raw colour.",
     "accent": {

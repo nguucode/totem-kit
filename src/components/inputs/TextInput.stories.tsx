@@ -18,8 +18,8 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   play: async ({ canvas, userEvent }) => {
     const input = canvas.getByLabelText('Email')
-    await userEvent.type(input, 'totem@kit.dev')
-    await expect(input).toHaveValue('totem@kit.dev')
+    await userEvent.type(input, 'user@zweihander.dev')
+    await expect(input).toHaveValue('user@zweihander.dev')
   },
 }
 
@@ -49,7 +49,7 @@ export const Required: Story = {
 }
 
 export const Disabled: Story = {
-  args: { disabled: true, defaultValue: 'locked@totem.dev' },
+  args: { disabled: true, defaultValue: 'locked@zweihander.dev' },
   play: async ({ canvas }) => {
     await expect(canvas.getByLabelText('Email')).toBeDisabled()
   },

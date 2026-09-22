@@ -72,12 +72,12 @@ export const Disabled: Story = {
 export const AsChild: Story = {
   args: {
     asChild: true,
-    children: <a href="#totem">Button</a>,
+    children: <a href="#zweihander">Button</a>,
   },
   play: async ({ canvas }) => {
     // asChild should merge the button styles onto the <a>, not render a <button>.
     const link = canvas.getByRole('link', { name: 'Button' })
-    await expect(link).toHaveAttribute('href', '#totem')
+    await expect(link).toHaveAttribute('href', '#zweihander')
     await expect(canvas.queryByRole('button')).not.toBeInTheDocument()
 
     // Styling a link as a Button must not take away the hand the browser

@@ -373,7 +373,7 @@ const figmaMode = (mode, p) =>
 
 const dtcg = {
   $description:
-    'Totem Kit design tokens. `primitive` holds the literal ramps; `semantic` references them by alias, with light and dark as the two modes of one collection. Values are oklch() — Figma imports these as colours, but a plugin that only parses hex will need converting first.',
+    'Zweihänder design tokens. `primitive` holds the literal ramps; `semantic` references them by alias, with light and dark as the two modes of one collection. Values are oklch() — Figma imports these as colours, but a plugin that only parses hex will need converting first.',
   primitive: primitives,
   semantic: {
     $description: `Resolved against the default palette (${DEFAULT_ACCENT} accent, ${DEFAULT_GRAY} gray). The other 16 accents and 8 grays live under \`primitive\` and are selected at runtime by [data-accent] / [data-gray], which has no Figma equivalent.`,

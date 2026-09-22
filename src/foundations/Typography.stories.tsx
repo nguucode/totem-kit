@@ -35,7 +35,7 @@ function Row({ token, px, weight }: { token: string; px: string; weight: number 
       <span className={docs.caption} style={{ width: '10rem', flexShrink: 0 }}>
         --text-{token}
       </span>
-      <span style={{ flex: 1, ...role(token, weight) }}>Totem Kit</span>
+      <span style={{ flex: 1, ...role(token, weight) }}>Zweihänder</span>
       <span className={docs.caption} style={{ width: '7rem', textAlign: 'right' }}>
         {px}
       </span>
@@ -68,7 +68,7 @@ export const Headings: Story = {
     </div>
   ),
   play: async ({ canvas }) => {
-    const el = canvas.getAllByText('Totem Kit')[0]
+    const el = canvas.getAllByText('Zweihänder')[0]
     // A heading role carries its weight, not just its size.
     await expect(getComputedStyle(el).fontWeight).toBe('700')
     await expect(Number.parseFloat(getComputedStyle(el).fontSize)).toBe(32)
@@ -84,7 +84,7 @@ export const Body: Story = {
     </div>
   ),
   play: async ({ canvas }) => {
-    const el = canvas.getAllByText('Totem Kit')[1]
+    const el = canvas.getAllByText('Zweihänder')[1]
     // body is 14px, one step down from the 16px many interfaces start at.
     await expect(Number.parseFloat(getComputedStyle(el).fontSize)).toBe(14)
   },
@@ -98,14 +98,14 @@ export const Weights: Story = {
           <span className={docs.caption} style={{ width: '8rem', flexShrink: 0 }}>
             {value}
           </span>
-          <span style={{ ...role('body-lg', value) }}>Totem Kit</span>
+          <span style={{ ...role('body-lg', value) }}>Zweihänder</span>
           <span className={docs.caption}>{name}</span>
         </div>
       ))}
     </div>
   ),
   play: async ({ canvas }) => {
-    const bold = canvas.getAllByText('Totem Kit').at(-1)!
+    const bold = canvas.getAllByText('Zweihänder').at(-1)!
     await expect(getComputedStyle(bold).fontWeight).toBe('700')
   },
 }
@@ -116,13 +116,13 @@ export const Families: Story = {
       <div className={docs.stack}>
         <span className={docs.caption}>--font-sans</span>
         <span style={{ ...role('heading-md', 700), fontFamily: 'var(--font-sans)' }}>
-          Totem Kit — system-ui 0123
+          Zweihänder — system-ui 0123
         </span>
       </div>
       <div className={docs.stack}>
         <span className={docs.caption}>--font-mono</span>
         <span style={{ ...role('heading-md', 700), fontFamily: 'var(--font-mono)' }}>
-          Totem Kit — ui-monospace 0123
+          Zweihänder — ui-monospace 0123
         </span>
       </div>
     </div>

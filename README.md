@@ -1,4 +1,4 @@
-# Totem Kit
+# Zweihänder
 
 > **Early stage, not production-ready.** Only two components exist
 > (Button, Text Input) and no Figma file has been applied yet — the
@@ -10,7 +10,7 @@ Front-end UI kit for React, documented in Storybook. No CSS framework and no
 primitive library — components are plain elements styled with CSS Modules
 against a token layer of CSS custom properties.
 
-**Storybook:** https://nguucode.github.io/totem-kit/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
+**Storybook:** https://nguucode.github.io/zweihander/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
 
 ## Stack
 
@@ -132,15 +132,15 @@ ring uses a step darker than the fill.
 Scopes nest in either direction (light values live on `:root, .light`), and
 `tokens` still accepts any custom property for values the presets don't
 cover. Full write-up in
-[Foundations → Overview](https://nguucode.github.io/totem-kit/?path=/docs/foundations-overview--docs).
+[Foundations → Overview](https://nguucode.github.io/zweihander/?path=/docs/foundations-overview--docs).
 
-Globally, it is plain CSS — redeclare the variables after Totem Kit's
+Globally, it is plain CSS — redeclare the variables after Zweihänder's
 stylesheet, or set `data-accent` / `data-gray` on `<html>`.
 
 `registry.json`'s `tokens` item ships `tokens.css` itself for the
 copy-source path, and its `theme` item ships the component.
 
-## Using Totem Kit in a project
+## Using Zweihänder in a project
 
 Two ways to consume it — pick per project.
 
@@ -150,27 +150,27 @@ No package to install or keep in sync; the component's source lands directly
 in the consumer's repo. [`registry.json`](registry.json) declares each item;
 `npx shadcn build` turns it into static JSON served at `/r/<name>.json`
 (deployed alongside Storybook, always live at
-https://nguucode.github.io/totem-kit/r/<name>.json).
+https://nguucode.github.io/zweihander/r/<name>.json).
 
 In a project with a `components.json` (run `npx shadcn@latest init` there
 first if it has none):
 
 ```bash
-npx shadcn@latest add https://nguucode.github.io/totem-kit/r/tokens.json  # design tokens, once
-npx shadcn@latest add https://nguucode.github.io/totem-kit/r/theme.json   # <Theme> scope component
-npx shadcn@latest add https://nguucode.github.io/totem-kit/r/button.json
-npx shadcn@latest add https://nguucode.github.io/totem-kit/r/text-input.json
+npx shadcn@latest add https://nguucode.github.io/zweihander/r/tokens.json  # design tokens, once
+npx shadcn@latest add https://nguucode.github.io/zweihander/r/theme.json   # <Theme> scope component
+npx shadcn@latest add https://nguucode.github.io/zweihander/r/button.json
+npx shadcn@latest add https://nguucode.github.io/zweihander/r/text-input.json
 ```
 
-Or register Totem Kit as a named registry in the project's `components.json`
+Or register Zweihänder as a named registry in the project's `components.json`
 so components can be added by name:
 
 ```json
-{ "registries": { "@totem": "https://nguucode.github.io/totem-kit/r/{name}.json" } }
+{ "registries": { "@zweihander": "https://nguucode.github.io/zweihander/r/{name}.json" } }
 ```
 
 ```bash
-npx shadcn@latest add @totem/button
+npx shadcn@latest add @zweihander/button
 ```
 
 The CLI resolves `registryDependencies` (e.g. `button` → `utils`, `slot`)
@@ -180,20 +180,20 @@ import in the copied file to match whatever alias the target project uses.
 ### npm package
 
 For projects that would rather version-pin than own the source. Published
-at [npmjs.com/package/totem-kit](https://www.npmjs.com/package/totem-kit):
+at [npmjs.com/package/zweihander](https://www.npmjs.com/package/zweihander):
 
 ```bash
-npm install totem-kit
+npm install zweihander
 ```
 
 ```ts
-import { Button } from 'totem-kit/button'
-import { TextInput } from 'totem-kit/text-input'
+import { Button } from 'zweihander/button'
+import { TextInput } from 'zweihander/text-input'
 ```
 
 ```css
-@import "totem-kit/tokens.css";  /* the token layer */
-@import "totem-kit/styles.css";  /* the component styles */
+@import "zweihander/tokens.css";  /* the token layer */
+@import "zweihander/styles.css";  /* the component styles */
 ```
 
 Order matters: the component styles read the tokens. Nothing else is

@@ -87,7 +87,7 @@ not documentation.
 
 ## Theming
 
-Overriding tokens globally is just CSS — redeclare them after Totem Kit's
+Overriding tokens globally is just CSS — redeclare them after Zweihänder's
 stylesheet loads:
 
 ```css
@@ -103,7 +103,7 @@ inline custom properties on one element, so everything inside it resolves
 against those values.
 
 ```tsx
-import { Theme } from 'totem-kit/theme'
+import { Theme } from 'zweihander/theme'
 
 <Theme accentColor="violet" grayColor="slate" appearance="dark" radius="large" scaling="105%">
   <Button>Inside a violet, slate, dark, rounder, roomier scope</Button>
@@ -168,7 +168,7 @@ leaves the surrounding mode alone).
 ### Token overrides
 
 `tokens` takes any custom property, with or without the `--` prefix. It is
-not limited to tokens Totem Kit defines — the component writes whatever
+not limited to tokens Zweihänder defines — the component writes whatever
 you pass onto the element, so a token your own components read works the
 same way.
 
@@ -193,7 +193,7 @@ it resolves against.
 
 **One caveat.** If your own CSS branches on theme with a descendant
 selector — `.dark .thing { … }` — that selector still matches inside a
-light island nested in a dark ancestor, and will style it as dark. Totem
+light island nested in a dark ancestor, and will style it as dark. Zweihänder
 Kit's own CSS never branches on theme, so it is unaffected. Read the
 tokens instead of matching on `.dark` and the problem does not arise.
 
@@ -201,8 +201,8 @@ tokens instead of matching on `.dark` and the problem does not arise.
 
 Both distribution paths carry the same tokens. Copy-source drops the
 component's own source into your repo and merges these values into your
-stylesheet; the npm package ships them as `totem-kit/tokens.css`, which
+stylesheet; the npm package ships them as `zweihander/tokens.css`, which
 you import after your base stylesheet.
 
 The exact commands for either are in the
-[repo README](https://github.com/nguucode/totem-kit).
+[repo README](https://github.com/nguucode/zweihander).

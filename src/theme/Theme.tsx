@@ -46,7 +46,7 @@ export interface ThemeProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Token overrides for this scope, without the `--` prefix:
    * `{ radius: '1rem', primary: 'oklch(0.55 0.2 260)' }`. Any custom property
-   * works, including ones Totem Kit doesn't define.
+   * works, including ones Zweihänder doesn't define.
    */
   tokens?: Record<string, string>
   /** Apply to the single child instead of rendering a wrapper `<div>`. */
