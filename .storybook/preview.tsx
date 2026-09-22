@@ -1,7 +1,34 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Decorator, Preview } from '@storybook/react-vite'
+import { useEffect } from 'react'
 import '../src/index.css'
 
+const withTheme: Decorator = (Story, context) => {
+  const theme = context.globals.theme ?? 'light'
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+  }, [theme])
+  return <Story />
+}
+
 const preview: Preview = {
+  decorators: [withTheme],
+
+  globalTypes: {
+    theme: {
+      name: 'Theme',
+      description: 'Light / dark token set',
+      defaultValue: 'light',
+      toolbar: {
+        icon: 'circlehollow',
+        items: [
+          { value: 'light', icon: 'sun', title: 'Light' },
+          { value: 'dark', icon: 'moon', title: 'Dark' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+
   parameters: {
     controls: {
       matchers: {

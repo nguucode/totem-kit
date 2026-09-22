@@ -24,9 +24,21 @@ Storybook sidebar is ordered Atoms → Molecules → Organisms (`.storybook/prev
 
 | Tier | Folder | Storybook title | What goes here |
 | --- | --- | --- | --- |
-| **Atoms** | `src/foundations/` | `Atoms/Foundations/*` | Design tokens: color, typography, spacing |
+| **Atoms** | `src/foundations/` | `Atoms/Foundations/*` | Design tokens: color, typography, spacing, radius |
 | **Molecules** | `src/components/<category>/` | `Molecules/<Category>/*` | Single components (Button, Input, Modal, ...) — see [`src/components/Overview.mdx`](src/components/Overview.mdx) for the full category list |
 | **Organisms** | `src/patterns/<category>/` | `Organisms/<Category>/*` | Full sections assembled from Molecules (Marketing, Application UI, E-commerce) — see [`src/patterns/Overview.mdx`](src/patterns/Overview.mdx) |
+
+## Design tokens
+
+`src/index.css` is the source of truth: raw values live in `:root` / `.dark`
+(swap them there when real brand colors exist), aliased to Tailwind utilities
+(`bg-primary`, `text-muted-foreground`, `rounded-lg`, ...) via `@theme inline`.
+Currently seeded with Tailwind's default neutral scale as OKLCH values —
+these are the ones to sync out to Figma variables later. Toggle the "Theme"
+control in the Storybook toolbar to preview light/dark.
+
+Components should always use the semantic tokens (`bg-primary`, not
+`bg-neutral-900`) so a token swap doesn't require touching component code.
 
 ## Adding a component
 
