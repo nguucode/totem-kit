@@ -11,13 +11,14 @@
           "path": "src/lib/utils.ts",
           "type": "registry:lib"
         }
-      ]
+      ],
+      "description": "The cn() class-name helper every component uses."
     },
     {
       "name": "slot",
       "type": "registry:lib",
       "title": "Slot",
-      "description": "Renders its single child merged with the given props — what asChild is built on.",
+      "description": "Renders its single child merged with the given props \u2014 what asChild is built on.",
       "files": [
         {
           "path": "src/lib/slot.tsx",
@@ -60,7 +61,7 @@
       "name": "button",
       "type": "registry:component",
       "title": "Button",
-      "description": "Button with cva variants and Radix Slot asChild support.",
+      "description": "Button with six variants and four sizes, and asChild for rendering as a link.",
       "registryDependencies": [
         "utils",
         "slot",
@@ -83,7 +84,7 @@
       "name": "text-input",
       "type": "registry:component",
       "title": "Text Input",
-      "description": "Labeled text input (Radix Label) with helper/error text.",
+      "description": "Labeled text input with helper and error text, wired for screen readers.",
       "registryDependencies": [
         "utils",
         "tokens"

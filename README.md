@@ -202,7 +202,7 @@ automated by CI).
 
 ## Adding a component
 
-1. Build it in `src/components/<category>/` (pick a category from the Components overview) — see `actions/Button.tsx` for the pattern: `cva` for variants, `cn()` from `src/lib/utils.ts` to merge classes. Import shared code via the `@/` alias (e.g. `@/lib/utils`), not a relative path — that's what lets the CLI rewrite it to the consumer's own alias.
+1. Build it in `src/components/<category>/` (pick a category from the Components overview) — see `actions/Button.tsx` for the pattern: a `<Name>.module.css` beside the component, one class per variant and size, looked up as `styles[variant]` and merged with `cn()` from `src/lib/utils.ts`. Read tokens (`var(--primary)`), never literals, and set `font-family: var(--font-sans)` explicitly rather than inheriting — a consumer's page may set no font at all. Import shared code via the `@/` alias (e.g. `@/lib/utils`), not a relative path — that's what lets the CLI rewrite it to the consumer's own alias.
 2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`, tagged `['autodocs']` with a real `parameters.docs.description.component`.
 3. Add an entry for it in [`registry.json`](registry.json) so it's installable via the CLI.
 4. Figma designs will be synced in as the source of truth for new components.
