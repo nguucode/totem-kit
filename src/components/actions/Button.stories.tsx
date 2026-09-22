@@ -79,5 +79,14 @@ export const AsChild: Story = {
     const link = canvas.getByRole('link', { name: 'Button' })
     await expect(link).toHaveAttribute('href', '#totem')
     await expect(canvas.queryByRole('button')).not.toBeInTheDocument()
+
+    // Styling a link as a Button must not take away the hand the browser
+    // gives every other link. Compared against a bare <a href> rather than
+    // the literal 'pointer', so overriding --cursor-link keeps this honest.
+    const bare = document.createElement('a')
+    bare.href = '#'
+    document.body.append(bare)
+    await expect(getComputedStyle(link).cursor).toBe(getComputedStyle(bare).cursor)
+    bare.remove()
   },
 }

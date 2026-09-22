@@ -17,6 +17,15 @@
     border-color 150ms;
 }
 
+/* `asChild` can render this as a real <a href>, which navigates — so it takes
+   the link cursor rather than the button one. Without this, styling a link as
+   a Button silently removes the hand the browser gives every other link on
+   the page. `variant="link"` on a <button> is deliberately NOT covered: it
+   only looks like a link, and still acts on the current page. */
+a[href].button {
+  cursor: var(--cursor-link);
+}
+
 .button:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;

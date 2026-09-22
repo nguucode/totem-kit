@@ -5,16 +5,16 @@ import * as CursorsStories from './Cursors.stories'
 
 # Cursors
 
-Two tokens, and a convention that surprises most people: **buttons do not
-get `cursor: pointer`.**
+Three tokens, and a convention that surprises most people: **buttons do
+not get `cursor: pointer`. Links do.**
 
 ## The convention
 
 `cursor: pointer` means "this navigates" — it is the hand that appears
 over a link. Browsers have never applied it to `<button>`, `<select>` or a
 checkbox, and neither does this kit. Interactive elements that act on the
-current page keep the regular arrow; only a link gets the hand. This is
-a deliberate departure from the very common `button { cursor: pointer }`
+current page keep the regular arrow; only a link gets the hand. This is a
+deliberate departure from the very common `button { cursor: pointer }`
 reset.
 
 It is worth knowing the argument on the other side: a large body of
@@ -28,47 +28,83 @@ one line, in one place, rather than a decision re-litigated per component.
 
 ## `--cursor-button`
 
-`default` — the regular arrow. Applied by Button via
-`cursor-(--cursor-button)`.
+`default` — the regular arrow. Applied by Button.
 
 Note this changes nothing visually today: a native `<button>` already
 shows the arrow. **The token's job is not its current value; it is that
 the value is reachable.** Without it, switching the kit to `pointer` means
-editing every component; with it, it is one declaration in `tokens.css`.
+editing every component; with it, it is one declaration.
+
+## `--cursor-link`
+
+`pointer` — the hand.
+
+This one exists because the convention above has a second half that is
+easy to state and easy to get wrong. Button supports `asChild`, so it can
+render as a real `<a href>` — and when it did, it inherited
+`--cursor-button` and lost the hand that the browser gives every other
+link on the page. A link styled as a button is still a link.
+
+```css
+a[href].button {
+  cursor: var(--cursor-link);
+}
+```
+
+The `a[href]` part is doing real work. An `<a>` without `href` is not a
+link and browsers do not give it the hand either, so matching on the
+attribute rather than the element keeps the rule honest.
+
+**`variant="link"` is deliberately not covered.** That renders a
+`<button>` that *looks* like a link but acts on the current page, so by
+the convention above it keeps the arrow. The distinction the kit draws is
+navigation versus action, not appearance:
+
+| | Element | Cursor |
+| --- | --- | --- |
+| `<Button>` | `<button>` | arrow |
+| `<Button variant="link">` | `<button>` | arrow |
+| `<Button asChild><a href></a></Button>` | `<a href>` | hand |
+
+The AsChild story asserts this, and compares against a bare `<a href>`
+rather than the literal `pointer` — so overriding `--cursor-link` moves
+the assertion with it instead of breaking it.
 
 ## `--cursor-disabled`
 
-`not-allowed` — and **no component uses it.**
+`not-allowed` — used by TextInput, and **not** by Button. That asymmetry
+is not an oversight.
 
-Button's disabled state is `disabled:pointer-events-none`, which makes the
-element untargetable by the pointer. An untargetable element is never
-hovered, so no cursor of its own can ever render on it; setting one would
-be dead CSS. The `pointer-events-none` is not incidental — Button supports
-`asChild`, so it can render as an `<a>`, which ignores the `disabled`
+A disabled `<input>` stays hit-testable, so a cursor set on it renders and
+the user gets feedback on hover. Button's disabled state is
+`pointer-events: none`, which makes the element untargetable; an
+untargetable element is never hovered, so a cursor there would be dead
+CSS. The `pointer-events: none` is not incidental — because Button
+supports `asChild` it can render as an `<a>`, which ignores the `disabled`
 attribute entirely. Blocking pointer events is what actually disables it
 in that case.
 
-The token exists for the other pattern: a control that stays hit-testable
-while disabled, typically because it is wrapped in a tooltip explaining
-*why* it is disabled. That trade-off — a disabled control you can hover
-and get an explanation from, versus one that is inert — is a real design
-choice, and this token is for the first branch of it.
+So the token applies to the pattern where a control stays hoverable while
+disabled — including a control deliberately wrapped so a tooltip can
+explain *why*. That trade-off, between a disabled control you can
+interrogate and one that is inert, is a real design choice, and the two
+components here happen to sit on opposite sides of it.
 
 ## Adding tokens
 
 A mature system ends up with a token per interactive component —
-buttons, checkboxes, links, menu items, radios, switches, slider thumbs.
-This kit has two, because it has two components.
+checkboxes, menu items, radios, switches, slider thumbs. This kit has
+three, because it has two components and one of them can render as two
+different things.
 
 **Add a token when the component that needs it is built, not before.** A
 `--cursor-slider-thumb` with no Slider is a value nobody can verify and
-that the eventual Slider may not want. The two here already demonstrate
-the pattern.
+that the eventual Slider may not want.
 
 ## Customization
 
-Both are plain CSS keywords, not colors, so they override like any other
-custom property:
+All three are plain CSS keywords, not colors, so they override like any
+other custom property:
 
 ```css
 :root {
@@ -77,5 +113,6 @@ custom property:
 ```
 
 Load any override after Totem Kit's own stylesheet so the cascade picks it
-up. Because `--cursor-disabled` is unused, changing it has no effect until
-a component consumes it.
+up. Setting `--cursor-button: pointer` is the one-line version of adopting
+the mainstream convention; it leaves `--cursor-link` alone, which is
+already `pointer`, so the two simply converge.
