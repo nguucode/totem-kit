@@ -107,7 +107,21 @@ function Primitives() {
 
 const meta = {
   title: 'Foundations/Colors',
-  parameters: { layout: 'padded' },
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component: `Semantic tokens are what components consume — \`bg-primary\`, not
+\`bg-neutral-900\` — grouped the way [Radix Themes explains its color
+scale](https://www.radix-ui.com/themes/docs/theme/color): backgrounds,
+then subtle surfaces (hover/selected states), then solid actions (filled
+buttons), then borders. Totem Kit keeps a flat token set rather than
+Radix's 12-step-per-color scale — see **Primitives** below for the raw
+Tailwind palette those semantic tokens are cut from.`,
+      },
+    },
+  },
 } satisfies Meta
 
 export default meta

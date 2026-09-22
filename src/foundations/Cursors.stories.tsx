@@ -44,7 +44,20 @@ function CursorTokens() {
 const meta = {
   title: 'Foundations/Cursors',
   render: () => <CursorTokens />,
-  parameters: { layout: 'padded' },
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component: `Follows [Radix Themes' cursor convention](https://www.radix-ui.com/themes/docs/theme/cursors):
+interactive elements that don't navigate to another page keep the
+browser's regular arrow cursor, and only disabled elements get an
+explicit one. Add a token here per component as it's built (checkbox,
+radio, switch, ...) rather than ahead of it — each row below explains
+why its component does or doesn't actually use the token.`,
+      },
+    },
+  },
 } satisfies Meta
 
 export default meta

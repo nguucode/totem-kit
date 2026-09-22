@@ -10,9 +10,9 @@ function SpacingScale() {
     <div className="flex flex-col gap-2">
       {STEPS.map((step) => (
         <div key={step} className="flex items-center gap-4">
-          <span className="w-10 shrink-0 font-mono text-xs text-neutral-400">{step}</span>
+          <span className="w-10 shrink-0 font-mono text-xs text-muted-foreground">{step}</span>
           <div
-            className="h-4 rounded-sm bg-blue-500"
+            className="h-4 rounded-sm bg-primary"
             style={{ width: `calc(var(--spacing) * ${step})` }}
           />
         </div>
@@ -24,7 +24,18 @@ function SpacingScale() {
 const meta = {
   title: 'Foundations/Spacing',
   render: () => <SpacingScale />,
-  parameters: { layout: 'padded' },
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component: `Tailwind's spacing scale is a single \`--spacing\` multiplier (default
+\`0.25rem\`); every step is \`calc(var(--spacing) * n)\`. Retokenizing the
+multiplier (e.g. from Figma) rescales every \`p-*\`/\`gap-*\`/\`w-*\` utility
+in the kit at once — nothing below needs to change to stay in sync.`,
+      },
+    },
+  },
 } satisfies Meta
 
 export default meta
