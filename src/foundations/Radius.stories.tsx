@@ -79,20 +79,37 @@ export const Presets: Story = {
     </div>
   ),
   play: async ({ canvas }) => {
-    const radiusOf = (el: Element) => getComputedStyle(el).borderRadius
+    const px = (el: Element) => Number.parseFloat(getComputedStyle(el).borderRadius)
     const scopeFor = (preset: string) =>
       canvas.getByText(`radius="${preset}"`).parentElement as HTMLElement
+    const parts = (preset: string) => {
+      const scope = scopeFor(preset)
+      return {
+        control: px(scope.querySelector('button')!),
+        field: px(scope.querySelector('input')!),
+        panel: px(scope.querySelector('.rounded-panel')!),
+      }
+    }
 
     // none flattens everything.
-    const none = scopeFor('none')
-    await expect(radiusOf(none.querySelector('button')!)).toBe('0px')
+    const none = parts('none')
+    await expect(none.control).toBe(0)
+    await expect(none.field).toBe(0)
+    await expect(none.panel).toBe(0)
 
-    // full pills the button but must NOT round the text field the same way.
-    const full = scopeFor('full')
-    const button = radiusOf(full.querySelector('button')!)
-    const field = radiusOf(full.querySelector('input')!)
-    await expect(button).toBe('9999px')
-    await expect(field).not.toBe('9999px')
+    const large = parts('large')
+    const full = parts('full')
+
+    // full pills the control...
+    await expect(full.control).toBeGreaterThan(1000)
+    // ...but a field must never reach a pill. The input is 40px tall, so
+    // anything at or above 20px is one.
+    await expect(full.field).toBeLessThan(20)
+    await expect(full.panel).toBeLessThan(1000)
+    // ...and it still has to be a step up from large, or "full" would just
+    // be "large with a pill button".
+    await expect(full.field).toBeGreaterThan(large.field)
+    await expect(full.panel).toBeGreaterThan(large.panel)
   },
 }
 

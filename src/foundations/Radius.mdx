@@ -18,15 +18,18 @@ panel — rather than a fixed number.
 
 ## Presets
 
-Five: `none`, `small`, `medium` (the default), `large`, `full`.
+Five: `none`, `small`, **`medium` (the default)**, `large`, `full`. The
+default is set by `--radius-factor: 1` and `--radius-full: 0px` on
+`:root`, which is exactly what the `medium` preset writes — so a scope
+with no `radius` prop and a scope with `radius="medium"` are identical.
 
 <Canvas of={RadiusStories.Presets} />
 
-Look at the `full` row. **The button becomes a pill and the text input
-does not.** That is the whole reason this is a system rather than a
-number: a fully rounded text field reads as a search pill in a form that
-isn't one, and a fully rounded card stops looking like a container. Only
-controls opt into the pill.
+Look at the `full` row. **The button becomes a pill; the input and the
+panel get rounder but stop short of one.** That is the whole reason this
+is a system rather than a number: a fully rounded text field reads as a
+search pill in a form that isn't one, and a fully rounded card stops
+looking like a container. Only controls opt all the way in.
 
 `none` flattens every corner in the scope to `0`, including panels.
 
@@ -54,9 +57,27 @@ whole scale rather than replacing it:
 The pill is a `max()`. `--radius-control` resolves to
 `max(step, var(--radius-full))` — normally the step wins because
 `--radius-full` is `0px`, and at the `full` preset the `9999px` wins
-instead. `--radius-field` and `--radius-panel` have no `max()`, so nothing
-a preset does can round them past their step. Opting into the pill is
-something a token does deliberately, once.
+instead.
+
+Fields and panels use the same shape with a ceiling wrapped around it:
+
+```css
+max(step, min(cap, var(--radius-full)))
+```
+
+`min(cap, --radius-full)` is `0px` normally and the cap at `full`, so they
+step up with the preset and stop there. Concretely, at the default base:
+
+| Preset | `control` | `field` | `panel` |
+| --- | --- | --- | --- |
+| `none` | 0 | 0 | 0 |
+| `small` | 4px | 4px | 5px |
+| `medium` | 8px | 8px | 10px |
+| `large` | 12px | 12px | 15px |
+| `full` | pill | 15px | 21px |
+
+The input is 40px tall, so a pill would be 20px — `field` at `full` lands
+under that on purpose, and a test asserts it.
 
 ## Intent tokens
 

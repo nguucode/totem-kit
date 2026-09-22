@@ -498,13 +498,26 @@
   --radius-lg: calc(var(--radius) * var(--radius-factor));
   --radius-xl: calc((var(--radius) + 4px) * var(--radius-factor));
 
-  /* Intent: what components actually use. Identical to a step until a Theme
-     sets radius="full", at which point only --radius-control opts into the
-     pill via max() — a fully round text field or card would be wrong, so
-     those two resolve to their step no matter what. */
+  /* Intent: what components actually use.
+
+     --radius-full is 0 except under radius="full", where it is 9999px. So
+     max(step, --radius-full) resolves to the step normally and to a pill at
+     full — that is --radius-control.
+
+     Fields and panels take the same shape with a ceiling wrapped around it:
+     min(cap, --radius-full) is 0 normally and the cap at full, so they step
+     up with the preset without ever reaching a pill. A fully round text
+     field reads as a search pill in a form that is not one, and a fully
+     round card stops looking like a container. */
   --radius-control: max(calc((var(--radius) - 2px) * var(--radius-factor)), var(--radius-full));
-  --radius-field: calc((var(--radius) - 2px) * var(--radius-factor));
-  --radius-panel: calc(var(--radius) * var(--radius-factor));
+  --radius-field: max(
+    calc((var(--radius) - 2px) * var(--radius-factor)),
+    min(calc(var(--radius) * var(--radius-factor)), var(--radius-full))
+  );
+  --radius-panel: max(
+    calc(var(--radius) * var(--radius-factor)),
+    min(calc((var(--radius) + 4px) * var(--radius-factor)), var(--radius-full))
+  );
 
   /* Replaces the built-in shadow scale, so shadow-sm/md/lg/xl stay
      dark-mode-aware without a new utility namespace. */
