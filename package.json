@@ -13,8 +13,8 @@
   ],
   "exports": {
     "./button": {
-      "types": "./dist/components/actions/Button.d.ts",
-      "import": "./dist/components/actions/Button.js"
+      "types": "./dist/components/buttons/Button.d.ts",
+      "import": "./dist/components/buttons/Button.js"
     },
     "./text-input": {
       "types": "./dist/components/inputs/TextInput.d.ts",

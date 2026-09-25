@@ -8,7 +8,7 @@
     "noEmit": false
   },
   "include": [
-    "src/components/actions/Button.tsx",
+    "src/components/buttons/Button.tsx",
     "src/components/inputs/TextInput.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"

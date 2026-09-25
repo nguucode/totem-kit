@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button } from '@/components/actions/Button'
+import { Button } from '@/components/buttons/Button'
 import { TextInput } from '@/components/inputs/TextInput'
 import { Theme } from '@/theme/Theme'
 import docs from './docs.module.css'

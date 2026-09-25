@@ -12,13 +12,16 @@ one it fits, or propose a new category if none fit.
 
 | Category | Components |
 | --- | --- |
-| **Actions** | Button ✅, Toggle Button, Link |
-| **Inputs** | Text Input ✅, Textarea, Number Input, Select, Combobox, Checkbox, Radio, Switch, Slider, Date Picker, Color Picker, File Uploader, Search |
-| **Feedback** | Alert, Inline Alert, Toast, Badge, Tag, Progress Bar, Skeleton, Spinner, Rating, Empty State, Error State, Success State |
-| **Navigation** | Breadcrumbs, Tabs, Pagination, Sidebar, Menu, Stepper |
-| **Overlay** | Modal, Popover, Tooltip |
-| **Disclosure** | Accordion, Collapse |
-| **Data Display** | Table, Card, Avatar, Divider, Carousel, Calendar |
+| **Atomic Elements** | Divider, Badge, Avatar, Tag |
+| **Buttons** | Button ✅, Toggle Button |
+| **Controls** | Color Picker, Rating, Slider, Switch, Checkbox, Radio |
+| **Data Display** | Calendar, Table, Accordion, Carousel, Card, Collapse |
+| **Inputs** | Search, Number Input, Text Input ✅, Textarea, File Uploader, Date Picker, Select, Combobox |
+| **Loaders** | Spinner, Progress Bar, Skeleton |
+| **Navigation** | Breadcrumbs, Pagination, Link, Tabs, Stepper, Menu, Sidebar |
+| **Notifications** | Alert, Toast, Inline Alert |
+| **Overlays** | Modal, Tooltip, Popover |
+| **States** | Empty State, Error State, Success State |
 
 Unchecked = not built yet.
 
@@ -32,7 +35,7 @@ That is enough for what exists today. Button needs `asChild`; Text Input
 needs a `<label htmlFor>`, which is native, plus one line to stop a
 double-click selecting the label text.
 
-**It will not be enough for the Overlay and Navigation rows.** A Modal
+**It will not be enough for the Overlays and Navigation rows.** A Modal
 needs a focus trap, scroll locking, an inert background and correct
 restore-focus behaviour; Select and Combobox need typeahead, virtual
 focus and a listbox ARIA contract; Menu and Tabs need roving tabindex.
