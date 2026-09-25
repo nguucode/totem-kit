@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "description": "Zweihänder components (early stage, not production-ready — see README), published for npm install as an alternative to the copy-source registry.",
-  "homepage": "https://nguucode.github.io/zweihander",
+  "homepage": "https://ontheshore.biz/zweihander",
   "files": [
     "dist"
   ],

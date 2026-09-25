@@ -10,7 +10,7 @@ Front-end UI kit for React, documented in Storybook. No CSS framework and no
 primitive library — components are plain elements styled with CSS Modules
 against a token layer of CSS custom properties.
 
-**Storybook:** https://nguucode.github.io/zweihander/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
+**Storybook:** https://ontheshore.biz/zweihander/ (auto-deployed from `main` via [GitHub Actions](.github/workflows/deploy-storybook.yml))
 
 ## Stack
 
@@ -132,7 +132,7 @@ ring uses a step darker than the fill.
 Scopes nest in either direction (light values live on `:root, .light`), and
 `tokens` still accepts any custom property for values the presets don't
 cover. Full write-up in
-[Foundations → Overview](https://nguucode.github.io/zweihander/?path=/docs/foundations-overview--docs).
+[Foundations → Overview](https://ontheshore.biz/zweihander/?path=/docs/foundations-overview--docs).
 
 Globally, it is plain CSS — redeclare the variables after Zweihänder's
 stylesheet, or set `data-accent` / `data-gray` on `<html>`.
@@ -150,23 +150,23 @@ No package to install or keep in sync; the component's source lands directly
 in the consumer's repo. [`registry.json`](registry.json) declares each item;
 `npx shadcn build` turns it into static JSON served at `/r/<name>.json`
 (deployed alongside Storybook, always live at
-https://nguucode.github.io/zweihander/r/<name>.json).
+https://ontheshore.biz/zweihander/r/<name>.json).
 
 In a project with a `components.json` (run `npx shadcn@latest init` there
 first if it has none):
 
 ```bash
-npx shadcn@latest add https://nguucode.github.io/zweihander/r/tokens.json  # design tokens, once
-npx shadcn@latest add https://nguucode.github.io/zweihander/r/theme.json   # <Theme> scope component
-npx shadcn@latest add https://nguucode.github.io/zweihander/r/button.json
-npx shadcn@latest add https://nguucode.github.io/zweihander/r/text-input.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/tokens.json  # design tokens, once
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/theme.json   # <Theme> scope component
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/button.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/text-input.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
 so components can be added by name:
 
 ```json
-{ "registries": { "@zweihander": "https://nguucode.github.io/zweihander/r/{name}.json" } }
+{ "registries": { "@zweihander": "https://ontheshore.biz/zweihander/r/{name}.json" } }
 ```
 
 ```bash

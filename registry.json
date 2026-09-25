@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "zweihander",
-  "homepage": "https://nguucode.github.io/zweihander",
+  "homepage": "https://ontheshore.biz/zweihander",
   "items": [
     {
       "name": "utils",
@@ -49,9 +49,9 @@
       "title": "Theme",
       "description": "Scopes an appearance and token overrides to a subtree.",
       "registryDependencies": [
-        "https://nguucode.github.io/zweihander/r/utils.json",
-        "https://nguucode.github.io/zweihander/r/slot.json",
-        "https://nguucode.github.io/zweihander/r/tokens.json"
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/slot.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
       ],
       "files": [
         {
@@ -72,9 +72,9 @@
       "title": "Button",
       "description": "Button with six variants and four sizes, and asChild for rendering as a link.",
       "registryDependencies": [
-        "https://nguucode.github.io/zweihander/r/utils.json",
-        "https://nguucode.github.io/zweihander/r/slot.json",
-        "https://nguucode.github.io/zweihander/r/tokens.json"
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/slot.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
       ],
       "files": [
         {
@@ -95,8 +95,8 @@
       "title": "Text Input",
       "description": "Labeled text input with helper and error text, wired for screen readers.",
       "registryDependencies": [
-        "https://nguucode.github.io/zweihander/r/utils.json",
-        "https://nguucode.github.io/zweihander/r/tokens.json"
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
       ],
       "files": [
         {
