@@ -44,6 +44,9 @@ the field is [Text Input](?path=/docs/components-inputs-textinput--docs)'s.
 - **`onValueChange` with the value**, Base UI's name, instead of
   `onChange`.
 - **Native names** for `disabled`, `readOnly`, `required`.
+- **Options are strings or `{ value, label }` objects.** A bare component
+  is not an option: an option needs a value to submit and compare, so a
+  component goes in `label`.
 - **The list opens below the field** instead of Base UI's default of
   laying it over the trigger with the selected option aligned — the
   anatomy shows a list below.

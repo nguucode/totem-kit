@@ -2,7 +2,15 @@ import { useRef, useState, type ChangeEvent, type ComponentProps, type KeyboardE
 import { Field } from '@base-ui/react/field'
 import { Icon } from '@/lib/icon'
 import { cn } from '@/lib/utils'
-import { InputField, boxClass, focusControl, inputStyles, type InputAppearance, type InputSize } from './InputField'
+import {
+  assignRef,
+  InputField,
+  boxClass,
+  focusControl,
+  inputStyles,
+  type InputAppearance,
+  type InputSize,
+} from './InputField'
 import styles from './Search.module.css'
 
 export interface SearchProps extends Omit<ComponentProps<'input'>, 'size' | 'type' | 'value' | 'defaultValue'> {
@@ -59,8 +67,7 @@ export function Search({
           {...props}
           ref={(node: HTMLInputElement | null) => {
             input.current = node
-            if (typeof ref === 'function') ref(node)
-            else if (ref) ref.current = node
+            assignRef(ref, node)
           }}
           type="search"
           value={value}
@@ -85,7 +92,7 @@ export function Search({
           className={cn(inputStyles.control, styles.input)}
         />
         {canClear && (
-          <button type="button" aria-label="Clear search" className={styles.clear} onClick={clear}>
+          <button type="button" aria-label="Clear search" className={inputStyles.iconButton} onClick={clear}>
             <Icon name="close" />
           </button>
         )}

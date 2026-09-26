@@ -1,4 +1,4 @@
-import type { MouseEvent, ReactNode } from 'react'
+import type { MouseEvent, ReactNode, Ref } from 'react'
 import { Field } from '@base-ui/react/field'
 import { cn } from '@/lib/utils'
 import styles from './InputField.module.css'
@@ -31,6 +31,12 @@ export function focusControl(event: MouseEvent<HTMLElement>) {
   if (!control || control.matches(':disabled')) return
   event.preventDefault()
   control.focus()
+}
+
+/** Hand a node to a ref prop of either kind, alongside a component's own. */
+export function assignRef<T>(ref: Ref<T> | undefined, node: T | null) {
+  if (typeof ref === 'function') ref(node)
+  else if (ref) ref.current = node
 }
 
 export interface InputFieldProps {

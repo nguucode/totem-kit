@@ -9,6 +9,7 @@ import {
 import { Field } from '@base-ui/react/field'
 import { cn } from '@/lib/utils'
 import {
+  assignRef,
   InputField,
   boxClass,
   focusControl,
@@ -86,8 +87,7 @@ export function Textarea({
               rows={minRows}
               ref={(node) => {
                 inner.current = node
-                if (typeof ref === 'function') ref(node)
-                else if (ref) ref.current = node
+                assignRef(ref, node)
               }}
             />
           }

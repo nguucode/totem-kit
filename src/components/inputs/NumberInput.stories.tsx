@@ -43,8 +43,12 @@ export const Limits: Story = {
     const increase = canvas.getByRole('button', { name: /increase/i })
     await userEvent.click(increase)
     await expect(canvas.getByLabelText('Quantity')).toHaveValue('100')
-    // At the limit, the button is disabled rather than silently doing nothing.
+    // At the limit, the button is disabled rather than silently doing nothing,
+    // and it looks it.
     await expect(increase).toBeDisabled()
+    await expect(getComputedStyle(increase).color).not.toBe(
+      getComputedStyle(canvas.getByRole('button', { name: /decrease/i })).color,
+    )
   },
 }
 

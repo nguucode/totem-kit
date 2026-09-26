@@ -37,12 +37,14 @@
   outline-offset: -2px;
 }
 
-.step:disabled {
+.step:disabled,
+.step[data-disabled] {
   cursor: var(--cursor-disabled);
   color: var(--muted-foreground);
 }
 
-.step:disabled:hover {
+.step:disabled:hover,
+.step[data-disabled]:hover {
   background: transparent;
 }
 

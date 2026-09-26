@@ -106,7 +106,12 @@ export function Combobox({
         value={find(value)}
         defaultValue={find(defaultValue)}
         onValueChange={onValueChange && ((next) => onValueChange((next as Item | null)?.value ?? null))}
-        onInputValueChange={setQuery}
+        // Highlight only what was typed. When an option is chosen the input
+        // takes its label, which is not a query to mark in other options.
+        onInputValueChange={(next, details) => setQuery(details.reason === 'input-change' ? next : '')}
+        // items are rebuilt each render, so compare by value, not identity,
+        // or the selection loses its check on the next keystroke.
+        isItemEqualToValue={(a: Item, b: Item) => a.value === b.value}
         readOnly={readOnly}
         required={required}
         autoHighlight

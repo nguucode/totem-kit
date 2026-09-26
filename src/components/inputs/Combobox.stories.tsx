@@ -42,11 +42,24 @@ export const Default: Story = {
   },
 }
 
+/** The chosen option keeps its check while the user types again. */
+export const KeepsSelection: Story = {
+  args: { defaultValue: 'phoenix' },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Show options' }))
+    const chosen = await screen.findByRole('option', { name: 'Phoenix Hickman' })
+    await expect(chosen).toHaveAttribute('aria-selected', 'true')
+    // Nothing is marked: the input holds a chosen label, not a query.
+    await expect(screen.queryAllByRole('option').some((o) => o.querySelector('mark'))).toBe(false)
+  },
+}
+
 export const Empty: Story = {
   play: async ({ canvas, userEvent }) => {
     await userEvent.type(canvas.getByRole('combobox'), 'zzz')
-    // The list filters after the last keystroke settles; give a slow runner time.
-    await expect(await screen.findByText('No matches', {}, { timeout: 3000 })).toBeVisible()
+    // The popup fades in over 100ms, so the message exists before it is
+    // visible: wait for visibility, not presence.
+    await waitFor(() => expect(screen.getByText('No matches')).toBeVisible(), { timeout: 3000 })
   },
 }
 
@@ -108,7 +121,7 @@ export const Loading: Story = {
   args: { isLoading: true, options: [] },
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('combobox'))
-    await expect(await screen.findByText('Loading…')).toBeVisible()
+    await waitFor(() => expect(screen.getByText('Loading…')).toBeVisible(), { timeout: 3000 })
   },
 }
 

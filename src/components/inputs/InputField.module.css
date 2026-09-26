@@ -1,4 +1,4 @@
-/* Shared by Text Input, Textarea, Search and Number Input. */
+/* Shared by Text Input, Textarea, Search, Number Input, Select and Combobox. */
 .field {
   --field-edge: var(--control-border);
   display: inline-grid;
@@ -115,30 +115,35 @@
 /* The ring is on the box, drawn when the control inside has keyboard or
    pointer focus — a text field shows focus on click too, since that is
    where typing will go. */
-.box:has(:focus-visible),
-.box:has(:focus),
+/* Keyed to the control: a clear or open button inside the field draws its
+   own ring, and a second one round the whole field would double it. */
+.box:has(.control:focus),
 .box:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
-.state-error .box:has(:focus),
+.state-error .box:has(.control:focus),
 .state-error .box:focus-visible {
   outline-color: var(--danger-text);
 }
 
 /* Keyed to the control, not any descendant: a stepper button disabled at
    its limit must not dim the whole field. */
-.box:has(.control:disabled) {
+.box:has(.control:disabled),
+.box[data-disabled] {
   cursor: var(--cursor-disabled);
   opacity: 0.5;
 }
 
-.box:has(.control[readonly]) {
+.box:has(.control[readonly]),
+.box[data-readonly] {
   background: var(--surface-subtle);
 }
 .underlined:has(.control[readonly]),
-.unstyled:has(.control[readonly]) {
+.unstyled:has(.control[readonly]),
+.underlined[data-readonly],
+.unstyled[data-readonly] {
   background: transparent;
 }
 
@@ -181,6 +186,8 @@
    The option list shared by Select and Combobox. It renders in a portal
    at the end of <body>, so it reads the tokens from the root: a Theme
    scope around the field does not reach it. */
+/* 50: above page content and sticky headers; below the modal layer, which
+   the overlay components will put higher. */
 .positioner {
   z-index: 50;
   outline: none;
@@ -189,6 +196,8 @@
 .popup {
   box-sizing: border-box;
   min-inline-size: var(--anchor-width);
+  /* 20rem is about ten options: enough to scan, short enough to stay near
+     the field. The rest scrolls. */
   max-block-size: min(var(--available-height), 20rem);
   overflow-y: auto;
   padding-block: var(--space-1);

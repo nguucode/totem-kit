@@ -109,6 +109,14 @@ export const Disabled: Story = {
   },
 }
 
+export const DisabledLook: Story = {
+  args: { disabled: true },
+  play: async ({ canvas }) => {
+    // The trigger is the field box, so it dims itself.
+    await expect(getComputedStyle(canvas.getByRole('combobox')).opacity).toBe('0.5')
+  },
+}
+
 export const ReadOnly: Story = {
   args: { readOnly: true, defaultValue: 'miya' },
   play: async ({ canvas, userEvent }) => {
