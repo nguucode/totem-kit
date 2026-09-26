@@ -1,0 +1,64 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as TextareaStories from './Textarea.stories'
+
+<Meta of={TextareaStories} />
+
+# Textarea
+
+Several lines of text: a message, a description, a note. Spec:
+[uiguideline.com/components/textarea](https://www.uiguideline.com/components/textarea).
+The same field as [Text Input](?path=/docs/components-inputs-textinput--docs):
+label, helper, validation, sizes and appearances are shared.
+
+<Canvas of={TextareaStories.Appearances} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Label** | `label`, above the field. |
+| **Field** | The box: edge, fill and focus ring, padded top and bottom so it grows with the text. |
+| **Placeholder** | `placeholder`. |
+| **Resize handle** | The browser's own, on the axes `resize` allows. Hidden with `hasAutoSize`. |
+| **Helper text** | `helperText`; the error message when `validationState` is error. |
+
+## Props
+
+Everything Text Input takes except `prefix` and `suffix`, plus:
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `resize` | `none`, `both`, `vertical`, `horizontal` | `vertical` | |
+| `hasAutoSize` | boolean | `false` | Grows and shrinks with the text. |
+| `minRows` | number | `3` | Starting height (the `rows` attribute). |
+| `maxRows` | number | – | Where auto-size stops and scrolling starts. |
+
+`onChange` is the native event; every other `<textarea>` attribute passes
+through, including `ref`.
+
+<Controls of={TextareaStories.Default} />
+
+### Differences from the spec
+
+- Native `disabled`, `required`, `readOnly` names, and native `onChange`,
+  as on Text Input.
+- **`minRows` defaults to 3.** The spec gives none; the browser's own
+  default of 2 is too short to read as a multi-line field.
+
+## Usage
+
+<Canvas of={TextareaStories.AutoSize} />
+
+Use auto-size for text whose length varies a lot, with a `maxRows` so the
+page does not grow without limit. Keep the manual handle (`vertical`) when
+people may want to see more at once.
+
+## Accessibility
+
+- A real `<textarea>` with its `<label>`, the helper as its description,
+  and `aria-invalid` in the error state.
+- Edge at 3:1 on the page (`--control-border`); focus ring around the
+  whole field.
+- Enter inserts a line break; it does not submit the form.
+- Auto-size caps at `maxRows` and scrolls beyond it, so a long entry never
+  pushes the rest of the form off screen.

@@ -409,6 +409,32 @@
           "target": "components/zweihander/data-display/Card.module.css"
         }
       ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:component",
+      "title": "Textarea",
+      "description": "Multi-line text field with auto-size, rows and resize, on the shared input field.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/input-field.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/inputs/Textarea.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/inputs/Textarea.tsx"
+        },
+        {
+          "path": "src/components/inputs/Textarea.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/inputs/Textarea.module.css"
+        }
+      ]
     }
   ]
 }

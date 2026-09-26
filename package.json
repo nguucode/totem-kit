@@ -64,6 +64,10 @@
       "types": "./dist/components/data-display/Card.d.ts",
       "import": "./dist/components/data-display/Card.js"
     },
+    "./textarea": {
+      "types": "./dist/components/inputs/Textarea.d.ts",
+      "import": "./dist/components/inputs/Textarea.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

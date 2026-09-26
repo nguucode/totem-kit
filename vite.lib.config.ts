@@ -24,6 +24,7 @@ export default defineConfig({
         'components/controls/Radio': 'src/components/controls/Radio.tsx',
         'components/data-display/Accordion': 'src/components/data-display/Accordion.tsx',
         'components/data-display/Card': 'src/components/data-display/Card.tsx',
+        'components/inputs/Textarea': 'src/components/inputs/Textarea.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },
