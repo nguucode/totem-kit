@@ -139,6 +139,35 @@ dark mode inverts the destructive fill to red-400, and near-white on
 red-400 is 2.77:1, which makes the label of a destructive button in dark
 mode fail AA outright.
 
+## Status
+
+Four fixed hues for messages about state: `info` (blue), `success`
+(green), `warning` (amber), `danger` (red). Like `--destructive`, they do
+not follow the accent. Each comes as four tokens:
+
+| Token | Use | Light | Dark |
+| --- | --- | --- | --- |
+| `--{status}` | Solid fill | 600 (green 700, amber 500) | 400 |
+| `--{status}-foreground` | Label on the solid | neutral-50 (amber: neutral-900) | neutral-900 |
+| `--{status}-subtle` | Tinted fill | 100 | 950 |
+| `--{status}-text` | Text, icon and border on the tint or the page | 800 | 300 |
+
+The steps are pinned by hand, so `npm run tokens` measures them and fails
+the build if any pair drops under 4.5:1:
+
+| Pair | info | success | warning | danger |
+| --- | --- | --- | --- | --- |
+| label on solid, light | 5.03:1 | 4.73:1 | 8.35:1 | 4.56:1 |
+| text on subtle, light | 7.25:1 | 6.45:1 | 6.41:1 | 6.86:1 |
+| text on page, light | 8.84:1 | 7.09:1 | 7.13:1 | 8.37:1 |
+| label on solid, dark | 6.79:1 | 10.09:1 | 10.43:1 | 6.19:1 |
+| text on subtle, dark | 8.13:1 | 10.67:1 | 10.37:1 | 8.40:1 |
+| text on page, dark | 10.93:1 | 14.16:1 | 13.69:1 | 10.30:1 |
+
+`danger` and `destructive` share red-600 but mean different things:
+`destructive` is an action that destroys, `danger` is a state that is
+wrong. Keep them apart so either can move without the other.
+
 ## Color is never the only signal
 
 `--destructive` on a button does not say what will be destroyed, and a red

@@ -93,6 +93,31 @@ const decls = (obj, indent = '  ') =>
     .join('\n')
 
 /**
+ * Status colours pin their ramp steps by hand, so measure them the way the
+ * accents are measured: a label on its solid, and status text on both its
+ * subtle tint and the page, all at 4.5:1. A ramp edit that breaks one stops
+ * the build instead of shipping an unreadable Tag or Alert.
+ */
+for (const [mode, page] of [
+  ['light', PAGE_LIGHT],
+  ['dark', PAGE_DARK],
+]) {
+  const c = semantic.color[mode]
+  const val = (k) => alias(c[k].$value, { accent: {}, gray: {} })
+  for (const s of ['info', 'success', 'warning', 'danger']) {
+    for (const [fg, bg] of [
+      [`${s}-foreground`, s],
+      [`${s}-text`, `${s}-subtle`],
+      [`${s}-text`, page],
+    ]) {
+      const ratio = contrast(val(fg), c[bg] ? val(bg) : bg)
+      if (ratio < AA_TEXT)
+        throw new Error(`${mode} --${fg} on ${c[bg] ? `--${bg}` : 'the page'} is ${ratio.toFixed(2)}:1, below ${AA_TEXT}:1.`)
+    }
+  }
+}
+
+/**
  * Only the light shadows are authored. Dark scales every alpha and clamps
  * it, so the two modes cannot drift: editing a step edits both.
  */
