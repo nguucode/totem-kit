@@ -1,0 +1,76 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as BadgeStories from './Badge.stories'
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+A small count or dot that flags something new on another element: unread
+messages on an inbox, a status on an avatar. Spec:
+[uiguideline.com/components/badge](https://www.uiguideline.com/components/badge).
+
+<Canvas of={BadgeStories.Variants} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Container** | The pill. Always fully rounded, whatever the Theme's radius preset. |
+| **Count** | The number, in tabular figures so `9` and `10` keep their width. |
+| **Suffix "+"** | Added after `maxCount` when `count` is larger: `99+`. |
+| **Dot** | `isDot`: the container with no count, for "something new" rather than "how many". |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `count` | number | – | Nothing renders without `count` or `isDot`. |
+| `variant` | `primary`, `accent`, `secondary`, `destructive` | `primary` | |
+| `size` | `sm`, `md` | `md` | 16px / 20px tall; dots are 6px / 8px. |
+| `isDot` | boolean | `false` | |
+| `maxCount` | number | – | |
+| `isFloating` | boolean | `false` | Pins the badge to a corner of `children`. |
+| `floatingPlacement` | `top-start`, `top-end`, `bottom-start`, `bottom-end` | `top-end` | |
+| `children` | node | – | The element a floating badge sits on. |
+
+Every other `<span>` attribute passes through to the badge.
+
+<Controls of={BadgeStories.Default} />
+
+### Differences from the spec
+
+- **`children` is added.** A floating badge needs something to float on.
+  The badge wraps it in a `position: relative` span rather than asking
+  every consumer to position the anchor themselves.
+- **`accent` is the inverted neutral.** The token set has one brand hue,
+  which `primary` already uses, so `accent` is foreground-on-background:
+  the strongest contrast available without inventing a colour.
+- **`floatingPlacement` defaults to `top-end`**, the usual notification
+  corner; the spec gives no default.
+- **Start and end are physical** (left and right). RTL pages would get
+  mirrored placement.
+
+## Usage
+
+<Canvas of={BadgeStories.Sizes} />
+
+Use `maxCount` so a large number does not stretch the badge past its anchor.
+
+<Canvas of={BadgeStories.MaxCount} />
+
+A floating badge gets a ring in the page background, so it separates from
+whatever it overlaps.
+
+<Canvas of={BadgeStories.Floating} />
+
+## Accessibility
+
+- A **count** is plain text and is read where it sits. Inline in a button
+  it becomes part of the name ("Inbox 12"). A floating count sits
+  *outside* the element it decorates, so put the meaning in that
+  element's name instead: `aria-label="Notifications, 4 unread"`.
+- A **dot** has no text. Without `aria-label` it is hidden from assistive
+  tech; with one it is exposed as an image with that name.
+- Colour is never the only signal: a destructive badge still needs words
+  somewhere that say what is wrong.
+- Contrast is checked by addon-a11y in error mode for every story.

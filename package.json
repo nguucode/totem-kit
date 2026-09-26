@@ -24,6 +24,10 @@
       "types": "./dist/components/inputs/TextInput.d.ts",
       "import": "./dist/components/inputs/TextInput.js"
     },
+    "./badge": {
+      "types": "./dist/components/atomic-elements/Badge.d.ts",
+      "import": "./dist/components/atomic-elements/Badge.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

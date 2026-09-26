@@ -132,6 +132,28 @@
           "target": "components/zweihander/Divider.module.css"
         }
       ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:component",
+      "title": "Badge",
+      "description": "Count or dot that flags something new, inline or floating on another element.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/atomic-elements/Badge.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/badge.tsx"
+        },
+        {
+          "path": "src/components/atomic-elements/Badge.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/Badge.module.css"
+        }
+      ]
     }
   ]
 }

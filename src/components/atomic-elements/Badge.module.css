@@ -1,0 +1,108 @@
+.anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Always a pill, whatever the Theme's radius preset: a squared-off count
+   reads as a key cap, not a badge. 9999px is the usual "fully round". */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Height is line-height plus padding: 16px at sm, 20px at md. min-inline-size
+   equal to the height keeps a single digit a circle rather than an oval. */
+.sm {
+  min-inline-size: calc(1em * var(--leading-body-sm));
+  padding-inline: var(--space-1);
+}
+
+.md {
+  min-inline-size: calc(1em * var(--leading-body-sm) + var(--space-1));
+  padding: 0.125rem var(--space-1-5);
+}
+
+.dot {
+  min-inline-size: 0;
+  padding: 0;
+  inline-size: var(--space-2);
+  block-size: var(--space-2);
+}
+
+.dot.sm {
+  inline-size: var(--space-1-5);
+  block-size: var(--space-1-5);
+}
+
+.primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* The token set has one brand hue, so accent is the inverted neutral: the
+   strongest contrast available without inventing a colour. */
+.accent {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.secondary {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+/* A dot has no text to carry it, so it must reach 3:1 against the page on
+   its own; the secondary fill is far below that. */
+.dot.secondary {
+  background: var(--muted-foreground);
+}
+
+.destructive {
+  background: var(--destructive);
+  color: var(--destructive-foreground);
+}
+
+/* The ring in the page background separates the badge from whatever it
+   overlaps, so it reads on top of an icon or avatar of any colour. */
+.floating {
+  position: absolute;
+  box-shadow: 0 0 0 2px var(--background);
+}
+
+/* start/end are physical left/right, so RTL pages get mirrored
+   placement; switch to :dir(rtl) overrides when an RTL consumer appears. */
+.top-start {
+  top: 0;
+  left: 0;
+  translate: -50% -50%;
+}
+
+.top-end {
+  top: 0;
+  right: 0;
+  translate: 50% -50%;
+}
+
+.bottom-start {
+  bottom: 0;
+  left: 0;
+  translate: -50% 50%;
+}
+
+.bottom-end {
+  bottom: 0;
+  right: 0;
+  translate: 50% 50%;
+}

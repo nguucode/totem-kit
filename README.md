@@ -1,7 +1,7 @@
 # Zweihänder
 
 > **Early stage, not production-ready.** Only a few components exist
-> (Button, Text Input, Divider) and no Figma file has been applied yet — the
+> (see Components → Overview in Storybook) and no Figma file has been applied yet — the
 > palettes are placeholders, picked for contrast rather than designed.
 > Expect breaking changes on any `0.x` version bump. Fine to poke around
 > or reference the setup; not ready to build a real product on top of yet.
@@ -161,6 +161,7 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/theme.json   # <Theme>
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/button.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/text-input.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/divider.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/badge.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -191,6 +192,7 @@ npm install zweihander
 import { Button } from 'zweihander/button'
 import { TextInput } from 'zweihander/text-input'
 import { Divider } from 'zweihander/divider'
+import { Badge } from 'zweihander/badge'
 ```
 
 ```css
