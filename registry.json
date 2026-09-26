@@ -435,6 +435,33 @@
           "target": "components/zweihander/inputs/Textarea.module.css"
         }
       ]
+    },
+    {
+      "name": "search",
+      "type": "registry:component",
+      "title": "Search",
+      "description": "Search field with icon and clear button; Escape clears in every browser.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/input-field.json",
+        "https://ontheshore.biz/zweihander/r/icon.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/inputs/Search.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/inputs/Search.tsx"
+        },
+        {
+          "path": "src/components/inputs/Search.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/inputs/Search.module.css"
+        }
+      ]
     }
   ]
 }

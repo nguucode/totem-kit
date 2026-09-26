@@ -68,6 +68,10 @@
       "types": "./dist/components/inputs/Textarea.d.ts",
       "import": "./dist/components/inputs/Textarea.js"
     },
+    "./search": {
+      "types": "./dist/components/inputs/Search.d.ts",
+      "import": "./dist/components/inputs/Search.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

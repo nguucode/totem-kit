@@ -1,0 +1,41 @@
+/* The browser's own clear button would sit beside ours. */
+.input::-webkit-search-cancel-button,
+.input::-webkit-search-decoration {
+  appearance: none;
+}
+
+.clear {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: var(--space-4);
+  cursor: var(--cursor-button);
+}
+
+.clear:hover {
+  color: var(--foreground);
+}
+
+.clear:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* 16px visible; 44px to a finger. It sits at the field's end, so the
+   larger area spills into the field's own padding, not a neighbour. */
+@media (pointer: coarse) {
+  .clear::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    inline-size: 44px;
+    block-size: 44px;
+    translate: -50% -50%;
+  }
+}
