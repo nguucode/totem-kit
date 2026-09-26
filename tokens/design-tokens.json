@@ -1280,6 +1280,10 @@
         "$type": "color",
         "$value": "{primitive.gray.neutral.200}"
       },
+      "control-border": {
+        "$type": "color",
+        "$value": "{primitive.gray.neutral.500}"
+      },
       "ring": {
         "$type": "color",
         "$value": "{primitive.accent.indigo.700}"
@@ -1425,6 +1429,10 @@
       "input": {
         "$type": "color",
         "$value": "oklch(100% 0 0 / 15%)"
+      },
+      "control-border": {
+        "$type": "color",
+        "$value": "{primitive.gray.neutral.400}"
       },
       "ring": {
         "$type": "color",

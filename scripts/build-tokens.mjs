@@ -133,6 +133,25 @@ for (const [mode, page] of [
 }
 
 /**
+ * --control-border outlines a checkbox, radio or switch track: the only
+ * thing that shows the control is there, so WCAG 1.4.11 wants 3:1 against
+ * the page. --input is far lighter on purpose (a text field has its
+ * placeholder and label), so this is its own token, measured on every gray
+ * ramp because the Theme can swap the ramp underneath it.
+ */
+for (const g of GRAYS) {
+  for (const [mode, page] of [
+    ['light', PAGE_LIGHT],
+    ['dark', ramp('gray', g, '950')],
+  ]) {
+    const step = semantic.color[mode]['control-border'].$value.match(/\{gray\.(\d+)\}/)[1]
+    const ratio = contrast(ramp('gray', g, step), page)
+    if (ratio < AA_NON_TEXT)
+      throw new Error(`${mode} --control-border on the ${g} ramp is ${ratio.toFixed(2)}:1, below ${AA_NON_TEXT}:1.`)
+  }
+}
+
+/**
  * Only the light shadows are authored. Dark scales every alpha and clamps
  * it, so the two modes cannot drift: editing a step edits both.
  */

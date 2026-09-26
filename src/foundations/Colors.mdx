@@ -129,6 +129,11 @@ to avoid; if you need it, darken `--muted-foreground` to neutral-600
 (7.15:1 on muted) and accept that all secondary text in the kit gets
 heavier.
 
+**`--control-border` outlines a checkbox, radio or switch track.** Those
+controls have nothing else that shows they are there, so WCAG 1.4.11 wants
+3:1 against the page — and `--input` (gray-200) is about 1.3:1. The build
+measures it on all nine gray ramps.
+
 **`--primary-text` is the brand hue as text** — an outlined or ghost
 primary button. The solid is picked for its label, not for being read on
 the page, and amber-500 on white is barely 2:1, so the build measures a
@@ -201,6 +206,7 @@ swappable on its own: an **accent** (indigo by default) for `--primary` and
 | `destructive` | red-600 | red-400 | fixed |
 | `destructive-foreground` | neutral-50 | neutral-900 | fixed |
 | `border`, `input` | gray-200 | white 10% / 15% | gray |
+| `control-border` | gray-500 | gray-400 | gray |
 | `ring` | accent-700 | accent-400 | **accent** |
 | `primary-text` | first of accent-600…900 at 4.5:1 on white | first of accent-400…200 at 4.5:1 on the dark page | **accent** |
 
