@@ -175,6 +175,9 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/search.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/number-input.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/select.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/combobox.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/spinner.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/progress-bar.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/skeleton.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -219,6 +222,9 @@ import { Search } from 'zweihander/search'
 import { NumberInput } from 'zweihander/number-input'
 import { Select } from 'zweihander/select'
 import { Combobox } from 'zweihander/combobox'
+import { Spinner } from 'zweihander/spinner'
+import { ProgressBar } from 'zweihander/progress-bar'
+import { Skeleton } from 'zweihander/skeleton'
 ```
 
 ```css
