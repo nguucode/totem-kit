@@ -45,7 +45,7 @@ function Sample() {
       <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
         <Button>Save</Button>
         <Button variant="destructive">Delete</Button>
-        <Button variant="outline">Cancel</Button>
+        <Button variant="secondary" appearance="outlined">Cancel</Button>
       </div>
     </div>
   )

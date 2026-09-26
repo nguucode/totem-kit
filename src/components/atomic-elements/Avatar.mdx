@@ -1,0 +1,66 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as AvatarStories from './Avatar.stories'
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+A picture of a person or account, with initials or a placeholder when
+there is no picture. Spec:
+[uiguideline.com/components/avatar](https://www.uiguideline.com/components/avatar).
+
+<Canvas of={AvatarStories.Fallbacks} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Container** | The circle or square. Clips its content. |
+| **Image** | `imageSrc`, cropped to fill (`object-fit: cover`). |
+| **Initials** | `initials`, shown when there is no image or it fails to load. |
+| **Placeholder** | The `user` icon, when there is neither. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `size` | `xs`, `sm`, `md`, `lg` | `sm` | 24, 32, 40, 48px. |
+| `imageSrc` | string | – | |
+| `imageAlt` | string | – | Who this is. See Accessibility. |
+| `initials` | string | – | Not in the spec's prop list; see below. |
+| `appearance` | `circle`, `square` | `circle` | |
+
+Every other `<span>` attribute passes through to the container.
+
+<Controls of={AvatarStories.Default} />
+
+### Differences from the spec
+
+- **`initials` is added.** The spec's Anatomy has an Initials part but
+  its prop list has no way to set them. Pass the letters, not a name:
+  how to abbreviate a name depends on the language, and the kit should
+  not guess.
+- **A broken image falls back** to initials or the placeholder instead
+  of showing the browser's broken-image icon. A new `imageSrc` is tried
+  again.
+- **Circle ignores the radius preset**; square follows it
+  (`--radius-md`).
+
+## Usage
+
+<Canvas of={AvatarStories.Sizes} />
+
+<Canvas of={AvatarStories.Square} />
+
+## Accessibility
+
+- `imageAlt` names the **whole avatar**, not just the image, so the
+  image, the initials and the placeholder all announce the same person.
+  The inner `<img>` has `alt=""`.
+- Without `imageAlt` the avatar is **decorative** and hidden. That is
+  right when the person's name is already printed next to it; announcing
+  it twice is noise.
+- Initials are uppercased with CSS, so screen readers get the letters as
+  passed.
+- Initials are `--secondary-foreground` on `--secondary`, which meets
+  4.5:1 at the smallest size.

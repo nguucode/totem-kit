@@ -1,0 +1,67 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as CardStories from './Card.stories'
+
+<Meta of={CardStories} />
+
+# Card
+
+A surface that groups related content: a summary, a person, a setting.
+Spec: [uiguideline.com/components/card](https://www.uiguideline.com/components/card).
+
+<Canvas of={CardStories.Appearances} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Container** | The surface: `--card` (elevated, outline) or `--surface-subtle` (filled), padded by `size`. |
+| **Border** | `--border`, the non-interactive one. `hasBorder` turns it off. |
+| **Content** | `children`, stacked or side by side (`orientation`). |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `children` | node | – | The spec's `content`. |
+| `size` | `xs`, `sm`, `md`, `lg` | `sm` | Padding 12, 16, 24, 32px; gap between children scales with it. |
+| `appearance` | `elevated`, `outline`, `filled`, `unstyled` | `elevated` | |
+| `orientation` | `vertical`, `horizontal` | `vertical` | |
+| `isRounded` | boolean | `true` | `--radius-panel`. |
+| `hasBorder` | boolean | `true` | |
+| `onClick` | function | – | Makes the card a `<button>`. |
+| `render` | element or function | – | E.g. `<a href>` for a card that navigates. |
+
+<Controls of={CardStories.Default} />
+
+### Differences from the spec
+
+- **`children`, not `content`.** Arbitrary content is what React children
+  are for.
+- **`orientation` defaults to `vertical`.** The spec says `horizontal`,
+  which would lay a title and its description side by side.
+- **`render` is added** so a card can be a link, alongside `onClick` for
+  a card that acts.
+- **`filled` uses `--surface-subtle`**, not `--muted`: muted text on
+  `--muted` is 4.34:1.
+- **`unstyled`** keeps the padding and layout and drops every visual.
+
+## Usage
+
+<Canvas of={CardStories.Horizontal} />
+
+<Canvas of={CardStories.Clickable} />
+
+## Accessibility
+
+- A plain card is a `<div>` and adds nothing to the accessibility tree.
+- **A clickable card is one `<button>`, so everything inside becomes its
+  label.** A button may only hold phrasing content: use spans for its
+  title and text, not headings or paragraphs, and put no links or buttons
+  inside it — nested interactive content is invalid and unreachable. If a card needs its own
+  actions, leave it plain and put a button in it (the Horizontal story).
+- A card that navigates should be a link (`render={<a href>}`), not a
+  button with a click handler.
+- Put headings inside at the level the page needs; the card has none of
+  its own.
+- Muted text clears 4.5:1 on every appearance, at rest and on hover:
+  hover changes the shadow or the edge, never the surface under the text.

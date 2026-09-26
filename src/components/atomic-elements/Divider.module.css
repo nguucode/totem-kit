@@ -1,0 +1,47 @@
+/* The line is a border, not a background: that is what makes `dashed` a
+   one-word change. Thickness is a raw px value because the token layer has
+   no border-width scale, and 1/2/4 are the only values the spec asks for.
+   Solid comes from the fallback; only .dashed sets --divider-style. */
+.divider {
+  margin: 0;
+  border: 0 var(--divider-style, solid) var(--border);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.horizontal {
+  border-block-start-width: var(--divider-width);
+}
+
+/* No fixed height: in a flex row it stretches to the row, which is where a
+   vertical divider almost always lives. Outside one, give it a height.
+   inline-size: 0 shrinks the box to its border; an <hr> is a block and
+   would otherwise take the whole row. */
+.vertical {
+  inline-size: 0;
+  border-inline-start-width: var(--divider-width);
+}
+
+.sm {
+  --divider-width: 1px;
+}
+
+.md {
+  --divider-width: 2px;
+}
+
+.lg {
+  --divider-width: 4px;
+}
+
+.dashed {
+  --divider-style: dashed;
+}
+
+.horizontal.inset {
+  margin-inline: var(--space-4);
+}
+
+.vertical.inset {
+  margin-block: var(--space-2);
+}

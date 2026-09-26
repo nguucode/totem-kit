@@ -1,0 +1,78 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as CheckboxStories from './Checkbox.stories'
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+Selects an option, or several from a list, to apply when a form is
+submitted. Spec:
+[uiguideline.com/components/checkbox](https://www.uiguideline.com/components/checkbox).
+Behaviour from Base UI's [Checkbox](https://base-ui.com/react/components/checkbox)
+and [Field](https://base-ui.com/react/components/field).
+
+<Canvas of={CheckboxStories.Variants} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Container** | The 16px box: `--control-border` outline, filled with the variant when checked. |
+| **Check icon** | `check` when checked, `minus` when indeterminate. |
+| **Label** | `label`. Clicking it toggles the box. |
+| **Helper text** | `helperText`, indented under the label. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `checked` | boolean | – | Controlled. |
+| `defaultChecked` | boolean | `false` | Uncontrolled. |
+| `onCheckedChange` | `(checked) => void` | – | The spec's `onChange`. |
+| `isIndeterminate` | boolean | `false` | |
+| `label` | node | – | |
+| `helperText` | node | – | |
+| `name` | string | – | |
+| `value` | string | `"on"` | Submitted under `name` when checked. The spec's `defaultValue`. |
+| `variant` | `primary`, `secondary`, `neutral` | `neutral` | Colour of the checked box. |
+| `disabled`, `required`, `readOnly`, `autoFocus` | boolean | `false` | |
+| `validationState` | `default`, `success`, `error` | `default` | |
+
+<Controls of={CheckboxStories.Default} />
+
+### Differences from the spec
+
+- **Base UI's and HTML's names:** `defaultChecked` and `onCheckedChange`
+  for the spec's `defaultValue` (a string there, which reads as the
+  submitted value — that is `value`) and `onChange`; native `disabled`,
+  `required`, `readOnly` for the `is…` forms.
+- **`isIndeterminate` keeps its prefix.** Indeterminate is a DOM property,
+  not an HTML attribute, so by the kit's naming rule it takes `is`; Base UI
+  calls it `indeterminate`.
+- **`autoFocus` is applied on mount by the component.** The box is a
+  focusable `<span>`, which React's own `autoFocus` ignores.
+- **`neutral` is the foreground colour**, `secondary` a light fill that
+  keeps its outline. The spec's variant set differs from Switch's; both
+  are kept as specified.
+
+## Usage
+
+<Canvas of={CheckboxStories.SelectAll} />
+
+**Indeterminate** is for a parent whose children are partly selected. It
+is a display state: clicking the parent chooses all or none, never
+"mixed".
+
+<Canvas of={CheckboxStories.Validation} />
+
+## Accessibility
+
+- `role="checkbox"` with `aria-checked` (`mixed` when indeterminate);
+  Space toggles it. The label wraps the box, so it names it and is part
+  of the click target.
+- The unchecked outline is `--control-border`, 3:1 on the page on every
+  gray ramp.
+- `helperText` is the description; the error state sets `aria-invalid`.
+- A hidden native input carries `name`, `value` and `required` into form
+  submission and validation.
+- 44×44px touch target on coarse pointers.

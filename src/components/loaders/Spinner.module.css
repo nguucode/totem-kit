@@ -1,0 +1,84 @@
+.spinner {
+  --spinner-size: var(--space-6);
+  --spinner-color: var(--foreground);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--muted-foreground);
+}
+
+.sm {
+  --spinner-size: var(--space-4);
+}
+.md {
+  --spinner-size: var(--space-6);
+}
+.lg {
+  --spinner-size: var(--space-8);
+}
+
+/* The indicator is the part that must be seen, so it takes a colour that
+   clears 3:1 on the page: --primary-text (measured per accent at 4.5:1),
+   --muted-foreground (4.7:1), --foreground. */
+.primary {
+  --spinner-color: var(--primary-text);
+}
+.secondary {
+  --spinner-color: var(--muted-foreground);
+}
+.neutral {
+  --spinner-color: var(--foreground);
+}
+
+.svg {
+  inline-size: var(--spinner-size);
+  block-size: var(--spinner-size);
+  /* Start the arc at twelve o'clock. */
+  rotate: -90deg;
+}
+
+.track,
+.indicator {
+  fill: none;
+  /* 2.5 units of 24: 1.7px at 16px, 3.3px at 32px. */
+  stroke-width: 2.5;
+}
+
+/* The track only frames the motion; it is decoration and may be faint. */
+.track {
+  stroke: var(--border);
+}
+
+.indicator {
+  stroke: var(--spinner-color);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 200ms;
+}
+
+.spinning {
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  from {
+    rotate: -90deg;
+  }
+  to {
+    rotate: 270deg;
+  }
+}
+
+/* Slowed, not stopped: a frozen arc reads as "stuck". */
+@media (prefers-reduced-motion: reduce) {
+  .spinning {
+    animation-duration: 2.5s;
+  }
+}
+
+.label {
+  white-space: nowrap;
+}

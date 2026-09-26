@@ -9,7 +9,23 @@
   },
   "include": [
     "src/components/buttons/Button.tsx",
+    "src/components/atomic-elements/Divider.tsx",
     "src/components/inputs/TextInput.tsx",
+    "src/components/atomic-elements/Badge.tsx",
+    "src/lib/icon.tsx",
+    "src/components/atomic-elements/Avatar.tsx",
+    "src/components/atomic-elements/Tag.tsx",
+    "src/components/buttons/ToggleButton.tsx",
+    "src/components/controls/Switch.tsx",
+    "src/components/controls/Checkbox.tsx",
+    "src/components/controls/Radio.tsx",
+    "src/components/data-display/Accordion.tsx",
+    "src/components/data-display/Card.tsx",
+    "src/components/inputs/Textarea.tsx",
+    "src/components/inputs/Search.tsx",
+    "src/components/inputs/NumberInput.tsx",
+    "src/components/inputs/Select.tsx",
+    "src/components/inputs/Combobox.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]

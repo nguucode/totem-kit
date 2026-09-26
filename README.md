@@ -1,7 +1,7 @@
 # Zweihänder
 
-> **Early stage, not production-ready.** Only two components exist
-> (Button, Text Input) and no Figma file has been applied yet — the
+> **Early stage, not production-ready.** Only a few components exist
+> (see Components → Overview in Storybook) and no Figma file has been applied yet — the
 > palettes are placeholders, picked for contrast rather than designed.
 > Expect breaking changes on any `0.x` version bump. Fine to poke around
 > or reference the setup; not ready to build a real product on top of yet.
@@ -160,6 +160,21 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/tokens.json  # design 
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/theme.json   # <Theme> scope component
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/button.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/text-input.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/divider.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/badge.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/avatar.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/tag.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/toggle-button.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/switch.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/checkbox.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/radio.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/accordion.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/card.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/textarea.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/search.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/number-input.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/select.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/combobox.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -173,7 +188,7 @@ so components can be added by name:
 npx shadcn@latest add @zweihander/button
 ```
 
-The CLI resolves `registryDependencies` (e.g. `button` → `utils`, `slot`)
+The CLI resolves `registryDependencies` (e.g. `avatar` → `utils`, `icon`)
 and installs npm `dependencies` automatically, and rewrites the `@/...`
 import in the copied file to match whatever alias the target project uses.
 
@@ -189,6 +204,21 @@ npm install zweihander
 ```ts
 import { Button } from 'zweihander/button'
 import { TextInput } from 'zweihander/text-input'
+import { Divider } from 'zweihander/divider'
+import { Badge } from 'zweihander/badge'
+import { Avatar } from 'zweihander/avatar'
+import { Tag } from 'zweihander/tag'
+import { ToggleButton } from 'zweihander/toggle-button'
+import { Switch } from 'zweihander/switch'
+import { Checkbox } from 'zweihander/checkbox'
+import { RadioGroup } from 'zweihander/radio'
+import { Accordion } from 'zweihander/accordion'
+import { Card } from 'zweihander/card'
+import { Textarea } from 'zweihander/textarea'
+import { Search } from 'zweihander/search'
+import { NumberInput } from 'zweihander/number-input'
+import { Select } from 'zweihander/select'
+import { Combobox } from 'zweihander/combobox'
 ```
 
 ```css
@@ -208,6 +238,6 @@ automated by CI).
 ## Adding a component
 
 1. Build it in `src/components/<category>/` (pick a category from the Components overview) — see `buttons/Button.tsx` for the pattern: a `<Name>.module.css` beside the component, one class per variant and size, looked up as `styles[variant]` and merged with `cn()` from `src/lib/utils.ts`. Read tokens (`var(--primary)`), never literals, and set `font-family: var(--font-sans)` explicitly rather than inheriting — a consumer's page may set no font at all. Import shared code via the `@/` alias (e.g. `@/lib/utils`), not a relative path — that's what lets the CLI rewrite it to the consumer's own alias.
-2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`, tagged `['autodocs']` with a real `parameters.docs.description.component`.
+2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`, and a hand-written `<Component>.mdx` beside it (Anatomy, props, usage, accessibility) — no `autodocs` tag, per Structure above.
 3. Add an entry for it in [`registry.json`](registry.json) so it's installable via the CLI.
 4. Figma designs will be synced in as the source of truth for new components.

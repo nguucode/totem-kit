@@ -1,0 +1,74 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as SwitchStories from './Switch.stories'
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+Turns a setting on or off, taking effect immediately. Spec:
+[uiguideline.com/components/switch](https://www.uiguideline.com/components/switch).
+Behaviour from Base UI's [Switch](https://base-ui.com/react/components/switch)
+and [Field](https://base-ui.com/react/components/field).
+
+<Canvas of={SwitchStories.Variants} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Track** | The pill. `--control-border` when off, the variant's solid when on. |
+| **Thumb** | Slides to the end when on. The page colour off, the variant's label colour on. |
+| **Label** | `label`. Clicking it toggles the switch. |
+| **Helper text** | `helperText`, indented under the label. The error message when `validationState` is error. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `checked` | boolean | – | Controlled. |
+| `defaultChecked` | boolean | `false` | The spec's `defaultValue`. |
+| `onCheckedChange` | `(checked) => void` | – | The spec's `onChange`. |
+| `label` | node | – | |
+| `helperText` | node | – | Not in the spec's list; see below. |
+| `name` | string | – | |
+| `value` | string | `"on"` | Submitted under `name` when on. |
+| `size` | `sm`, `md`, `lg` | `md` | Track 28×16, 36×20, 44×24px. |
+| `variant` | `primary`, `accent`, `secondary`, `destructive` | `primary` | Colour of the on state. |
+| `disabled`, `required`, `readOnly` | boolean | `false` | |
+| `validationState` | `default`, `success`, `error` | `default` | |
+
+<Controls of={SwitchStories.Default} />
+
+### Differences from the spec
+
+- **Base UI's names:** `checked`, `defaultChecked`, `onCheckedChange` for
+  the spec's `defaultValue` and `onChange`; native `disabled`,
+  `required`, `readOnly` for `isDisabled`, `isRequired`, `isReadOnly`.
+- **`helperText` is added.** `validationState="error"` needs somewhere to
+  say what is wrong; colour alone is not a message.
+- **`secondary` is a light track with a dark thumb**, not a grey version
+  of the others: in this token set the secondary label is almost the
+  foreground, so a dark secondary track would match `accent`.
+
+## Usage
+
+A switch acts at once, like a light switch. If the choice only applies
+when a form is submitted, use a [Checkbox](?path=/docs/components-controls-checkbox--docs).
+
+<Canvas of={SwitchStories.Sizes} />
+
+<Canvas of={SwitchStories.Validation} />
+
+## Accessibility
+
+- `role="switch"` with `aria-checked`; Space toggles it. The label wraps
+  the control, so it names it and clicking it toggles it.
+- The off track is `--control-border`, measured at 3:1 on the page on
+  every gray ramp; the thumb is 4.5:1 or more against its track in both
+  states.
+- `helperText` is the switch's description (`aria-describedby`); in the
+  error state the switch has `aria-invalid`.
+- A hidden `<input type="checkbox">` carries `name`, `value` and
+  `required` into native form submission and validation.
+- 44×44px touch target on coarse pointers; the thumb stops animating
+  under `prefers-reduced-motion`.

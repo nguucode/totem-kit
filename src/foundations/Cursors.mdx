@@ -40,7 +40,7 @@ editing every component; with it, it is one declaration.
 `pointer` — the hand.
 
 This one exists because the convention above has a second half that is
-easy to state and easy to get wrong. Button supports `asChild`, so it can
+easy to state and easy to get wrong. Button takes `href`, so it can
 render as a real `<a href>` — and when it did, it inherited
 `--cursor-button` and lost the hand that the browser gives every other
 link on the page. A link styled as a button is still a link.
@@ -55,20 +55,18 @@ The `a[href]` part is doing real work. An `<a>` without `href` is not a
 link and browsers do not give it the hand either, so matching on the
 attribute rather than the element keeps the rule honest.
 
-**`variant="link"` is deliberately not covered.** That renders a
-`<button>` that *looks* like a link but acts on the current page, so by
-the convention above it keeps the arrow. The distinction the kit draws is
-navigation versus action, not appearance:
+The distinction the kit draws is navigation versus action, not
+appearance: a `<button>` styled as a link would still act on the current
+page, so it would keep the arrow.
 
 | | Element | Cursor |
 | --- | --- | --- |
 | `<Button>` | `<button>` | arrow |
-| `<Button variant="link">` | `<button>` | arrow |
-| `<Button asChild><a href></a></Button>` | `<a href>` | hand |
+| `<Button href="/x">` | `<a href>` | hand |
 
-The AsChild story asserts this, and compares against a bare `<a href>`
-rather than the literal `pointer` — so overriding `--cursor-link` moves
-the assertion with it instead of breaking it.
+The Button `Href` story asserts this, and compares against a bare
+`<a href>` rather than the literal `pointer` — so overriding
+`--cursor-link` moves the assertion with it instead of breaking it.
 
 ## `--cursor-disabled`
 
@@ -80,8 +78,7 @@ the user gets feedback on hover. Button's disabled state is
 `pointer-events: none`, which makes the element untargetable; an
 untargetable element is never hovered, so a cursor there would be dead
 CSS. The `pointer-events: none` is not incidental — because Button
-supports `asChild` it can render as an `<a>`, which ignores the `disabled`
-attribute entirely. Blocking pointer events is what actually disables it
+can render as an `<a>`, which ignores the `disabled` attribute entirely. Blocking pointer events is what actually disables it
 in that case.
 
 So the token applies to the pattern where a control stays hoverable while

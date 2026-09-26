@@ -1,0 +1,75 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as TagStories from './Tag.stories'
+
+<Meta of={TagStories} />
+
+# Tag
+
+A short label that categorises or marks something: a status, a filter
+chip, a person picked in a field. Spec:
+[uiguideline.com/components/tag](https://www.uiguideline.com/components/tag).
+
+<Canvas of={TagStories.Matrix} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Container** | The box: fill, border and corner by `appearance` and `isRounded`. |
+| **Start icon** | `startIcon`, sized to the text. Decorative. |
+| **Start avatar** | `startAvatar`, a small round image. Decorative (`alt=""`). Replaces the icon when both are given. |
+| **Text** | `text`. Truncates with an ellipsis rather than wrapping. |
+| **Remove button** | `hasRemoveButton`: a real `<button>` that calls `onRemove`. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `text` | string | – | Required. |
+| `startIcon` | node | – | Usually `<Icon name="…" />`. |
+| `startAvatar` | string (URL) | – | |
+| `size` | `sm`, `md` | `md` | 20px / 24px tall. |
+| `appearance` | `subtle`, `outlined`, `solid` | `subtle` | |
+| `variant` | `info`, `success`, `warning`, `danger` | `info` | The status tokens, see [Colors](?path=/docs/foundations-colors--docs). |
+| `isRounded` | boolean | `false` | Pill, whatever the radius preset. |
+| `hasRemoveButton` | boolean | `false` | |
+| `onRemove` | `(event) => void` | – | |
+
+Every other `<span>` attribute passes through to the container.
+
+<Controls of={TagStories.Default} />
+
+### Differences from the spec
+
+- **The spec's four variants needed new tokens.** `info`, `success`,
+  `warning` and `danger` were added to the token layer for Tag and are
+  shared with Alert and Toast.
+- **`startAvatar` wins over `startIcon`** if both are passed; the spec
+  does not say.
+- **The tag does not remove itself.** `onRemove` reports the click and
+  the parent drops the tag from its list, so the list stays the one
+  source of truth.
+
+## Usage
+
+<Canvas of={TagStories.Sizes} />
+
+<Canvas of={TagStories.RemovableList} />
+
+## Accessibility
+
+- The remove button is named **"Remove {text}"**, so a list of tags does
+  not read as a row of identical "Remove" buttons.
+- It is a native `<button>`: Tab to reach, Enter or Space to press.
+- On touch screens (`pointer: coarse`) its hit area grows to 44×44px
+  without changing how the tag looks. That area reaches 10px above and
+  below a 24px tag, so in a wrapped list on touch keep at least
+  `--space-6` between rows, or neighbouring targets overlap and a tap can
+  remove the wrong tag.
+- After a tag is removed, focus has nowhere to stay. If that matters, move
+  it to the next tag's remove button, or to the field the tags belong to,
+  in your `onRemove`.
+- Colour carries meaning here, so it must never be the only signal: the
+  text says what the status is. The icon and the avatar are decorative.
+- All label and text pairs clear 4.5:1 in both themes; the build checks
+  them.

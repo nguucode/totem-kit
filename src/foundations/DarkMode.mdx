@@ -18,7 +18,7 @@ light theme. That is the trade — see **Following the system** below.
 
 ## Components don't know about it
 
-Neither `Button.module.css` nor `TextInput.module.css` mentions `.dark`.
+No component stylesheet — `Button.module.css`, `InputField.module.css` or any other — mentions `.dark`.
 They write `background: var(--primary)`, and it is the variable that
 changes; the rule is identical in both modes.
 

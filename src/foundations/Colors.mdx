@@ -129,6 +129,22 @@ to avoid; if you need it, darken `--muted-foreground` to neutral-600
 (7.15:1 on muted) and accept that all secondary text in the kit gets
 heavier.
 
+**`--surface-subtle` is a filled panel that muted text can sit on.**
+`--muted` is the obvious fill, but muted text on it is 4.34:1; on
+gray-50 it is 4.53:1 (neutral), and 5.83:1 on gray-800 in dark — a step off `--card` so a filled panel still reads as filled. Two gray ramps miss
+even the page: olive and mist put `--muted-foreground` at 4.26:1 and
+4.61:1 on white, and 4.12:1 and 4.45:1 on this surface.
+
+**`--control-border` outlines a checkbox, radio or switch track.** Those
+controls have nothing else that shows they are there, so WCAG 1.4.11 wants
+3:1 against the page — and `--input` (gray-200) is about 1.3:1. The build
+measures it on all nine gray ramps.
+
+**`--primary-text` is the brand hue as text** — an outlined or ghost
+primary button. The solid is picked for its label, not for being read on
+the page, and amber-500 on white is barely 2:1, so the build measures a
+third step per accent that clears 4.5:1 against the page.
+
 **Two values are deliberately off the beaten path.** `--ring` follows the
 accent at its `-700` step rather than being a neutral, because a focus
 indicator has to clear 3:1 against the page under WCAG 1.4.11 and the
@@ -138,6 +154,35 @@ And dark `--destructive-foreground` is neutral-900 rather than near-white:
 dark mode inverts the destructive fill to red-400, and near-white on
 red-400 is 2.77:1, which makes the label of a destructive button in dark
 mode fail AA outright.
+
+## Status
+
+Four fixed hues for messages about state: `info` (blue), `success`
+(green), `warning` (amber), `danger` (red). Like `--destructive`, they do
+not follow the accent. Each comes as four tokens:
+
+| Token | Use | Light | Dark |
+| --- | --- | --- | --- |
+| `--{status}` | Solid fill | 600 (green 700, amber 500) | 400 |
+| `--{status}-foreground` | Label on the solid | neutral-50 (amber: neutral-900) | neutral-900 |
+| `--{status}-subtle` | Tinted fill | 100 | 950 |
+| `--{status}-text` | Text, icon and border on the tint or the page | 800 | 300 |
+
+The steps are pinned by hand, so `npm run tokens` measures them and fails
+the build if any pair drops under 4.5:1:
+
+| Pair | info | success | warning | danger |
+| --- | --- | --- | --- | --- |
+| label on solid, light | 5.03:1 | 4.73:1 | 8.35:1 | 4.56:1 |
+| text on subtle, light | 7.25:1 | 6.45:1 | 6.41:1 | 6.86:1 |
+| text on page, light | 8.84:1 | 7.09:1 | 7.13:1 | 8.37:1 |
+| label on solid, dark | 6.79:1 | 10.09:1 | 10.43:1 | 6.19:1 |
+| text on subtle, dark | 8.13:1 | 10.67:1 | 10.37:1 | 8.40:1 |
+| text on page, dark | 10.93:1 | 14.16:1 | 13.69:1 | 10.30:1 |
+
+`danger` and `destructive` share red-600 but mean different things:
+`destructive` is an action that destroys, `danger` is a state that is
+wrong. Keep them apart so either can move without the other.
 
 ## Color is never the only signal
 
@@ -164,10 +209,13 @@ swappable on its own: an **accent** (indigo by default) for `--primary` and
 | `secondary`, `muted`, `accent` | gray-100 | gray-800 | gray |
 | `secondary-foreground`, `accent-foreground` | gray-900 | gray-50 | gray |
 | `muted-foreground` | gray-500 | gray-400 | gray |
+| `surface-subtle` | gray-50 | gray-800 | gray |
 | `destructive` | red-600 | red-400 | fixed |
 | `destructive-foreground` | neutral-50 | neutral-900 | fixed |
 | `border`, `input` | gray-200 | white 10% / 15% | gray |
+| `control-border` | gray-500 | gray-400 | gray |
 | `ring` | accent-700 | accent-400 | **accent** |
+| `primary-text` | first of accent-600…900 at 4.5:1 on white | first of accent-400…200 at 4.5:1 on the dark page | **accent** |
 
 The light accent step is `-600` for most hues but `-700` for sky, fuchsia,
 pink and rose, and the label is white or near-black depending on which one

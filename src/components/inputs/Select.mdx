@@ -1,0 +1,74 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as SelectStories from './Select.stories'
+
+<Meta of={SelectStories} />
+
+# Select
+
+Chooses one option from a list that opens below the field. Spec:
+[uiguideline.com/components/select](https://www.uiguideline.com/components/select).
+Behaviour from Base UI's [Select](https://base-ui.com/react/components/select);
+the field is [Text Input](?path=/docs/components-inputs-textinput--docs)'s.
+
+<Canvas of={SelectStories.Appearances} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Label** | `label`. Clicking it focuses the field without opening it. |
+| **Select input** | A button showing the selected label or the placeholder, and a chevron (a spinner while loading). |
+| **Options list** | Opens below the field, in a portal. |
+| **Option** | Each option; the selected one has a check. Disabled options are dimmed and skipped. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `options` | `string[]` or `{ value, label, disabled? }[]` | – | Required. Labels may be nodes. |
+| `value`, `defaultValue` | string or `null` | – | |
+| `onValueChange` | `(value) => void` | – | The spec's `onChange`. |
+| `placeholder` | string | – | Shown until something is chosen. |
+| `label`, `helperText`, `validationState` | | – | |
+| `size` | `sm`, `md`, `lg` | `md` | |
+| `appearance` | `outlined`, `filled`, `underlined`, `unstyled` | `outlined` | |
+| `isLoading` | boolean | `false` | Spinner in place of the chevron; `aria-busy`. |
+| `isFullWidth` | boolean | `false` | |
+| `name` | string | – | Submitted with the form. |
+| `disabled`, `readOnly`, `required`, `autoFocus` | boolean | `false` | Native names. |
+
+<Controls of={SelectStories.Default} />
+
+### Differences from the spec
+
+- **`onValueChange` with the value**, Base UI's name, instead of
+  `onChange`.
+- **Native names** for `disabled`, `readOnly`, `required`.
+- **Options are strings or `{ value, label }` objects.** A bare component
+  is not an option: an option needs a value to submit and compare, so a
+  component goes in `label`.
+- **The list opens below the field** instead of Base UI's default of
+  laying it over the trigger with the selected option aligned — the
+  anatomy shows a list below.
+
+## Usage
+
+Five to about fifteen options. Fewer: radios, which show every choice at
+once. More, or when people know what they want: a
+[Combobox](?path=/docs/components-inputs-combobox--docs), which lets them
+type.
+
+<Canvas of={SelectStories.Sizes} />
+
+## Accessibility
+
+- The field is a button with `role="combobox"`, `aria-haspopup="listbox"`
+  and `aria-expanded`; the list is a `listbox` of `option`s.
+- **Keyboard:** Space, Enter or Up/Down open it; arrows move, typing
+  jumps to a matching option, Enter selects, Escape closes, and focus
+  returns to the field.
+- The label is associated with the field (it is a `<div>` because a
+  `<label>` would also click the button).
+- The list renders in a portal at the end of `<body>`: it reads the
+  root's tokens, so a `Theme` scope around the field does not restyle it.
+- Options are 32px, 44px on touch screens.

@@ -37,8 +37,8 @@ export const AccentColor: Story = {
     <div className={docs.stackWide} style={{ gap: 'var(--space-4)' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
         {ACCENT_COLORS.map((accent) => (
-          <Theme key={accent} accentColor={accent} asChild>
-            <Button size="sm">{accent}</Button>
+          <Theme key={accent} accentColor={accent} render={<Button size="sm" />}>
+            {accent}
           </Theme>
         ))}
       </div>
@@ -88,7 +88,9 @@ export const Scaling: Story = {
         <Theme key={scaling} scaling={scaling} className={docs.row} style={{ gap: 'var(--space-3)' }}>
           <span className={docs.caption} style={{ width: '3rem', flexShrink: 0 }}>{scaling}</span>
           <Button>Button</Button>
-          <TextInput placeholder="Input" style={{ width: '10rem' }} />
+          <div style={{ width: '10rem' }}>
+            <TextInput aria-label="Input" placeholder="Input" isFullWidth />
+          </div>
         </Theme>
       ))}
     </div>

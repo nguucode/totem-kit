@@ -16,9 +16,73 @@
       "types": "./dist/components/buttons/Button.d.ts",
       "import": "./dist/components/buttons/Button.js"
     },
+    "./divider": {
+      "types": "./dist/components/atomic-elements/Divider.d.ts",
+      "import": "./dist/components/atomic-elements/Divider.js"
+    },
     "./text-input": {
       "types": "./dist/components/inputs/TextInput.d.ts",
       "import": "./dist/components/inputs/TextInput.js"
+    },
+    "./badge": {
+      "types": "./dist/components/atomic-elements/Badge.d.ts",
+      "import": "./dist/components/atomic-elements/Badge.js"
+    },
+    "./icon": {
+      "types": "./dist/lib/icon.d.ts",
+      "import": "./dist/lib/icon.js"
+    },
+    "./avatar": {
+      "types": "./dist/components/atomic-elements/Avatar.d.ts",
+      "import": "./dist/components/atomic-elements/Avatar.js"
+    },
+    "./tag": {
+      "types": "./dist/components/atomic-elements/Tag.d.ts",
+      "import": "./dist/components/atomic-elements/Tag.js"
+    },
+    "./toggle-button": {
+      "types": "./dist/components/buttons/ToggleButton.d.ts",
+      "import": "./dist/components/buttons/ToggleButton.js"
+    },
+    "./switch": {
+      "types": "./dist/components/controls/Switch.d.ts",
+      "import": "./dist/components/controls/Switch.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/controls/Checkbox.d.ts",
+      "import": "./dist/components/controls/Checkbox.js"
+    },
+    "./radio": {
+      "types": "./dist/components/controls/Radio.d.ts",
+      "import": "./dist/components/controls/Radio.js"
+    },
+    "./accordion": {
+      "types": "./dist/components/data-display/Accordion.d.ts",
+      "import": "./dist/components/data-display/Accordion.js"
+    },
+    "./card": {
+      "types": "./dist/components/data-display/Card.d.ts",
+      "import": "./dist/components/data-display/Card.js"
+    },
+    "./textarea": {
+      "types": "./dist/components/inputs/Textarea.d.ts",
+      "import": "./dist/components/inputs/Textarea.js"
+    },
+    "./search": {
+      "types": "./dist/components/inputs/Search.d.ts",
+      "import": "./dist/components/inputs/Search.js"
+    },
+    "./number-input": {
+      "types": "./dist/components/inputs/NumberInput.d.ts",
+      "import": "./dist/components/inputs/NumberInput.js"
+    },
+    "./select": {
+      "types": "./dist/components/inputs/Select.d.ts",
+      "import": "./dist/components/inputs/Select.js"
+    },
+    "./combobox": {
+      "types": "./dist/components/inputs/Combobox.d.ts",
+      "import": "./dist/components/inputs/Combobox.js"
     },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
@@ -49,6 +113,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@base-ui/react": "^1.8.0",
     "clsx": "^2.1.1"
   },
   "devDependencies": {

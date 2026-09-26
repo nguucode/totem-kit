@@ -76,7 +76,9 @@ function PresetRow({ preset }: { preset: RadiusPreset }) {
       <span className={docs.caption}>radius="{preset}"</span>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-3)' }}>
         <Button>Button</Button>
-        <TextInput placeholder="Input" style={{ width: '10rem' }} />
+        <div style={{ width: '10rem' }}>
+          <TextInput aria-label="Input" placeholder="Input" isFullWidth />
+        </div>
         <div
           data-panel
           style={{
@@ -120,7 +122,8 @@ export const Presets: Story = {
       const scope = scopeFor(preset)
       return {
         control: px(scope.querySelector('button')!),
-        field: px(scope.querySelector('input')!),
+        // The field's corner is on the box that draws it, not the bare <input>.
+        field: px(scope.querySelector('input')!.parentElement!),
         panel: px(scope.querySelector('[data-panel]')!),
       }
     }

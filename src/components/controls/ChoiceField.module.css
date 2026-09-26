@@ -1,0 +1,71 @@
+/* Shared by Checkbox, Radio and Switch. Each control sets --choice-control
+   (its width) so the helper text lines up under the label, not the control. */
+.field {
+  --choice-control: var(--space-4);
+  display: grid;
+  gap: var(--space-1);
+  font-family: var(--font-sans);
+}
+
+.label {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  inline-size: fit-content;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--foreground);
+}
+
+.label[data-disabled] {
+  cursor: var(--cursor-disabled);
+  opacity: 0.5;
+}
+
+.required {
+  margin-inline-start: 0.125rem;
+  color: var(--danger-text);
+}
+
+.helper {
+  margin: 0;
+  padding-inline-start: calc(var(--choice-control) + var(--space-2));
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--muted-foreground);
+}
+
+.success .helper {
+  color: var(--success-text);
+}
+
+.error .helper {
+  color: var(--danger-text);
+}
+
+/* Shared control plumbing: every control is centred on the first line of
+   its label, and gets a 44px hit area on touch screens without growing. */
+.control {
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  /* (line-height - control height) / 2, so the control sits on the first
+     line of a label that wraps. */
+  margin-block: calc((1em * var(--leading-body) - var(--choice-control-block, var(--choice-control))) / 2);
+  outline-offset: 2px;
+}
+
+.control:focus-visible {
+  outline: 2px solid var(--ring);
+}
+
+@media (pointer: coarse) {
+  .control::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    inline-size: max(100%, 44px);
+    block-size: max(100%, 44px);
+    translate: -50% -50%;
+  }
+}

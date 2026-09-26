@@ -1,0 +1,72 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as NumberInputStories from './NumberInput.stories'
+
+<Meta of={NumberInputStories} />
+
+# Number Input
+
+A number, typed or stepped: a quantity, a price, a count. Spec:
+[uiguideline.com/components/number-input](https://www.uiguideline.com/components/number-input).
+Behaviour from Base UI's [Number Field](https://base-ui.com/react/components/number-field);
+the field is [Text Input](?path=/docs/components-inputs-textinput--docs)'s.
+
+<Canvas of={NumberInputStories.Default} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Input** | The number, in tabular figures, formatted to `precision`. |
+| **Decrease button** | `minus`. Disabled at `min`. |
+| **Increase button** | `plus`. Disabled at `max`. |
+
+Plus the shared **label** and **helper text**.
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `value` | number or `null` | – | Controlled; `null` is empty. |
+| `defaultValue` | number | – | |
+| `onValueChange` | `(value) => void` | – | The spec's `onChange`; `null` when emptied. |
+| `min`, `max` | number | – | |
+| `step` | number | `1` | Buttons and arrow keys. Shift steps by 10, Alt by 0.1. |
+| `precision` | number | – | Decimal places shown and accepted. |
+| `size` | `sm`, `md`, `lg` | `md` | |
+| `appearance` | `outlined`, `filled`, `underlined`, `unstyled` | `outlined` | |
+| `label`, `helperText`, `validationState` | | – | From the shared field. |
+| `isFullWidth` | boolean | `false` | |
+| `name`, `placeholder` | string | – | |
+| `disabled`, `readOnly`, `required` | boolean | `false` | Native names. |
+
+<Controls of={NumberInputStories.Default} />
+
+### Differences from the spec
+
+- **`onValueChange` with a number**, not `onChange`: built on Base UI, it
+  takes Base UI's name, and the value arrives parsed rather than as text.
+- **`max` is optional with no default.** The spec marks it required with a
+  default of 100, which contradicts itself; a quantity with no upper
+  bound is common.
+- **`label`, `helperText`, `validationState`, `appearance`** are added
+  from the shared field.
+
+## Usage
+
+<Canvas of={NumberInputStories.Precision} />
+
+<Canvas of={NumberInputStories.Sizes} />
+
+Use it for quantities people adjust by a little. For numbers that are
+really identifiers — card numbers, postcodes, phone numbers — use a Text
+Input with `inputMode="numeric"`: stepping a postcode is meaningless.
+
+## Accessibility
+
+- The input is a text field with `inputmode="numeric"` and the role
+  description "Number field"; Up and Down step it, Shift and Alt change
+  the step, Home and End go to `min` and `max`.
+- The buttons are named Increase and Decrease and are disabled at the
+  limits, so a screen reader hears why nothing happened.
+- The value is parsed and formatted in the user's locale.
+- Stepper buttons widen to 44px on touch screens.

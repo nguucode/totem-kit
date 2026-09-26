@@ -12,7 +12,23 @@ export default defineConfig({
     lib: {
       entry: {
         'components/buttons/Button': 'src/components/buttons/Button.tsx',
+        'components/atomic-elements/Divider': 'src/components/atomic-elements/Divider.tsx',
         'components/inputs/TextInput': 'src/components/inputs/TextInput.tsx',
+        'components/atomic-elements/Badge': 'src/components/atomic-elements/Badge.tsx',
+        'lib/icon': 'src/lib/icon.tsx',
+        'components/atomic-elements/Avatar': 'src/components/atomic-elements/Avatar.tsx',
+        'components/atomic-elements/Tag': 'src/components/atomic-elements/Tag.tsx',
+        'components/buttons/ToggleButton': 'src/components/buttons/ToggleButton.tsx',
+        'components/controls/Switch': 'src/components/controls/Switch.tsx',
+        'components/controls/Checkbox': 'src/components/controls/Checkbox.tsx',
+        'components/controls/Radio': 'src/components/controls/Radio.tsx',
+        'components/data-display/Accordion': 'src/components/data-display/Accordion.tsx',
+        'components/data-display/Card': 'src/components/data-display/Card.tsx',
+        'components/inputs/Textarea': 'src/components/inputs/Textarea.tsx',
+        'components/inputs/Search': 'src/components/inputs/Search.tsx',
+        'components/inputs/NumberInput': 'src/components/inputs/NumberInput.tsx',
+        'components/inputs/Select': 'src/components/inputs/Select.tsx',
+        'components/inputs/Combobox': 'src/components/inputs/Combobox.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },
@@ -20,7 +36,7 @@ export default defineConfig({
       cssFileName: 'styles',
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'react-dom', 'clsx'],
+      external: ['react', 'react/jsx-runtime', 'react-dom', 'clsx', /^@base-ui\/react/],
     },
   },
 })

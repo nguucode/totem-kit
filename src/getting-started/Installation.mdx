@@ -33,6 +33,21 @@ if it has none. Then:
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/tokens.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/button.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/text-input.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/divider.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/badge.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/avatar.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/tag.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/toggle-button.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/switch.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/checkbox.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/radio.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/accordion.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/card.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/textarea.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/search.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/number-input.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/select.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/combobox.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/theme.json
 ```
 
@@ -48,8 +63,8 @@ npx shadcn@latest add @zweihander/button
 
 `tokens` only needs adding once — every component depends on it, so the CLI
 pulls it in with the first component anyway. Shared helpers (`utils`,
-`slot`) resolve the same way, and the one npm dependency (`clsx`) is
-installed for you.
+`icon`) resolve the same way, and the npm dependencies (`clsx`, and
+`@base-ui/react` for components with behaviour) are installed for you.
 
 Import the token layer once, at your app's entry:
 
@@ -79,6 +94,21 @@ npm install zweihander
 ```ts
 import { Button } from 'zweihander/button'
 import { TextInput } from 'zweihander/text-input'
+import { Divider } from 'zweihander/divider'
+import { Badge } from 'zweihander/badge'
+import { Avatar } from 'zweihander/avatar'
+import { Tag } from 'zweihander/tag'
+import { ToggleButton } from 'zweihander/toggle-button'
+import { Switch } from 'zweihander/switch'
+import { Checkbox } from 'zweihander/checkbox'
+import { RadioGroup } from 'zweihander/radio'
+import { Accordion } from 'zweihander/accordion'
+import { Card } from 'zweihander/card'
+import { Textarea } from 'zweihander/textarea'
+import { Search } from 'zweihander/search'
+import { NumberInput } from 'zweihander/number-input'
+import { Select } from 'zweihander/select'
+import { Combobox } from 'zweihander/combobox'
 import { Theme } from 'zweihander/theme'
 ```
 

@@ -1,0 +1,81 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ToggleButtonStories from './ToggleButton.stories'
+
+<Meta of={ToggleButtonStories} />
+
+# Toggle Button
+
+A button that stays pressed: bold on or off, following or not, a filter
+applied or not. Spec:
+[uiguideline.com/components/toggle-button](https://www.uiguideline.com/components/toggle-button).
+Behaviour from Base UI's [Toggle](https://base-ui.com/react/components/toggle);
+the look is [Button](?path=/docs/components-buttons-button--docs)'s.
+
+<Canvas of={ToggleButtonStories.Matrix} />
+
+## Anatomy
+
+The same parts as Button — **container**, **start icon**, **label**, **end
+icon**, **spinner** — plus one state: **pressed**.
+
+| State | Looks like |
+| --- | --- |
+| Unpressed | Always neutral: `secondary outlined` (or `ghost` when the appearance is ghost). |
+| Pressed, `contained` | The variant's solid fill. |
+| Pressed, `outlined` | The variant's border on the neutral secondary fill. |
+| Pressed, `ghost` | The neutral secondary fill. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `pressed` | boolean | – | Controlled. The spec's `isSelected`. |
+| `defaultPressed` | boolean | `false` | Uncontrolled starting state. |
+| `onPressedChange` | `(pressed) => void` | – | |
+| `variant` | `primary`, `accent`, `secondary`, `destructive` | `primary` | Colour of the pressed state. |
+| `appearance` | `contained`, `outlined`, `ghost` | `contained` | Style of the pressed state. |
+| `size` | `sm`, `md`, `lg`, `xl` | `md` | |
+| `startIcon`, `endIcon` | node | – | |
+| `isIconOnly` | boolean | `false` | Requires `aria-label`. |
+| `isLoading` | boolean | `false` | |
+| `isFullWidth` | boolean | `false` | |
+| `disabled` | boolean | `false` | |
+| `onClick` | function | – | |
+
+<Controls of={ToggleButtonStories.Default} />
+
+### Differences from the spec
+
+- **`pressed`, `defaultPressed`, `onPressedChange`** instead of
+  `isSelected`: Base UI's names, per the kit's convention for components
+  built on it. "Pressed" is also the ARIA word (`aria-pressed`).
+- **`disabled`**, not `isDisabled`.
+- **`variant` and `appearance` describe the pressed state.** The spec
+  applies them to the button without saying what changes when it is
+  selected. If unpressed also took them, a contained toggle would look
+  pressed whether it was or not.
+- **A pressed outlined or ghost toggle is filled neutral, not tinted with
+  its variant.** It stays in that state indefinitely, so its label has to
+  pass 4.5:1 on the fill — and red text on a red tint measures 3.7:1.
+- **`isIconOnly`**, as on Button.
+
+## Usage
+
+Use a toggle for a setting that is on or off and applies immediately.
+If the choice is submitted with a form, use a Checkbox or Switch instead.
+For one-of-many, use a group of radios or tabs.
+
+<Canvas of={ToggleButtonStories.IconOnly} />
+
+<Canvas of={ToggleButtonStories.Controlled} />
+
+## Accessibility
+
+- A native `<button>` with `aria-pressed`, so a screen reader announces
+  "Subscribe, toggle button, pressed".
+- **Keep the label the same in both states.** `aria-pressed` carries the
+  state; a label that switches from "Follow" to "Unfollow" as well reads
+  as "Unfollow, pressed", which contradicts itself.
+- Enter and Space both toggle it.
+- `isLoading` keeps it focusable but inert, as on Button.
+- 44×44px touch target at `sm` and `md`, from Button.

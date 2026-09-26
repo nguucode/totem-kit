@@ -62,12 +62,27 @@ function pickRing(hue, page, candidates) {
   throw new Error(`accent "${hue}": no step clears ${AA_NON_TEXT}:1 against the page.`)
 }
 
+/**
+ * Brand-coloured text (an outlined or ghost primary button) is a third pick:
+ * 4.5:1 against the page. The solid step is chosen for its label, not for
+ * being read as text itself, and the warm hues' solids miss this badly.
+ */
+function pickText(hue, page, candidates) {
+  for (const step of candidates) {
+    const value = ramp('accent', hue, step)
+    if (contrast(value, page) >= AA_TEXT) return { step, value }
+  }
+  throw new Error(`accent "${hue}": no step clears ${AA_TEXT}:1 as text on the page.`)
+}
+
 const palettes = ACCENTS.map((hue) => {
   const light = pickAccent(hue, ['600', '700', '800'])
   const dark = pickAccent(hue, ['400', '500', '300'])
   const ringLight = pickRing(hue, PAGE_LIGHT, ['700', '800', '900'])
   const ringDark = pickRing(hue, PAGE_DARK, [dark.step, '300', '500'])
-  return { hue, light, dark, ringLight, ringDark }
+  const textLight = pickText(hue, PAGE_LIGHT, ['600', '700', '800', '900'])
+  const textDark = pickText(hue, PAGE_DARK, ['400', '300', '200'])
+  return { hue, light, dark, ringLight, ringDark, textLight, textDark }
 })
 
 // ---------------------------------------------------------------- tokens.css
@@ -91,6 +106,50 @@ const decls = (obj, indent = '  ') =>
   entries(obj)
     .map(([k, v]) => `${indent}--${k}: ${v.$value};`)
     .join('\n')
+
+/**
+ * Status colours pin their ramp steps by hand, so measure them the way the
+ * accents are measured: a label on its solid, and status text on both its
+ * subtle tint and the page, all at 4.5:1. A ramp edit that breaks one stops
+ * the build instead of shipping an unreadable Tag or Alert.
+ */
+for (const [mode, page] of [
+  ['light', PAGE_LIGHT],
+  ['dark', PAGE_DARK],
+]) {
+  const c = semantic.color[mode]
+  const val = (k) => alias(c[k].$value, { accent: {}, gray: {} })
+  for (const s of ['info', 'success', 'warning', 'danger']) {
+    for (const [fg, bg] of [
+      [`${s}-foreground`, s],
+      [`${s}-text`, `${s}-subtle`],
+      [`${s}-text`, page],
+    ]) {
+      const ratio = contrast(val(fg), c[bg] ? val(bg) : bg)
+      if (ratio < AA_TEXT)
+        throw new Error(`${mode} --${fg} on ${c[bg] ? `--${bg}` : 'the page'} is ${ratio.toFixed(2)}:1, below ${AA_TEXT}:1.`)
+    }
+  }
+}
+
+/**
+ * --control-border outlines a checkbox, radio or switch track: the only
+ * thing that shows the control is there, so WCAG 1.4.11 wants 3:1 against
+ * the page. --input is far lighter on purpose (a text field has its
+ * placeholder and label), so this is its own token, measured on every gray
+ * ramp because the Theme can swap the ramp underneath it.
+ */
+for (const g of GRAYS) {
+  for (const [mode, page] of [
+    ['light', PAGE_LIGHT],
+    ['dark', ramp('gray', g, '950')],
+  ]) {
+    const step = semantic.color[mode]['control-border'].$value.match(/\{gray\.(\d+)\}/)[1]
+    const ratio = contrast(ramp('gray', g, step), page)
+    if (ratio < AA_NON_TEXT)
+      throw new Error(`${mode} --control-border on the ${g} ramp is ${ratio.toFixed(2)}:1, below ${AA_NON_TEXT}:1.`)
+  }
+}
 
 /**
  * Only the light shadows are authored. Dark scales every alpha and clamps
@@ -154,9 +213,11 @@ const defaults = palettes.find((p) => p.hue === DEFAULT_ACCENT)
 const accentVars = (p) => `  --accent-solid-light: ${p.light.solid};
   --accent-contrast-light: ${p.light.contrast};
   --accent-ring-light: ${p.ringLight.value};
+  --accent-text-light: ${p.textLight.value};
   --accent-solid-dark: ${p.dark.solid};
   --accent-contrast-dark: ${p.dark.contrast};
-  --accent-ring-dark: ${p.ringDark.value};`
+  --accent-ring-dark: ${p.ringDark.value};
+  --accent-text-dark: ${p.textDark.value};`
 
 const GRAY_STEPS = ['50', '100', '200', '400', '500', '800', '900', '950']
 const grayVars = (hue) =>
@@ -168,6 +229,7 @@ const accentOf = (mode) => ({
   solid: `var(--accent-solid-${mode})`,
   contrast: `var(--accent-contrast-${mode})`,
   ring: `var(--accent-ring-${mode})`,
+  text: `var(--accent-text-${mode})`,
 })
 
 const colorBlock = (mode) =>
@@ -239,12 +301,14 @@ ${shadowDecls('dark')}
   --primary: var(--accent-solid-light);
   --primary-foreground: var(--accent-contrast-light);
   --ring: var(--accent-ring-light);
+  --primary-text: var(--accent-text-light);
 }
 .dark [data-accent],
 [data-accent].dark {
   --primary: var(--accent-solid-dark);
   --primary-foreground: var(--accent-contrast-dark);
   --ring: var(--accent-ring-dark);
+  --primary-text: var(--accent-text-dark);
 }
 
 [data-gray] {
@@ -357,6 +421,7 @@ const figmaAlias = (value, p) =>
     if (group === 'gray') return `{primitive.gray.${DEFAULT_GRAY}.${rest[0]}}`
     if (rest[0] === 'solid') return `{primitive.accent.${DEFAULT_ACCENT}.${p.step}}`
     if (rest[0] === 'ring') return `{primitive.accent.${DEFAULT_ACCENT}.${p.ringStep}}`
+    if (rest[0] === 'text') return `{primitive.accent.${DEFAULT_ACCENT}.${p.textStep}}`
     // The label colour is whichever end of the neutral ramp the measurement chose.
     if (rest[0] === 'contrast')
       return `{primitive.gray.neutral.${p.label === 'white' ? '50' : '900'}}`
@@ -377,8 +442,8 @@ const dtcg = {
   primitive: primitives,
   semantic: {
     $description: `Resolved against the default palette (${DEFAULT_ACCENT} accent, ${DEFAULT_GRAY} gray). The other 16 accents and 8 grays live under \`primitive\` and are selected at runtime by [data-accent] / [data-gray], which has no Figma equivalent.`,
-    light: figmaMode('light', { ...defaults.light, ringStep: defaults.ringLight.step }),
-    dark: figmaMode('dark', { ...defaults.dark, ringStep: defaults.ringDark.step }),
+    light: figmaMode('light', { ...defaults.light, ringStep: defaults.ringLight.step, textStep: defaults.textLight.step }),
+    dark: figmaMode('dark', { ...defaults.dark, ringStep: defaults.ringDark.step, textStep: defaults.textDark.step }),
   },
   // Kept as separate groups: in Figma these are different variable types and
   // belong in different collections, which a flat `dimension` bag prevents.
@@ -435,6 +500,7 @@ for (const mode of ['light', 'dark']) {
       .replace('var(--accent-solid-' + mode + ')', p.solid)
       .replace('var(--accent-contrast-' + mode + ')', p.contrast)
       .replace('var(--accent-ring-' + mode + ')', (mode === 'light' ? defaults.ringLight : defaults.ringDark).value)
+      .replace('var(--accent-text-' + mode + ')', (mode === 'light' ? defaults.textLight : defaults.textDark).value)
       .replace(/var\(--gray-(\d+)\)/g, (_, s) => ramp('gray', DEFAULT_GRAY, s))
     if (followed !== fromCss)
       throw new Error(

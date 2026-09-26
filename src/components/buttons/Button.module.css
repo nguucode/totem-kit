@@ -1,14 +1,20 @@
 .button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  box-sizing: border-box;
+  margin: 0;
+  /* Always present, transparent unless outlined, so switching appearance
+     never shifts the layout by a pixel. */
   border: 1px solid transparent;
   border-radius: var(--radius-control);
   font-family: var(--font-sans);
   font-size: var(--text-body);
   line-height: var(--leading-body);
   font-weight: 500;
+  text-decoration: none;
   white-space: nowrap;
   cursor: var(--cursor-button);
   transition:
@@ -17,11 +23,9 @@
     border-color 150ms;
 }
 
-/* `asChild` can render this as a real <a href>, which navigates — so it takes
-   the link cursor rather than the button one. Without this, styling a link as
-   a Button silently removes the hand the browser gives every other link on
-   the page. `variant="link"` on a <button> is deliberately NOT covered: it
-   only looks like a link, and still acts on the current page. */
+/* An <a> navigates, so it takes the link cursor rather than the button one.
+   Without this, styling a link as a Button silently removes the hand the
+   browser gives every other link on the page. */
 a[href].button {
   cursor: var(--cursor-link);
 }
@@ -31,89 +35,211 @@ a[href].button {
   outline-offset: 2px;
 }
 
-/* pointer-events is what actually disables an `asChild` element rendered as
-   an <a>, which ignores the disabled attribute entirely. It also means no
-   cursor of ours can render here, which is why there is no disabled cursor. */
-.button:disabled {
+/* pointer-events is what actually disables an <a>, which ignores the
+   disabled attribute. A loading button is also aria-disabled but keeps its
+   full colour: it is busy, not unavailable. */
+.button:disabled,
+.button[aria-disabled='true']:not(.loading) {
   pointer-events: none;
   opacity: 0.5;
 }
 
-/* Variants */
+.loading {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------ variants
+   Each variant sets four colours; the appearance rules below decide which
+   of them paint the fill, the border and the label. */
 
 .primary {
-  background: var(--primary);
-  color: var(--primary-foreground);
-}
-.primary:hover {
-  background: color-mix(in oklab, var(--primary) 90%, transparent);
+  --button-solid: var(--primary);
+  --button-on-solid: var(--primary-foreground);
+  --button-tone: var(--primary-text);
+  --button-border: var(--primary-text);
 }
 
-.secondary {
-  background: var(--secondary);
-  color: var(--secondary-foreground);
+/* The token set has one brand hue, which primary already uses, so accent
+   is the inverted neutral: the strongest contrast available. */
+.accent {
+  --button-solid: var(--foreground);
+  --button-on-solid: var(--background);
+  --button-tone: var(--foreground);
+  --button-border: var(--foreground);
 }
-.secondary:hover {
-  background: color-mix(in oklab, var(--secondary) 80%, transparent);
+
+/* Secondary's outline is the input border: quiet on purpose, the label
+   names the button. */
+.secondary {
+  --button-solid: var(--secondary);
+  --button-on-solid: var(--secondary-foreground);
+  --button-tone: var(--foreground);
+  --button-border: var(--input);
 }
 
 .destructive {
-  background: var(--destructive);
-  color: var(--destructive-foreground);
-}
-.destructive:hover {
-  background: color-mix(in oklab, var(--destructive) 90%, transparent);
-}
-
-.outline {
-  border-color: var(--input);
-  background: transparent;
-  color: var(--foreground);
-}
-.outline:hover {
-  background: var(--accent);
-  color: var(--accent-foreground);
+  --button-solid: var(--destructive);
+  --button-on-solid: var(--destructive-foreground);
+  --button-tone: var(--destructive);
+  --button-border: var(--destructive);
 }
 
+/* --------------------------------------------------------- appearances
+   Every state's colours are custom properties, so one rule paints them and
+   the StateContrast story can read each one back and measure it.
+
+   Hover and press must keep the label at 4.5:1, which fading the fill does
+   not: red-600 at 80% under a white label is 3.9:1. So a coloured solid
+   (primary, destructive) moves AWAY from its label — the "anti-label" is
+   the label's lightness inverted, dark under a white label and light under
+   a dark one — and gains contrast. accent and secondary have 16:1 or more
+   to spend, so they move TOWARD their label, which is the only direction
+   that is visible on black or near-white fills. */
+
+.contained {
+  --button-bg: var(--button-solid);
+  --button-fg: var(--button-on-solid);
+  --button-anti-label: oklch(from var(--button-on-solid) calc(1 - l) 0 0);
+  --button-bg-hover: color-mix(in oklab, var(--button-solid) 88%, var(--button-anti-label));
+  --button-bg-active: color-mix(in oklab, var(--button-solid) 76%, var(--button-anti-label));
+  --button-fg-hover: var(--button-on-solid);
+  --button-fg-active: var(--button-on-solid);
+}
+
+.contained.accent,
+.contained.secondary {
+  --button-bg-hover: color-mix(in oklab, var(--button-solid) 90%, var(--button-on-solid));
+  --button-bg-active: color-mix(in oklab, var(--button-solid) 82%, var(--button-on-solid));
+}
+
+/* Outlined and ghost tint the background with their own tone, which pulls
+   it toward the text; the text moves toward --foreground by as much, so it
+   keeps its distance from the tint. */
+.outlined,
 .ghost {
-  background: transparent;
-  color: var(--foreground);
-}
-.ghost:hover {
-  background: var(--accent);
-  color: var(--accent-foreground);
-}
-
-.link {
-  background: transparent;
-  color: var(--primary);
-  text-underline-offset: 4px;
-}
-.link:hover {
-  text-decoration: underline;
+  --button-bg: transparent;
+  --button-fg: var(--button-tone);
+  --button-bg-hover: color-mix(in oklab, var(--button-tone) 8%, transparent);
+  --button-bg-active: color-mix(in oklab, var(--button-tone) 14%, transparent);
+  --button-fg-hover: color-mix(in oklab, var(--button-tone) 75%, var(--foreground));
+  --button-fg-active: color-mix(in oklab, var(--button-tone) 60%, var(--foreground));
 }
 
-/* Sizes */
+.outlined {
+  border-color: var(--button-border);
+}
+
+.button {
+  background: var(--button-bg);
+  color: var(--button-fg);
+}
+.button:hover {
+  background: var(--button-bg-hover);
+  color: var(--button-fg-hover);
+}
+.button:active {
+  background: var(--button-bg-active);
+  color: var(--button-fg-active);
+}
+
+/* ---------------------------------------------------------------- sizes */
 
 .sm {
-  height: var(--space-8);
+  --button-icon: var(--space-4);
+  block-size: var(--space-8);
   padding-inline: var(--space-3);
 }
 
 .md {
-  height: var(--space-10);
+  --button-icon: var(--space-4);
+  block-size: var(--space-10);
   padding-inline: var(--space-4);
 }
 
 .lg {
-  height: var(--space-12);
+  --button-icon: calc(var(--space-4) + var(--space-1));
+  block-size: var(--space-12);
   padding-inline: var(--space-6);
   font-size: var(--text-body-lg);
   line-height: var(--leading-body-lg);
 }
 
-.icon {
-  height: var(--space-10);
-  width: var(--space-10);
+/* 56px: the spacing scale stops at 48, so xl is one step of 8 past it. */
+.xl {
+  --button-icon: calc(var(--space-4) + var(--space-1));
+  block-size: calc(var(--space-12) + var(--space-2));
+  padding-inline: var(--space-8);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-body-lg);
+}
+
+.iconOnly {
+  aspect-ratio: 1;
   padding-inline: 0;
+}
+
+.fullWidth {
+  inline-size: 100%;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: var(--button-icon);
+}
+
+/* A ring of currentColor with one clear side. The label stays in place but
+   invisible, so the button keeps its width and its accessible name. The
+   2px wall matches the focus ring; 700ms is one turn, quick enough to read
+   as busy without flicker, slowed to 2s for reduced motion rather than
+   stopped, so "still working" still shows. */
+.spinner {
+  position: absolute;
+  inline-size: var(--button-icon);
+  block-size: var(--button-icon);
+  box-sizing: border-box;
+  border: 2px solid currentColor;
+  border-block-start-color: transparent;
+  border-radius: 9999px;
+  animation: spin 700ms linear infinite;
+}
+
+.loading > :not(.spinner) {
+  visibility: hidden;
+}
+
+/* Text nodes are not elements, so hide them by colour instead. */
+.loading {
+  color: transparent;
+}
+.loading .spinner {
+  color: var(--button-tone);
+}
+.contained.loading .spinner {
+  color: var(--button-on-solid);
+}
+
+@keyframes spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+/* sm and md are under 44px. On touch screens the hit area grows to 44px
+   without the button growing with it. */
+@media (pointer: coarse) {
+  .button::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    inline-size: max(100%, 44px);
+    block-size: max(100%, 44px);
+    translate: -50% -50%;
+  }
 }

@@ -1,0 +1,80 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as TextInputStories from './TextInput.stories'
+
+<Meta of={TextInputStories} />
+
+# Text Input
+
+A single line of text: a name, an email, a URL. Spec:
+[uiguideline.com/components/text-input](https://www.uiguideline.com/components/text-input).
+Label, description and invalid state are wired by Base UI's
+[Field](https://base-ui.com/react/components/field).
+
+<Canvas of={TextInputStories.Appearances} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Label** | `label`, above the field. Clicking it focuses the input. |
+| **Field** | The box that draws the edge, fill and focus ring. |
+| **Prefix** / **Suffix** | `prefix`, `suffix`: text or an icon inside the field, in the muted colour. |
+| **Placeholder** | `placeholder`. A hint, never a replacement for the label. |
+| **Helper text** | `helperText`, under the field. The error message when `validationState` is error. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `label` | node | – | |
+| `helperText` | node | – | |
+| `validationState` | `default`, `success`, `error` | `default` | |
+| `size` | `sm`, `md`, `lg` | `md` | 32, 40, 48px. |
+| `appearance` | `outlined`, `filled`, `underlined`, `unstyled` | `outlined` | |
+| `prefix`, `suffix` | node | – | |
+| `isFullWidth` | boolean | `false` | Otherwise 20rem, capped at its container. |
+| `value`, `defaultValue`, `onChange` | | – | As on `<input>`: `onChange` gets the event. |
+| `placeholder`, `name`, `pattern`, `maxLength`, `type`, `autoFocus` | | – | Native. |
+| `disabled`, `required`, `readOnly` | boolean | `false` | Native. |
+
+Every other `<input>` attribute passes through to the input, including `ref`.
+
+<Controls of={TextInputStories.Default} />
+
+### Differences from the spec
+
+- **Native names** for native attributes: `disabled`, `required`,
+  `readOnly` rather than `isDisabled`, `isRequired`, `isReadOnly`.
+- **`onChange` is the native event**, not a value: the kit's rule for
+  components that wrap a real input, so it works with every form library
+  as-is.
+- **Changed in 0.8:** `error` became `validationState="error"` plus
+  `helperText`; `forwardRef` is gone (`ref` is a prop in React 19).
+
+## Usage
+
+<Canvas of={TextInputStories.Sizes} />
+
+<Canvas of={TextInputStories.PrefixSuffix} />
+
+<Canvas of={TextInputStories.Validation} />
+
+Pick one appearance per form. `outlined` is the default; `filled` suits
+dense settings pages; `underlined` and `unstyled` are for fields that sit
+inside something else that already draws the edge.
+
+## Accessibility
+
+- The label is a real `<label>` for the input; the helper is its
+  description (`aria-describedby`); the error state sets `aria-invalid`.
+  Do not rely on the placeholder as a label: it disappears as soon as
+  anyone types.
+- **The edge is `--control-border`, 3:1 on the page**, because WCAG
+  1.4.11 applies to a text field's boundary. The lighter `--input` token
+  is about 1.3:1.
+- Focus draws a 2px ring around the whole field (in the danger colour
+  when invalid), on click as well as keyboard, since that is where typing
+  goes.
+- Pressing the field's padding or a prefix focuses the input, like a
+  native field.
+- Heights are 32–48px; the label is part of the target too.

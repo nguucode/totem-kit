@@ -1,0 +1,63 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as SearchStories from './Search.stories'
+
+<Meta of={SearchStories} />
+
+# Search
+
+A field for a search query, with a button to clear it. Spec:
+[uiguideline.com/components/search](https://www.uiguideline.com/components/search).
+The field is [Text Input](?path=/docs/components-inputs-textinput--docs)'s.
+
+<Canvas of={SearchStories.Clear} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Search icon** | The `search` icon at the start. Decorative. |
+| **Input** | `type="search"`. |
+| **Placeholder** | "Search" unless given. |
+| **Clean button** | "Clear search": shown while there is text, hidden when disabled or read-only. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `value`, `defaultValue` | string | `''` | |
+| `onChange` | `(event) => void` | – | Native event, including when cleared. |
+| `placeholder` | string | `"Search"` | |
+| `label` | node | – | Optional visible label. |
+| `aria-label` | string | `"Search"` | Used when there is no `label`. |
+| `size` | `sm`, `md`, `lg` | `md` | |
+| `appearance` | `outlined`, `filled`, `underlined`, `unstyled` | `outlined` | |
+| `isFullWidth` | boolean | `false` | |
+| `disabled`, `readOnly`, `autoFocus` | boolean | `false` | Native. |
+
+<Controls of={SearchStories.Default} />
+
+### Differences from the spec
+
+- **`label`, `size` and `appearance` are added**, from the shared field,
+  so a search box can match the form or toolbar it sits in.
+- **`value` is added** for a controlled query.
+- Native `disabled`, `readOnly` names.
+
+## Usage
+
+<Canvas of={SearchStories.Sizes} />
+
+Put the field inside a `<form role="search">` (or `<search>`) when it
+searches the site, so it becomes a landmark. The component is only the
+field: filtering a list in place does not need a landmark.
+
+## Accessibility
+
+- `type="search"`, exposed as a `searchbox`, named by the visible label
+  or "Search". A placeholder is not a name.
+- **Clearing works the same everywhere:** the button, and Escape in the
+  field (Chrome and Safari do this natively; Firefox did not). Either way
+  `onChange` fires with a real event and focus stays in the field.
+- The clear button is a real button named "Clear search", with a 44px
+  touch target. The browser's own clear control is hidden so there are
+  not two.

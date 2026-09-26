@@ -63,6 +63,7 @@ const preview: Preview = {
             'Radius',
             'Shadows',
             'Cursors',
+            'Icons',
           ],
           'Components',
           'Patterns',

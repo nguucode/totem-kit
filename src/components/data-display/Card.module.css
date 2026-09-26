@@ -1,0 +1,101 @@
+.card {
+  display: flex;
+  box-sizing: border-box;
+  margin: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--card-foreground);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  text-align: start;
+  text-decoration: none;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.xs {
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+.sm {
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+.md {
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+.lg {
+  gap: var(--space-6);
+  padding: var(--space-8);
+}
+
+.rounded {
+  border-radius: var(--radius-panel);
+}
+
+/* The card's own border is the non-interactive one; a clickable card still
+   uses it, and shows its interactivity by hover and focus instead. */
+.bordered {
+  border-color: var(--border);
+}
+
+.elevated {
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+
+.outline {
+  background: var(--card);
+}
+
+/* Not --muted: muted text on it is 4.34:1. The subtle surface keeps it
+   above 4.5:1. */
+.filled {
+  background: var(--surface-subtle);
+}
+
+/* unstyled keeps its padding and layout, and drops everything you see. */
+.unstyled {
+  color: inherit;
+}
+
+button.interactive {
+  cursor: var(--cursor-button);
+}
+
+.interactive {
+  transition:
+    background-color 150ms,
+    box-shadow 150ms;
+}
+
+a[href].interactive {
+  cursor: var(--cursor-link);
+}
+
+/* Hover never touches the surface: muted text sits on it at 4.5:1 with no
+   margin to spare (darkening it 6% took muted text to 3.9:1). Elevated
+   lifts to a larger shadow; the others strengthen their edge to the 3:1
+   control border. */
+.elevated.interactive:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.outline.interactive:hover,
+.filled.interactive:hover {
+  border-color: var(--control-border);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}

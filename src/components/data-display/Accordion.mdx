@@ -1,0 +1,71 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as AccordionStories from './Accordion.stories'
+
+<Meta of={AccordionStories} />
+
+# Accordion
+
+A stack of headings that each show or hide a section of content: FAQs,
+settings groups, long forms split into parts. uiguideline has no spec for
+it yet, so the kit writes its own (below). Behaviour from Base UI's
+[Accordion](https://base-ui.com/react/components/accordion).
+
+<Canvas of={AccordionStories.Default} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Container** | Frames the items (`outlined`) or leaves them edge to edge (`flush`). |
+| **Item** | One heading and its panel, separated from the next by a `--border` line. |
+| **Header** | A real heading element, `h3` by default (`headingLevel`). |
+| **Trigger** | A button filling the header: **title** and a **chevron** that turns when open. |
+| **Panel** | The content. Collapsed panels stay in the DOM for find-in-page. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `items` | `{ value, title, content, disabled? }[]` | – | Required. |
+| `value` | `string[]` | – | Controlled: the open items. |
+| `defaultValue` | `string[]` | – | |
+| `onValueChange` | `(value) => void` | – | |
+| `multiple` | boolean | `false` | Allow several open at once. |
+| `appearance` | `outlined`, `flush` | `outlined` | |
+| `size` | `sm`, `md` | `md` | |
+| `headingLevel` | `2`–`6` | `3` | |
+| `disabled` | boolean | `false` | |
+
+<Controls of={AccordionStories.Default} />
+
+### Why these props
+
+The spec is the kit's own, recorded with uiguideline's other specs:
+`items` is flat, per the kit's "flat props" convention; `value` is an
+array in single mode too, because that is Base UI's model and it keeps
+the type the same when `multiple` is switched on; `headingLevel` exists
+because a heading level must follow the page's outline, which the
+component cannot know.
+
+## Usage
+
+<Canvas of={AccordionStories.Multiple} />
+
+<Canvas of={AccordionStories.Flush} />
+
+Do not hide content that most readers need; an accordion trades a
+shorter page for an extra click on everything inside it.
+
+## Accessibility
+
+- Each trigger is a `<button>` inside a real heading, with
+  `aria-expanded` and `aria-controls`; each panel is a region labelled by
+  its trigger.
+- **Every trigger is a tab stop.** Enter and Space toggle. There is no
+  arrow-key movement between triggers, following the current APG
+  guidance (Base UI dropped it too).
+- Collapsed panels are `hidden="until-found"`: the browser's find-in-page
+  reaches their text and opens the item.
+- `md` triggers are 44px tall. On touch, `sm` triggers grow to 44px
+  rather than overlapping each other with invisible hit areas.
+- The open/close animation stops under `prefers-reduced-motion`.
