@@ -56,12 +56,12 @@
         {
           "path": "src/theme/Theme.tsx",
           "type": "registry:component",
-          "target": "components/zweihander/theme.tsx"
+          "target": "components/zweihander/theme/Theme.tsx"
         },
         {
           "path": "src/theme/palettes.ts",
           "type": "registry:component",
-          "target": "components/zweihander/palettes.ts"
+          "target": "components/zweihander/theme/palettes.ts"
         }
       ],
       "dependencies": [
@@ -81,12 +81,12 @@
         {
           "path": "src/components/buttons/Button.tsx",
           "type": "registry:component",
-          "target": "components/zweihander/button.tsx"
+          "target": "components/zweihander/buttons/Button.tsx"
         },
         {
           "path": "src/components/buttons/Button.module.css",
           "type": "registry:component",
-          "target": "components/zweihander/Button.module.css"
+          "target": "components/zweihander/buttons/Button.module.css"
         }
       ],
       "dependencies": [
@@ -106,12 +106,12 @@
         {
           "path": "src/components/inputs/TextInput.tsx",
           "type": "registry:component",
-          "target": "components/zweihander/text-input.tsx"
+          "target": "components/zweihander/inputs/TextInput.tsx"
         },
         {
           "path": "src/components/inputs/TextInput.module.css",
           "type": "registry:component",
-          "target": "components/zweihander/TextInput.module.css"
+          "target": "components/zweihander/inputs/TextInput.module.css"
         }
       ]
     },
@@ -128,12 +128,12 @@
         {
           "path": "src/components/atomic-elements/Divider.tsx",
           "type": "registry:component",
-          "target": "components/zweihander/divider.tsx"
+          "target": "components/zweihander/atomic-elements/Divider.tsx"
         },
         {
           "path": "src/components/atomic-elements/Divider.module.css",
           "type": "registry:component",
-          "target": "components/zweihander/Divider.module.css"
+          "target": "components/zweihander/atomic-elements/Divider.module.css"
         }
       ]
     },
@@ -150,12 +150,12 @@
         {
           "path": "src/components/atomic-elements/Badge.tsx",
           "type": "registry:component",
-          "target": "components/zweihander/badge.tsx"
+          "target": "components/zweihander/atomic-elements/Badge.tsx"
         },
         {
           "path": "src/components/atomic-elements/Badge.module.css",
           "type": "registry:component",
-          "target": "components/zweihander/Badge.module.css"
+          "target": "components/zweihander/atomic-elements/Badge.module.css"
         }
       ]
     },
@@ -173,12 +173,12 @@
         {
           "path": "src/components/atomic-elements/Avatar.tsx",
           "type": "registry:component",
-          "target": "components/zweihander/avatar.tsx"
+          "target": "components/zweihander/atomic-elements/Avatar.tsx"
         },
         {
           "path": "src/components/atomic-elements/Avatar.module.css",
           "type": "registry:component",
-          "target": "components/zweihander/Avatar.module.css"
+          "target": "components/zweihander/atomic-elements/Avatar.module.css"
         }
       ]
     },
@@ -196,12 +196,12 @@
         {
           "path": "src/components/atomic-elements/Tag.tsx",
           "type": "registry:component",
-          "target": "components/zweihander/tag.tsx"
+          "target": "components/zweihander/atomic-elements/Tag.tsx"
         },
         {
           "path": "src/components/atomic-elements/Tag.module.css",
           "type": "registry:component",
-          "target": "components/zweihander/Tag.module.css"
+          "target": "components/zweihander/atomic-elements/Tag.module.css"
         }
       ]
     }

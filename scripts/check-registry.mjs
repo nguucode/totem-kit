@@ -11,7 +11,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join, posix } from 'node:path'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const registry = JSON.parse(readFileSync(join(root, 'registry.json'), 'utf8'))
@@ -62,32 +62,20 @@ for (const item of registry.items) {
     const source = readFileSync(join(root, file.path), 'utf8')
     for (const [, spec] of source.matchAll(/from\s+'([^']+)'/g)) {
       if (spec.startsWith('.')) {
-        // A relative import must land on a file this same item ships, because
-        // the target paths flatten into one directory on the other side.
-        const base = resolve(dirname(join(root, file.path)), spec)
-        // The spec may carry its extension ('./x.module.css') or omit it
-        // ('./palettes'), so accept an exact match or one extension short.
-        const hit = [...shipped].some((p) => {
-          const full = resolve(root, p)
-          return full === base || full.replace(/\.[^.]+$/, '') === base
-        })
-        /* The CLI rewrites `@/` aliases but copies relative imports verbatim,
-           so a `target` that renames the file breaks the import on the other
-           side — and on a case-insensitive filesystem only the casing half of
-           that shows up, which is to say it shows up in someone's Linux CI. */
-        const sibling = item.files.find((f) => {
-          const full = resolve(root, f.path)
-          return full === base || full.replace(/\.[^.]+$/, '') === base
-        })
-        if (sibling?.target) {
-          const want = spec.slice(spec.lastIndexOf('/') + 1)
-          const got = sibling.target.slice(sibling.target.lastIndexOf('/') + 1)
-          if (got !== want && got.replace(/\.[^.]+$/, '') !== want)
-            errors.push(
-              `${item.name}: ${file.path} imports "${spec}" but its target renames the file to "${got}" — the CLI does not rewrite relative imports`,
-            )
-        }
-        if (!hit) errors.push(`${item.name}: ${file.path} imports "${spec}", which the item does not ship`)
+        /* The CLI copies relative imports verbatim, so what matters is where
+           the files LAND: the spec, resolved against the importing file's
+           install path, must name a file that this item or one of its
+           dependencies installs — spelled exactly, since a case-insensitive
+           Mac passes what someone's Linux CI then fails. Targets mirror the
+           source tree, which is what lets one component import another. */
+        const landsAt = (f) => f.target ?? f.path.replace(/^src\//, '')
+        const want = posix.normalize(posix.join(posix.dirname(landsAt(file)), spec))
+        const all = [...item.files, ...[...regDeps].flatMap((d) => resolveDep(d)?.files ?? [])]
+        const hit = all.some((f) => landsAt(f) === want || landsAt(f).replace(/\.[^./]+$/, '') === want)
+        if (!hit)
+          errors.push(
+            `${item.name}: ${file.path} imports "${spec}", which installs to nothing at ${want} — ship that file, or depend on the item that does`,
+          )
       } else if (spec.startsWith('@/')) {
         const hit = [...reachable].some((p) => p.includes(spec.slice(2)))
         if (!hit) errors.push(`${item.name}: ${file.path} imports "${spec}" — add the item that ships it to registryDependencies`)
