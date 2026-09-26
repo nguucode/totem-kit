@@ -1,7 +1,7 @@
 # Zweihänder
 
-> **Early stage, not production-ready.** Only two components exist
-> (Button, Text Input) and no Figma file has been applied yet — the
+> **Early stage, not production-ready.** Only a few components exist
+> (Button, Text Input, Divider) and no Figma file has been applied yet — the
 > palettes are placeholders, picked for contrast rather than designed.
 > Expect breaking changes on any `0.x` version bump. Fine to poke around
 > or reference the setup; not ready to build a real product on top of yet.
@@ -160,6 +160,7 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/tokens.json  # design 
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/theme.json   # <Theme> scope component
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/button.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/text-input.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/divider.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -189,6 +190,7 @@ npm install zweihander
 ```ts
 import { Button } from 'zweihander/button'
 import { TextInput } from 'zweihander/text-input'
+import { Divider } from 'zweihander/divider'
 ```
 
 ```css
@@ -208,6 +210,6 @@ automated by CI).
 ## Adding a component
 
 1. Build it in `src/components/<category>/` (pick a category from the Components overview) — see `buttons/Button.tsx` for the pattern: a `<Name>.module.css` beside the component, one class per variant and size, looked up as `styles[variant]` and merged with `cn()` from `src/lib/utils.ts`. Read tokens (`var(--primary)`), never literals, and set `font-family: var(--font-sans)` explicitly rather than inheriting — a consumer's page may set no font at all. Import shared code via the `@/` alias (e.g. `@/lib/utils`), not a relative path — that's what lets the CLI rewrite it to the consumer's own alias.
-2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`, tagged `['autodocs']` with a real `parameters.docs.description.component`.
+2. Add a `*.stories.tsx` file next to it, titled `Components/<Category>/<Component>`, and a hand-written `<Component>.mdx` beside it (Anatomy, props, usage, accessibility) — no `autodocs` tag, per Structure above.
 3. Add an entry for it in [`registry.json`](registry.json) so it's installable via the CLI.
 4. Figma designs will be synced in as the source of truth for new components.

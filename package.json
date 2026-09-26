@@ -16,6 +16,10 @@
       "types": "./dist/components/buttons/Button.d.ts",
       "import": "./dist/components/buttons/Button.js"
     },
+    "./divider": {
+      "types": "./dist/components/atomic-elements/Divider.d.ts",
+      "import": "./dist/components/atomic-elements/Divider.js"
+    },
     "./text-input": {
       "types": "./dist/components/inputs/TextInput.d.ts",
       "import": "./dist/components/inputs/TextInput.js"

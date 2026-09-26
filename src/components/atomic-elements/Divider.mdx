@@ -1,0 +1,62 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as DividerStories from './Divider.stories'
+
+<Meta of={DividerStories} />
+
+# Divider
+
+A thin line that separates content into groups: sections of a card, items
+in a toolbar, blocks of a page. Spec: [uiguideline.com/components/divider](https://www.uiguideline.com/components/divider).
+
+<Canvas of={DividerStories.Default} />
+
+## Anatomy
+
+One part: the **line**. It is an `<hr>`, drawn with a border in the
+`--border` color, so it follows light and dark mode without extra code.
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `orientation` | `horizontal`, `vertical` | `horizontal` | |
+| `inset` | boolean | `false` | Indents both ends by `--space-4` (horizontal) or `--space-2` (vertical). |
+| `size` | `sm`, `md`, `lg` | `sm` | Thickness: 1px, 2px, 4px. |
+| `appearance` | `solid`, `dashed` | `solid` | uiguideline's `variant`. See below. |
+
+Every other `<hr>` attribute passes through, including `ref` and `className`.
+
+<Controls of={DividerStories.Default} />
+
+### Differences from the spec
+
+- **`appearance`, not `variant`.** In this kit `variant` always means a
+  color by intent (primary, destructive…) and `appearance` means a style.
+  Solid versus dashed is a style.
+- **Thickness is raw px.** The token layer has no border-width scale, and
+  a divider is the only component that needs three.
+
+## Usage
+
+<Canvas of={DividerStories.Sizes} />
+
+A **vertical** divider has no fixed height: it stretches to its flex row,
+which is where it almost always sits. Anywhere else, give it a height.
+
+<Canvas of={DividerStories.Vertical} />
+
+Use **inset** when the line sits inside a padded list and should align
+with the text rather than run edge to edge.
+
+<Canvas of={DividerStories.Inset} />
+
+## Accessibility
+
+- `<hr>` is announced as a separator. Vertical dividers add
+  `aria-orientation="vertical"`; horizontal ones don't, because that is
+  already the default.
+- If the line is purely decorative, e.g. between two icons that are
+  already grouped, pass `aria-hidden` so it isn't announced at all.
+- The `--border` color is below 3:1 against the background on purpose: a
+  divider is decoration and is not required to meet the non-text contrast
+  ratio. Never let a divider be the only thing that tells groups apart.

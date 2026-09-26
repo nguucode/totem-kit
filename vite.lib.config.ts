@@ -12,6 +12,7 @@ export default defineConfig({
     lib: {
       entry: {
         'components/buttons/Button': 'src/components/buttons/Button.tsx',
+        'components/atomic-elements/Divider': 'src/components/atomic-elements/Divider.tsx',
         'components/inputs/TextInput': 'src/components/inputs/TextInput.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',

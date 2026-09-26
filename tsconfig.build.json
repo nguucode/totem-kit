@@ -9,6 +9,7 @@
   },
   "include": [
     "src/components/buttons/Button.tsx",
+    "src/components/atomic-elements/Divider.tsx",
     "src/components/inputs/TextInput.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"

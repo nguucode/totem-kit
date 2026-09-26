@@ -110,6 +110,28 @@
           "target": "components/zweihander/TextInput.module.css"
         }
       ]
+    },
+    {
+      "name": "divider",
+      "type": "registry:component",
+      "title": "Divider",
+      "description": "Horizontal or vertical separator line, solid or dashed, in three thicknesses.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/atomic-elements/Divider.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/divider.tsx"
+        },
+        {
+          "path": "src/components/atomic-elements/Divider.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/Divider.module.css"
+        }
+      ]
     }
   ]
 }
