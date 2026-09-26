@@ -1284,6 +1284,10 @@
         "$type": "color",
         "$value": "{primitive.accent.indigo.700}"
       },
+      "primary-text": {
+        "$type": "color",
+        "$value": "{primitive.accent.indigo.600}"
+      },
       "info": {
         "$type": "color",
         "$value": "{primitive.accent.blue.600}"
@@ -1423,6 +1427,10 @@
         "$value": "oklch(100% 0 0 / 15%)"
       },
       "ring": {
+        "$type": "color",
+        "$value": "{primitive.accent.indigo.400}"
+      },
+      "primary-text": {
         "$type": "color",
         "$value": "{primitive.accent.indigo.400}"
       },

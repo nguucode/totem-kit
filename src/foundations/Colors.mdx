@@ -129,6 +129,11 @@ to avoid; if you need it, darken `--muted-foreground` to neutral-600
 (7.15:1 on muted) and accept that all secondary text in the kit gets
 heavier.
 
+**`--primary-text` is the brand hue as text** — an outlined or ghost
+primary button. The solid is picked for its label, not for being read on
+the page, and amber-500 on white is barely 2:1, so the build measures a
+third step per accent that clears 4.5:1 against the page.
+
 **Two values are deliberately off the beaten path.** `--ring` follows the
 accent at its `-700` step rather than being a neutral, because a focus
 indicator has to clear 3:1 against the page under WCAG 1.4.11 and the
@@ -197,6 +202,7 @@ swappable on its own: an **accent** (indigo by default) for `--primary` and
 | `destructive-foreground` | neutral-50 | neutral-900 | fixed |
 | `border`, `input` | gray-200 | white 10% / 15% | gray |
 | `ring` | accent-700 | accent-400 | **accent** |
+| `primary-text` | first of accent-600…900 at 4.5:1 on white | first of accent-400…200 at 4.5:1 on the dark page | **accent** |
 
 The light accent step is `-600` for most hues but `-700` for sky, fuchsia,
 pink and rose, and the label is white or near-black depending on which one
