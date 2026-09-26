@@ -84,6 +84,10 @@
       "types": "./dist/components/inputs/Combobox.d.ts",
       "import": "./dist/components/inputs/Combobox.js"
     },
+    "./spinner": {
+      "types": "./dist/components/loaders/Spinner.d.ts",
+      "import": "./dist/components/loaders/Spinner.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"
