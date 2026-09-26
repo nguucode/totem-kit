@@ -1,0 +1,68 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ComboboxStories from './Combobox.stories'
+
+<Meta of={ComboboxStories} />
+
+# Combobox
+
+A field you type into to filter a list of options, then choose one.
+Spec: [uiguideline.com/components/combobox](https://www.uiguideline.com/components/combobox).
+Behaviour from Base UI's [Combobox](https://base-ui.com/react/components/combobox).
+
+<Canvas of={ComboboxStories.Default} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Label** | `label`. |
+| **Combobox input** | A text input; typing filters the list. |
+| **Clean button** | "Clear selection", when `isClearable`. |
+| **Open button** | "Show options": the chevron. Opens the full list. |
+| **Options list** | Filtered as you type; "No matches" when empty, "Loading…" while loading. |
+| **Option (matched)** | The typed text is marked in each option. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `options` | `string[]` or `{ value, label, disabled? }[]` | – | Required. Labels are strings: they are typed and matched. |
+| `value`, `defaultValue` | string or `null` | – | |
+| `onValueChange` | `(value) => void` | – | The spec's `onChange`; `null` when cleared. |
+| `isClearable` | boolean | `true` | |
+| `emptyText` | string | `"No matches"` | |
+| `placeholder`, `label`, `helperText`, `validationState` | | – | |
+| `size`, `appearance`, `isFullWidth` | | | As on Text Input. |
+| `isLoading` | boolean | `false` | Spinner in the field and "Loading…" in the list. |
+| `name` | string | – | Submits the option's value. |
+| `disabled`, `readOnly`, `required`, `autoFocus` | boolean | `false` | |
+
+<Controls of={ComboboxStories.Default} />
+
+### Differences from the spec
+
+- **Labels must be strings**, not components: they are what is typed,
+  matched and shown in the input.
+- **`emptyText`** is added: an empty list needs to say why.
+- `onValueChange` and native names, as on Select.
+
+## Usage
+
+For long lists, or when people already know what they are looking for.
+It chooses from the list only; free text that is not an option is not a
+value.
+
+<Canvas of={ComboboxStories.Clear} />
+
+## Accessibility
+
+- The input has `role="combobox"`, `aria-autocomplete="list"` and
+  `aria-expanded`; the list is a `listbox`.
+- **Keyboard:** typing opens and filters; the first match is highlighted
+  so Enter picks it; Up and Down move; Escape closes, then clears.
+- The match is marked by weight and underline, not colour, so it keeps
+  the option's full contrast on the highlighted row.
+- The open button is named "Show options" and is out of the tab order
+  (the input already opens the list); the clear button is "Clear
+  selection".
+- Loading and empty states are announced from the list.

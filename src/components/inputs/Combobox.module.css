@@ -1,0 +1,16 @@
+/* The clear and open buttons sit at the end of the field, 4px apart. */
+.group.group {
+  gap: var(--space-1);
+}
+
+/* The matched part of an option: heavier and underlined, in the option's
+   own colour. A brand colour would drop under 4.5:1 on the highlighted
+   row's --accent fill; weight and underline carry the match without
+   touching contrast. <mark>'s yellow fill is removed. */
+.match {
+  background: transparent;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

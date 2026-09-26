@@ -116,12 +116,14 @@
    pointer focus — a text field shows focus on click too, since that is
    where typing will go. */
 .box:has(:focus-visible),
-.box:has(:focus) {
+.box:has(:focus),
+.box:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
-.state-error .box:has(:focus) {
+.state-error .box:has(:focus),
+.state-error .box:focus-visible {
   outline-color: var(--danger-text);
 }
 
@@ -173,4 +175,172 @@
 }
 .lg .affix > svg {
   font-size: calc(var(--space-4) + var(--space-1));
+}
+
+/* ---------------------------------------------------------------- popup
+   The option list shared by Select and Combobox. It renders in a portal
+   at the end of <body>, so it reads the tokens from the root: a Theme
+   scope around the field does not reach it. */
+.positioner {
+  z-index: 50;
+  outline: none;
+}
+
+.popup {
+  box-sizing: border-box;
+  min-inline-size: var(--anchor-width);
+  max-block-size: min(var(--available-height), 20rem);
+  overflow-y: auto;
+  padding-block: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-field);
+  background: var(--popover);
+  box-shadow: var(--shadow-md);
+  color: var(--popover-foreground);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity 100ms,
+    scale 100ms;
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.98;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: 1fr var(--space-4);
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--space-8);
+  padding: var(--space-1-5) var(--space-3);
+  cursor: default;
+  user-select: none;
+  outline: none;
+}
+
+/* The highlighted option is where arrow keys are: the subtle surface, as
+   for any hover. Its text stays --popover-foreground, 16:1 or more. */
+.option[data-highlighted] {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.option[data-disabled] {
+  color: var(--muted-foreground);
+  opacity: 0.6;
+}
+
+.check {
+  display: inline-flex;
+  font-size: var(--space-4);
+}
+
+.empty,
+.status {
+  padding: var(--space-2) var(--space-3);
+  color: var(--muted-foreground);
+}
+
+.empty:empty,
+.status:empty {
+  display: none;
+}
+
+/* Options are 32px; on touch they grow to 44px — they stack edge to edge,
+   so an invisible larger area would overlap the next one. */
+@media (pointer: coarse) {
+  .option {
+    min-block-size: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup {
+    transition: none;
+  }
+}
+
+/* A field that is a button (Select) or has buttons in it (Combobox). */
+.trigger {
+  justify-content: space-between;
+  text-align: start;
+  font: inherit;
+  cursor: var(--cursor-button);
+}
+
+.value[data-placeholder] {
+  color: var(--muted-foreground);
+}
+
+.value {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  font-size: var(--space-4);
+}
+
+.iconButton {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: var(--space-4);
+  cursor: var(--cursor-button);
+}
+.iconButton:hover {
+  color: var(--foreground);
+}
+.iconButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+@media (pointer: coarse) {
+  .iconButton::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    inline-size: 44px;
+    block-size: 44px;
+    translate: -50% -50%;
+  }
+}
+
+/* A small ring of currentColor, as Button's loading state. */
+.spinner {
+  inline-size: var(--space-4);
+  block-size: var(--space-4);
+  box-sizing: border-box;
+  border: 2px solid currentColor;
+  border-block-start-color: transparent;
+  border-radius: 9999px;
+  animation: field-spin 700ms linear infinite;
+}
+@keyframes field-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
 }

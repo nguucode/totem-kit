@@ -27,6 +27,8 @@ export default defineConfig({
         'components/inputs/Textarea': 'src/components/inputs/Textarea.tsx',
         'components/inputs/Search': 'src/components/inputs/Search.tsx',
         'components/inputs/NumberInput': 'src/components/inputs/NumberInput.tsx',
+        'components/inputs/Select': 'src/components/inputs/Select.tsx',
+        'components/inputs/Combobox': 'src/components/inputs/Combobox.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },

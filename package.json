@@ -76,6 +76,14 @@
       "types": "./dist/components/inputs/NumberInput.d.ts",
       "import": "./dist/components/inputs/NumberInput.js"
     },
+    "./select": {
+      "types": "./dist/components/inputs/Select.d.ts",
+      "import": "./dist/components/inputs/Select.js"
+    },
+    "./combobox": {
+      "types": "./dist/components/inputs/Combobox.d.ts",
+      "import": "./dist/components/inputs/Combobox.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

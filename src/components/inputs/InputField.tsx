@@ -43,6 +43,11 @@ export interface InputFieldProps {
   disabled?: boolean
   name?: string
   isFullWidth?: boolean
+  /**
+   * For a control that is a button (Select's trigger): render the label as a
+   * <div> so clicking it focuses the control without also clicking it.
+   */
+  hasButtonControl?: boolean
   className?: string
 }
 
@@ -61,6 +66,7 @@ export function InputField({
   disabled,
   name,
   isFullWidth,
+  hasButtonControl,
   className,
 }: InputFieldProps) {
   return (
@@ -71,7 +77,10 @@ export function InputField({
       className={cn(styles.field, styles[`state-${validationState}`], isFullWidth && styles.fullWidth, className)}
     >
       {label && (
-        <Field.Label className={styles.label}>
+        <Field.Label
+          className={styles.label}
+          {...(hasButtonControl && { nativeLabel: false, render: <div /> })}
+        >
           {label}
           {required && (
             <span aria-hidden="true" className={styles.required}>

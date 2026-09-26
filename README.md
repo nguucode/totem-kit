@@ -173,6 +173,8 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/card.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/textarea.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/search.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/number-input.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/select.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/combobox.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -215,6 +217,8 @@ import { Card } from 'zweihander/card'
 import { Textarea } from 'zweihander/textarea'
 import { Search } from 'zweihander/search'
 import { NumberInput } from 'zweihander/number-input'
+import { Select } from 'zweihander/select'
+import { Combobox } from 'zweihander/combobox'
 ```
 
 ```css

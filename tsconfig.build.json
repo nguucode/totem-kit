@@ -24,6 +24,8 @@
     "src/components/inputs/Textarea.tsx",
     "src/components/inputs/Search.tsx",
     "src/components/inputs/NumberInput.tsx",
+    "src/components/inputs/Select.tsx",
+    "src/components/inputs/Combobox.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]
