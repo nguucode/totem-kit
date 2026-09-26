@@ -25,17 +25,26 @@ export const Default: Story = {
 export const Appearances: Story = {
   render: (args) => (
     <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'center' }}>
-      <Skeleton {...args} appearance="circle" width={40} />
+      <Skeleton {...args} appearance="circle" width={40} data-testid="circle" />
       <Skeleton {...args} appearance="square" width={120} height={40} />
       <Skeleton {...args} appearance="rounded" width={120} height={40} />
     </div>
   ),
+  play: async ({ canvas }) => {
+    // args carry height 16; a circle ignores it and stays round.
+    const { width, height } = canvas.getByTestId('circle').getBoundingClientRect()
+    await expect([width, height]).toEqual([40, 40])
+  },
 }
 
 export const Rows: Story = {
   args: { rows: 4, width: 320, height: 12, appearance: 'rounded' },
   play: async ({ canvasElement }) => {
-    await expect(canvasElement.querySelectorAll('[aria-hidden] > div')).toHaveLength(4)
+    const lines = [...canvasElement.querySelectorAll('[aria-hidden] > div')].map((l) => l.getBoundingClientRect())
+    await expect(lines).toHaveLength(4)
+    await expect(lines.map((l) => l.height)).toEqual([12, 12, 12, 12])
+    // The last line is 60% of the 320px width, like the end of a paragraph.
+    await expect(lines.map((l) => l.width)).toEqual([320, 320, 320, 192])
   },
 }
 

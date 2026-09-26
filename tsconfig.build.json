@@ -26,6 +26,9 @@
     "src/components/inputs/NumberInput.tsx",
     "src/components/inputs/Select.tsx",
     "src/components/inputs/Combobox.tsx",
+    "src/components/loaders/Spinner.tsx",
+    "src/components/loaders/ProgressBar.tsx",
+    "src/components/loaders/Skeleton.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]

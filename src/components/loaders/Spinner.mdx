@@ -1,0 +1,83 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as SpinnerStories from './Spinner.stories'
+
+<Meta of={SpinnerStories} />
+
+# Spinner
+
+Says that something is loading when there is no telling how long it will
+take, or, given a value, how far along it is. Spec:
+[uiguideline.com/components/spinner](https://www.uiguideline.com/components/spinner).
+A plain element: there is no behaviour here worth Base UI.
+
+<Canvas of={SpinnerStories.Variants} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Track** | The full circle, `--border`. Frames the motion; decoration. |
+| **Indicator** | The arc: a quarter turn spinning, or the value as a share of the ring. Coloured by `variant`. |
+| **Label** | `label`, under the indicator. Also the accessible name. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `size` | `sm`, `md`, `lg` | `md` | 16, 24, 32px. |
+| `variant` | `primary`, `accent`, `secondary` | `accent` | Colour of the indicator. `accent` is the foreground, as on Button. |
+| `label` | string | – | Visible text and accessible name; `"Loading"` when omitted or empty. |
+| `delay` | number (ms) | `0` | Renders nothing until it has passed. |
+| `value` | 0–100 | – | Turns it into a progress ring. Clamped. |
+| `isIndeterminate` | boolean | `false` | Spin even when `value` is given. |
+
+Any other prop goes to the outer `<span>`.
+
+<Controls of={SpinnerStories.Default} />
+
+### Design notes
+
+- **`accent` is the default variant**, in `--foreground`: a spinner is
+  most often a quiet placeholder inside content that has its own colour.
+- **`value`**: A load that can report progress should, and a
+  ring reads better than a bar in a small space such as a button or a
+  thumbnail.
+- **`delay`**: Most loads finish in under half a second; a
+  spinner that appears and vanishes in 200ms is a flash, not information.
+
+## Usage
+
+<Canvas of={SpinnerStories.WithLabel} />
+
+<Canvas of={SpinnerStories.Sizes} />
+
+<Canvas of={SpinnerStories.Determinate} />
+
+Give a load you expect to be fast a `delay` of 300–500ms. The spinner
+only appears if the wait turns out to be long enough to notice.
+
+<Canvas of={SpinnerStories.Delay} />
+
+For a load of a page region whose shape you know, a
+[Skeleton](?path=/docs/components-loaders-skeleton--docs) says more. For
+a long task with a known size, use a
+[Progress Bar](?path=/docs/components-loaders-progressbar--docs).
+
+## Accessibility
+
+- **Spinning, it is `role="status"`**, a polite live region, named by
+  `label` or "Loading". The region renders empty and its text (the
+  label, or a visually hidden "Loading") is inserted just after, or once
+  `delay` has passed: screen readers announce text added to a live region
+  that is already in the page, not a region that mounts full.
+- **With a value, it is `role="progressbar"`** with `aria-valuenow`,
+  `aria-valuemin="0"` and `aria-valuemax="100"`.
+- The SVG is hidden.
+- The indicator clears 3:1 on the page in every variant: `--primary-text`
+  (measured at 4.5:1 per accent), `--muted-foreground`, `--foreground`.
+  The track is decoration and may be faint.
+- The progress ring's transition stops under `prefers-reduced-motion`.
+- Under `prefers-reduced-motion` it slows to one turn in 2.5s rather than
+  stopping: a frozen arc reads as "stuck".
+- Put `aria-busy="true"` on the region that is loading, and remove the
+  spinner when the load ends, so the change is announced.

@@ -1,0 +1,67 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as SkeletonStories from './Skeleton.stories'
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+A placeholder in the shape of content that is still loading, so the page
+keeps its layout and the reader sees what is coming. Spec:
+[uiguideline.com/components/skeleton](https://www.uiguideline.com/components/skeleton).
+A plain element.
+
+<Canvas of={SkeletonStories.CardPlaceholder} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Bone** | One shape, `--muted`: a line of text, an avatar, an image. |
+| **Rows** | With `rows`, a stack of bones with the last one at 60%, like the end of a paragraph. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `width` | number or string | 100% (circle 40px) | A number is px; a string any CSS length. |
+| `height` | number or string | 16px | Of each row, with `rows`. Ignored by a single circle. |
+| `appearance` | `circle`, `square`, `rounded` | `square` | A circle takes its height from its width; with `rows` it draws rounded bars. |
+| `rows` | number | – | Stacked lines, 8px apart. |
+| `isFullWidth` | boolean | `false` | Overrides `width`. |
+| `hasAnimation` | boolean | `false` | A slow pulse. |
+
+Any other prop goes to the outer `<div>`.
+
+<Controls of={SkeletonStories.Default} />
+
+### Design notes
+
+- **`hasAnimation` is off by default.** A screen of pulsing shapes is
+  noise; animate the few that matter, or none.
+- **`rows` shortens the last line**, which reads as text rather than as a
+  block.
+
+## Usage
+
+<Canvas of={SkeletonStories.Appearances} />
+
+<Canvas of={SkeletonStories.Rows} />
+
+<Canvas of={SkeletonStories.Animated} />
+
+Match the shapes to the content that will replace them: same sizes,
+same gaps. A skeleton that jumps to a different layout on load is worse
+than a spinner. For content whose shape is unknown, use a
+[Spinner](?path=/docs/components-loaders-spinner--docs).
+
+## Accessibility
+
+- **A skeleton is decoration** and is `aria-hidden`. It says nothing to
+  a screen reader, so the region it stands in for has to: put
+  `aria-busy="true"` on it (as the CardPlaceholder story does) and remove
+  it when the content arrives.
+- If the wait matters, announce it: a visually hidden status, or a
+  Spinner with a label.
+- `--muted` is below any contrast floor on purpose. It is not content,
+  and should not compete with content that has arrived.
+- The pulse stops under `prefers-reduced-motion`.

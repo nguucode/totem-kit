@@ -1,10 +1,9 @@
-import type { ReactNode, Ref } from 'react'
+import type { ReactNode } from 'react'
 import { Progress } from '@base-ui/react/progress'
 import { cn } from '@/lib/utils'
 import styles from './ProgressBar.module.css'
 
-export interface ProgressBarProps {
-  ref?: Ref<HTMLDivElement>
+export interface ProgressBarProps extends Omit<Progress.Root.Props, 'value' | 'children' | 'className' | 'render'> {
   value?: number
   /** The spec's `maxValue`. */
   max?: number
@@ -23,7 +22,6 @@ export interface ProgressBarProps {
 }
 
 export function ProgressBar({
-  ref,
   value = 0,
   max = 100,
   size = 'md',
@@ -34,10 +32,11 @@ export function ProgressBar({
   label,
   className,
   'aria-label': ariaLabel,
+  ...props
 }: ProgressBarProps) {
   return (
     <Progress.Root
-      ref={ref}
+      {...props}
       value={isIndeterminate ? null : value}
       max={max}
       aria-label={label ? undefined : ariaLabel}

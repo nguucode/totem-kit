@@ -21,9 +21,9 @@
 }
 
 /* The fill is what carries the value, so it must reach 3:1 against the
-   track (--secondary). The solid fills do not all manage that — amber-500
-   is about 1.9:1 on gray-100 — so each variant takes its text colour,
-   measured at 4.5:1 on the page and so at 3:1 or better on the track. */
+   track (--secondary). The accent solids do not all manage that — amber's
+   is about 2.9:1 on white — so each variant takes a colour measured at
+   4.5:1 on the page as text, which keeps it at 3:1 or better on the track. */
 .primary {
   --progress-fill: var(--primary-text);
 }
@@ -34,7 +34,7 @@
   --progress-fill: var(--muted-foreground);
 }
 .destructive {
-  --progress-fill: var(--destructive);
+  --progress-fill: var(--danger-text);
 }
 
 .label {
@@ -85,6 +85,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
   .indicator[data-indeterminate] {
     animation-duration: 4s;
   }
