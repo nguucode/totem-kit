@@ -334,6 +334,57 @@
           "target": "components/zweihander/controls/Radio.module.css"
         }
       ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:component",
+      "title": "Accordion",
+      "description": "Headings that show and hide sections, from a flat items list, on Base UI Accordion.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/icon.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/data-display/Accordion.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/data-display/Accordion.tsx"
+        },
+        {
+          "path": "src/components/data-display/Accordion.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/data-display/Accordion.module.css"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:component",
+      "title": "Card",
+      "description": "Surface for related content: elevated, outline, filled or unstyled; a button with onClick or a link with render.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/data-display/Card.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/data-display/Card.tsx"
+        },
+        {
+          "path": "src/components/data-display/Card.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/data-display/Card.module.css"
+        }
+      ]
     }
   ]
 }

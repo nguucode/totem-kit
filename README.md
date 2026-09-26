@@ -168,6 +168,8 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/toggle-button.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/switch.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/checkbox.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/radio.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/accordion.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/card.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -205,6 +207,8 @@ import { ToggleButton } from 'zweihander/toggle-button'
 import { Switch } from 'zweihander/switch'
 import { Checkbox } from 'zweihander/checkbox'
 import { RadioGroup } from 'zweihander/radio'
+import { Accordion } from 'zweihander/accordion'
+import { Card } from 'zweihander/card'
 ```
 
 ```css

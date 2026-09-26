@@ -22,6 +22,8 @@ export default defineConfig({
         'components/controls/Switch': 'src/components/controls/Switch.tsx',
         'components/controls/Checkbox': 'src/components/controls/Checkbox.tsx',
         'components/controls/Radio': 'src/components/controls/Radio.tsx',
+        'components/data-display/Accordion': 'src/components/data-display/Accordion.tsx',
+        'components/data-display/Card': 'src/components/data-display/Card.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },

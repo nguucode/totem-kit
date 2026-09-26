@@ -56,6 +56,14 @@
       "types": "./dist/components/controls/Radio.d.ts",
       "import": "./dist/components/controls/Radio.js"
     },
+    "./accordion": {
+      "types": "./dist/components/data-display/Accordion.d.ts",
+      "import": "./dist/components/data-display/Accordion.js"
+    },
+    "./card": {
+      "types": "./dist/components/data-display/Card.d.ts",
+      "import": "./dist/components/data-display/Card.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

@@ -1,0 +1,138 @@
+.accordion {
+  --accordion-pad-inline: var(--space-4);
+  --accordion-pad-block: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+}
+
+.sm {
+  --accordion-pad-inline: var(--space-3);
+  --accordion-pad-block: var(--space-2);
+}
+
+/* Items are separated by --border lines (non-interactive, so the lighter
+   border); outlined also frames the whole set. */
+.item + .item {
+  border-block-start: 1px solid var(--border);
+}
+
+.outlined {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+
+.flush .item:last-child {
+  border-block-end: 1px solid var(--border);
+}
+
+.flush {
+  --accordion-pad-inline: 0;
+}
+
+.header {
+  margin: 0;
+  font: inherit;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  inline-size: 100%;
+  margin: 0;
+  padding: var(--accordion-pad-block) var(--accordion-pad-inline);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-weight: 500;
+  text-align: start;
+  cursor: var(--cursor-button);
+}
+
+.sm .trigger {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+.trigger:hover {
+  background: var(--accent);
+}
+
+/* Inset so the ring is not cut off by the outlined container's clipping. */
+.trigger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+.trigger[data-disabled] {
+  cursor: var(--cursor-disabled);
+  opacity: 0.5;
+}
+
+.trigger[data-disabled]:hover {
+  background: transparent;
+}
+
+.title {
+  min-inline-size: 0;
+}
+
+.chevron {
+  flex-shrink: 0;
+  font-size: var(--space-4);
+  color: var(--muted-foreground);
+  transition: rotate 150ms;
+}
+
+.trigger[data-panel-open] .chevron {
+  rotate: 180deg;
+}
+
+/* Base UI measures the content into --accordion-panel-height; animating
+   height to it and to 0 at the start and end states is its documented
+   pattern. */
+.panel {
+  block-size: var(--accordion-panel-height);
+  overflow: hidden;
+  transition: block-size 150ms ease-out;
+}
+
+.panel[data-starting-style],
+.panel[data-ending-style] {
+  block-size: 0;
+}
+
+.content {
+  padding: 0 var(--accordion-pad-inline) var(--accordion-pad-block);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--muted-foreground);
+}
+
+.sm .content {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .chevron {
+    transition: none;
+  }
+}
+
+/* md triggers are 44px already. sm is 32px, and triggers are stacked edge to
+   edge, so an invisible 44px hit area would overlap the next trigger's and
+   a tap could open the wrong item. On touch, sm grows to 44px instead. */
+@media (pointer: coarse) {
+  .trigger {
+    min-block-size: 44px;
+  }
+}
