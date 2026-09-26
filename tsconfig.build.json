@@ -12,8 +12,9 @@
     "src/components/atomic-elements/Divider.tsx",
     "src/components/inputs/TextInput.tsx",
     "src/components/atomic-elements/Badge.tsx",
-    "src/icons/Icon.tsx",
+    "src/lib/icon.tsx",
     "src/components/atomic-elements/Avatar.tsx",
+    "src/components/atomic-elements/Tag.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]

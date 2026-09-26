@@ -1,0 +1,134 @@
+.tag {
+  --tag-icon: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  max-inline-size: 100%;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Height is line-height + 2px padding + 1px border each side: 24px at md,
+   20px at sm. */
+.md {
+  padding: 1px var(--space-2);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.sm {
+  --tag-icon: var(--space-3);
+  padding: 1px var(--space-1-5);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+/* Always a pill, whatever the radius preset — that is what the prop asks for. */
+.rounded {
+  border-radius: 9999px;
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: var(--tag-icon);
+}
+
+.avatar {
+  flex-shrink: 0;
+  inline-size: var(--tag-icon);
+  block-size: var(--tag-icon);
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+/* One rule per variant: the appearance rules below read these. */
+.info {
+  --tag-solid: var(--info);
+  --tag-on-solid: var(--info-foreground);
+  --tag-subtle: var(--info-subtle);
+  --tag-text: var(--info-text);
+}
+
+.success {
+  --tag-solid: var(--success);
+  --tag-on-solid: var(--success-foreground);
+  --tag-subtle: var(--success-subtle);
+  --tag-text: var(--success-text);
+}
+
+.warning {
+  --tag-solid: var(--warning);
+  --tag-on-solid: var(--warning-foreground);
+  --tag-subtle: var(--warning-subtle);
+  --tag-text: var(--warning-text);
+}
+
+.danger {
+  --tag-solid: var(--danger);
+  --tag-on-solid: var(--danger-foreground);
+  --tag-subtle: var(--danger-subtle);
+  --tag-text: var(--danger-text);
+}
+
+.subtle {
+  background: var(--tag-subtle);
+  color: var(--tag-text);
+}
+
+.outlined {
+  border-color: var(--tag-text);
+  color: var(--tag-text);
+}
+
+.solid {
+  background: var(--tag-solid);
+  color: var(--tag-on-solid);
+}
+
+.remove {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  margin: 0;
+  margin-inline-end: calc(var(--space-1) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font-size: var(--tag-icon);
+  cursor: var(--cursor-button);
+}
+
+.remove:hover {
+  background: color-mix(in oklch, currentColor 15%, transparent);
+}
+
+.remove:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+/* The visible button is 16px; on touch screens the hit area grows to 44px
+   without the tag growing with it. */
+@media (pointer: coarse) {
+  .remove::before {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    inline-size: 44px;
+    block-size: 44px;
+    translate: -50% -50%;
+  }
+}

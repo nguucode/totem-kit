@@ -45,14 +45,14 @@
     },
     {
       "name": "icon",
-      "type": "registry:component",
+      "type": "registry:lib",
       "title": "Icon",
       "description": "The kit icon set (Boxicons free, MIT), named by purpose so it can be swapped in one place.",
       "files": [
         {
-          "path": "src/icons/Icon.tsx",
-          "type": "registry:component",
-          "target": "components/zweihander/icon.tsx"
+          "path": "src/lib/icon.tsx",
+          "type": "registry:lib",
+          "target": "lib/icon.tsx"
         }
       ]
     },
@@ -188,6 +188,29 @@
           "path": "src/components/atomic-elements/Avatar.module.css",
           "type": "registry:component",
           "target": "components/zweihander/Avatar.module.css"
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "type": "registry:component",
+      "title": "Tag",
+      "description": "Short status or category label, four variants and three appearances, with an optional remove button.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/atomic-elements/Tag.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/tag.tsx"
+        },
+        {
+          "path": "src/components/atomic-elements/Tag.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/Tag.module.css"
         }
       ]
     }

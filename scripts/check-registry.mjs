@@ -45,6 +45,17 @@ for (const item of registry.items) {
   const shipped = new Set(item.files.map((f) => f.path))
   const reachable = new Set(shipped)
   for (const dep of regDeps) for (const f of resolveDep(dep)?.files ?? []) reachable.add(f.path)
+  /* Where each reachable file lands in the consumer's project, without its
+     extension. The CLI rewrites the `@/` prefix of an import but not the path
+     after it, so `@/lib/icon` only works if a file is installed at lib/icon —
+     a source file at src/icons/Icon.tsx installed elsewhere passes a check on
+     source paths and breaks on the other side. No target means the source
+     path minus src/. */
+  const installed = new Set(
+    [...item.files, ...[...regDeps].flatMap((d) => resolveDep(d)?.files ?? [])].map((f) =>
+      (f.target ?? f.path.replace(/^src\//, '')).replace(/\.[^./]+$/, ''),
+    ),
+  )
 
   for (const file of item.files) {
     if (!/\.(tsx?|jsx?)$/.test(file.path)) continue
@@ -80,6 +91,8 @@ for (const item of registry.items) {
       } else if (spec.startsWith('@/')) {
         const hit = [...reachable].some((p) => p.includes(spec.slice(2)))
         if (!hit) errors.push(`${item.name}: ${file.path} imports "${spec}" — add the item that ships it to registryDependencies`)
+        else if (!installed.has(spec.slice(2)))
+          errors.push(`${item.name}: ${file.path} imports "${spec}", but no dependency installs a file at ${spec.slice(2)} — set that item's target to match`)
       } else {
         const pkg = spec.startsWith('@') ? spec.split('/').slice(0, 2).join('/') : spec.split('/')[0]
         if (!PEER.has(pkg) && !declared.has(pkg))

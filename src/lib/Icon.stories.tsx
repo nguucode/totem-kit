@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect } from 'storybook/test'
-import { Icon, type IconName } from './Icon'
+import { Icon, type IconName } from './icon'
 
 const meta = {
   title: 'Foundations/Icons',

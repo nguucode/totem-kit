@@ -29,12 +29,16 @@
       "import": "./dist/components/atomic-elements/Badge.js"
     },
     "./icon": {
-      "types": "./dist/icons/Icon.d.ts",
-      "import": "./dist/icons/Icon.js"
+      "types": "./dist/lib/icon.d.ts",
+      "import": "./dist/lib/icon.js"
     },
     "./avatar": {
       "types": "./dist/components/atomic-elements/Avatar.d.ts",
       "import": "./dist/components/atomic-elements/Avatar.js"
+    },
+    "./tag": {
+      "types": "./dist/components/atomic-elements/Tag.d.ts",
+      "import": "./dist/components/atomic-elements/Tag.js"
     },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",

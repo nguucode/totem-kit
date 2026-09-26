@@ -1,5 +1,5 @@
 import { useState, type ComponentProps } from 'react'
-import { Icon } from '@/icons/Icon'
+import { Icon } from '@/lib/icon'
 import { cn } from '@/lib/utils'
 import styles from './Avatar.module.css'
 
