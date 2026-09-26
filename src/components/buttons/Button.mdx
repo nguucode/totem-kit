@@ -85,8 +85,16 @@ Use it for navigation, and a plain Button for actions.
 - `isLoading` sets `aria-busy` and `aria-disabled` but keeps the button
   focusable. `disabled` removes it from the tab order, as native buttons
   do.
-- A disabled `href` button renders an `<a>` with no `href` (which cannot
-  navigate) and `aria-disabled`.
+- A disabled or loading link renders a bare `<a>` with no `href` — the
+  only thing that stops an `<a>` navigating — and `aria-disabled`. With
+  `render`, the render element is dropped too, since a router's Link would
+  keep its own `href`.
+- `render` is for elements that are already interactive: a link or a
+  router's Link. It merges props onto the element and adds no role or
+  keyboard handling, so do not render a `<div>` through it.
+- Hover and pressed keep the label at 4.5:1 too. The `StateContrast`
+  story measures every variant × appearance × state under all seventeen
+  accents in both modes, from the CSS that ships.
 - `sm` and `md` are under 44px; on touch screens (`pointer: coarse`) the
   hit area grows to 44×44px without the button growing.
 - Focus ring: 2px `--ring`, 2px offset, at 3:1 or better on the page.

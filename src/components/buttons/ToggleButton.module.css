@@ -3,10 +3,15 @@
    text has to pass contrast on the pressed fill, not just on the page.
    A tint of the variant colour does not (red-600 on a red tint is 3.7:1),
    so pressed takes the neutral secondary fill and its measured label. The
-   outlined border keeps the variant colour. Two classes to outrank
-   Button's own appearance rules, whichever stylesheet loads first. */
-.tinted.tinted,
-.tinted.tinted:hover {
-  background: var(--secondary);
-  color: var(--secondary-foreground);
+   outlined border keeps the variant colour. It sets Button's own state
+   properties rather than painting over them, so hover and press follow
+   the same measured rules; two classes to outrank Button's appearance
+   classes, whichever stylesheet loads first. */
+.tinted.tinted {
+  --button-bg: var(--secondary);
+  --button-fg: var(--secondary-foreground);
+  --button-bg-hover: color-mix(in oklab, var(--secondary) 90%, var(--secondary-foreground));
+  --button-bg-active: color-mix(in oklab, var(--secondary) 82%, var(--secondary-foreground));
+  --button-fg-hover: var(--secondary-foreground);
+  --button-fg-active: var(--secondary-foreground);
 }

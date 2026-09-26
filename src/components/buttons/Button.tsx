@@ -12,7 +12,7 @@ interface ButtonBaseProps extends Omit<ComponentProps<'button'>, 'ref'> {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   startIcon?: ReactNode
   endIcon?: ReactNode
-  /** Shows a spinner, blocks clicks and keeps focus, so a keyboard user is not dropped. */
+  /** Shows a spinner, blocks clicks and keeps focus, so a keyboard user is not dropped. On a link it behaves as disabled. */
   isLoading?: boolean
   isFullWidth?: boolean
   /** Renders an `<a>` instead of a `<button>`: it navigates, it does not act. */
@@ -80,20 +80,22 @@ export function Button({
 
   // `href` or `render` means someone else's element — an <a>, a router's
   // Link — whose semantics must survive: Base UI's Button would stamp
-  // role="button" on it. Props are merged onto it instead. A disabled link
-  // loses its href, the only thing that stops an <a> navigating, and
-  // aria-disabled says why.
+  // role="button" on it. Props are merged onto it instead.
+  //
+  // Disabled (or loading, which a link cannot show) drops the render
+  // element too and leaves a bare <a> with no href: removing the href is
+  // the only thing that stops an <a> navigating, and a router's Link keeps
+  // its own. aria-disabled says why it is inert.
+  const inert = disabled || isLoading
   const custom = useRender({
     enabled: href !== undefined || render !== undefined,
-    render,
+    render: inert ? undefined : render,
     defaultTagName: 'a',
     props: mergeProps<'a'>(own, props as ComponentProps<'a'>, {
-      // Only touch href when we were given one, so an href on the render
-      // element itself is not wiped.
-      ...(href !== undefined && { href: disabled || isLoading ? undefined : href }),
+      ...(!inert && href !== undefined && { href }),
       target,
       rel,
-      'aria-disabled': disabled || isLoading || undefined,
+      'aria-disabled': inert || undefined,
     }),
   })
   if (custom) return custom

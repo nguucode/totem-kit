@@ -106,6 +106,15 @@ export const Controlled: Story = {
   },
 }
 
+export const FullWidth: Story = {
+  args: { isFullWidth: true, defaultPressed: true },
+  render: (args) => (
+    <div style={{ inlineSize: '20rem' }}>
+      <ToggleButton {...args} />
+    </div>
+  ),
+}
+
 export const Disabled: Story = {
   args: { disabled: true },
   play: async ({ canvas }) => {

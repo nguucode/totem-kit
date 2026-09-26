@@ -85,39 +85,61 @@ a[href].button {
 }
 
 /* --------------------------------------------------------- appearances
-   Hover and press mix the colour toward transparent (contained) or tint the
-   background with it (outlined, ghost), so every variant gets the same
-   feedback from one rule instead of a hover token per combination. */
+   Every state's colours are custom properties, so one rule paints them and
+   the StateContrast story can read each one back and measure it.
+
+   Hover and press must keep the label at 4.5:1, which fading the fill does
+   not: red-600 at 80% under a white label is 3.9:1. So a coloured solid
+   (primary, destructive) moves AWAY from its label — the "anti-label" is
+   the label's lightness inverted, dark under a white label and light under
+   a dark one — and gains contrast. accent and secondary have 16:1 or more
+   to spend, so they move TOWARD their label, which is the only direction
+   that is visible on black or near-white fills. */
 
 .contained {
-  background: var(--button-solid);
-  color: var(--button-on-solid);
+  --button-bg: var(--button-solid);
+  --button-fg: var(--button-on-solid);
+  --button-anti-label: oklch(from var(--button-on-solid) calc(1 - l) 0 0);
+  --button-bg-hover: color-mix(in oklab, var(--button-solid) 88%, var(--button-anti-label));
+  --button-bg-active: color-mix(in oklab, var(--button-solid) 76%, var(--button-anti-label));
+  --button-fg-hover: var(--button-on-solid);
+  --button-fg-active: var(--button-on-solid);
 }
-.contained:hover {
-  background: color-mix(in oklab, var(--button-solid) 90%, transparent);
+
+.contained.accent,
+.contained.secondary {
+  --button-bg-hover: color-mix(in oklab, var(--button-solid) 90%, var(--button-on-solid));
+  --button-bg-active: color-mix(in oklab, var(--button-solid) 82%, var(--button-on-solid));
 }
-.contained:active {
-  background: color-mix(in oklab, var(--button-solid) 80%, transparent);
+
+/* Outlined and ghost tint the background with their own tone, which pulls
+   it toward the text; the text moves toward --foreground by as much, so it
+   keeps its distance from the tint. */
+.outlined,
+.ghost {
+  --button-bg: transparent;
+  --button-fg: var(--button-tone);
+  --button-bg-hover: color-mix(in oklab, var(--button-tone) 8%, transparent);
+  --button-bg-active: color-mix(in oklab, var(--button-tone) 14%, transparent);
+  --button-fg-hover: color-mix(in oklab, var(--button-tone) 75%, var(--foreground));
+  --button-fg-active: color-mix(in oklab, var(--button-tone) 60%, var(--foreground));
 }
 
 .outlined {
   border-color: var(--button-border);
-  background: transparent;
-  color: var(--button-tone);
 }
 
-.ghost {
-  background: transparent;
-  color: var(--button-tone);
+.button {
+  background: var(--button-bg);
+  color: var(--button-fg);
 }
-
-.outlined:hover,
-.ghost:hover {
-  background: color-mix(in oklab, var(--button-tone) 8%, transparent);
+.button:hover {
+  background: var(--button-bg-hover);
+  color: var(--button-fg-hover);
 }
-.outlined:active,
-.ghost:active {
-  background: color-mix(in oklab, var(--button-tone) 14%, transparent);
+.button:active {
+  background: var(--button-bg-active);
+  color: var(--button-fg-active);
 }
 
 /* ---------------------------------------------------------------- sizes */
@@ -167,7 +189,10 @@ a[href].button {
 }
 
 /* A ring of currentColor with one clear side. The label stays in place but
-   invisible, so the button keeps its width and its accessible name. */
+   invisible, so the button keeps its width and its accessible name. The
+   2px wall matches the focus ring; 700ms is one turn, quick enough to read
+   as busy without flicker, slowed to 2s for reduced motion rather than
+   stopped, so "still working" still shows. */
 .spinner {
   position: absolute;
   inline-size: var(--button-icon);

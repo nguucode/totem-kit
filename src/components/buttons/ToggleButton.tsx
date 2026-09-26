@@ -1,35 +1,29 @@
-import type { MouseEventHandler, ReactNode, Ref } from 'react'
+import type { ComponentProps, ReactNode, Ref } from 'react'
 import { Toggle } from '@base-ui/react/toggle'
 import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from './Button'
 import styles from './ToggleButton.module.css'
 
-interface ToggleButtonBaseProps {
+interface ToggleButtonBaseProps
+  extends Omit<ComponentProps<'button'>, 'ref' | 'value' | 'defaultValue' | 'onChange'> {
+  // Always a <button> (Button itself may be an <a>, hence its wider type).
   ref?: Ref<HTMLButtonElement>
   /** Colour of the pressed state. Unpressed is always neutral. */
-  variant?: 'primary' | 'accent' | 'secondary' | 'destructive'
+  variant?: ButtonProps['variant']
   /** Style of the pressed state. */
-  appearance?: 'contained' | 'outlined' | 'ghost'
-  size?: 'sm' | 'md' | 'lg' | 'xl'
+  appearance?: ButtonProps['appearance']
+  size?: ButtonProps['size']
   startIcon?: ReactNode
   endIcon?: ReactNode
   isLoading?: boolean
   isFullWidth?: boolean
-  disabled?: boolean
   /** Controlled pressed state (the spec's `isSelected`). */
   pressed?: boolean
   defaultPressed?: boolean
+  /** Base UI's second argument (event details) is dropped: nothing here needs it. */
   onPressedChange?: (pressed: boolean) => void
-  onClick?: MouseEventHandler<HTMLButtonElement>
-  className?: string
-  children?: ReactNode
-  id?: string
-  name?: string
+  /** Identifies the toggle inside a group. */
   value?: string
-  title?: string
-  'aria-label'?: string
-  'aria-labelledby'?: string
-  'aria-describedby'?: string
 }
 
 /** An icon-only toggle has no text to name it, so `aria-label` is required. */
@@ -59,7 +53,7 @@ export function ToggleButton({
       {...props}
       pressed={pressed}
       defaultPressed={defaultPressed}
-      onPressedChange={onPressedChange ? (next) => onPressedChange(next) : undefined}
+      onPressedChange={onPressedChange && ((next) => onPressedChange(next))}
       disabled={disabled}
       render={(toggleProps, state) => {
         const buttonProps = {

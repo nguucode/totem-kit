@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect, fn } from 'storybook/test'
 import { Icon } from '@/lib/icon'
+import { ACCENT_COLORS, Theme } from '@/theme/Theme'
 import { Button } from './Button'
 
 const meta = {
@@ -156,6 +157,17 @@ export const Render: Story = {
   },
 }
 
+export const DisabledRender: Story = {
+  args: { render: <a href="#settings" />, disabled: true, children: 'Settings' },
+  play: async ({ canvasElement }) => {
+    // The render element's own href would still navigate from the keyboard,
+    // so a disabled render drops it.
+    const a = canvasElement.querySelector('a')!
+    await expect(a).not.toHaveAttribute('href')
+    await expect(a).toHaveAttribute('aria-disabled', 'true')
+  },
+}
+
 export const FullWidth: Story = {
   args: { isFullWidth: true },
   render: (args) => (
@@ -165,5 +177,82 @@ export const FullWidth: Story = {
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('button').getBoundingClientRect().width).toBe(320)
+  },
+}
+
+/**
+ * Every state of every variant × appearance, under all seventeen accents,
+ * in both modes, measured: the label must clear 4.5:1 on its fill at rest,
+ * on hover and when pressed. The colours are read back from the button's
+ * own state properties, resolved by the browser and composited over the
+ * page, so this measures the CSS that ships rather than a copy of it.
+ */
+export const StateContrast: Story = {
+  parameters: { a11y: { test: 'off' } },
+  render: () => (
+    <div>
+      {(['light', 'dark'] as const).map((mode) => (
+        <Theme key={mode} appearance={mode} style={{ background: 'var(--background)', padding: 8 }}>
+          {ACCENT_COLORS.map((accent) => (
+            <Theme key={accent} accentColor={accent} style={{ display: 'flex', gap: 4 }}>
+              {(['primary', 'accent', 'secondary', 'destructive'] as const).flatMap((variant) =>
+                (['contained', 'outlined', 'ghost'] as const).map((appearance) => (
+                  <Button
+                    key={variant + appearance}
+                    size="sm"
+                    variant={variant}
+                    appearance={appearance}
+                    data-audit={`${mode} ${accent} ${variant} ${appearance}`}
+                  >
+                    Aa
+                  </Button>
+                )),
+              )}
+            </Theme>
+          ))}
+        </Theme>
+      ))}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true })!
+    // Resolve any CSS colour (oklch, color-mix, alpha) to sRGB, composited
+    // over the page colour, by painting it.
+    const rgb = (color: string, over?: string) => {
+      ctx.clearRect(0, 0, 1, 1)
+      if (over) {
+        ctx.fillStyle = over
+        ctx.fillRect(0, 0, 1, 1)
+      }
+      ctx.fillStyle = color
+      ctx.fillRect(0, 0, 1, 1)
+      return [...ctx.getImageData(0, 0, 1, 1).data.slice(0, 3)]
+    }
+    const lum = ([r, g, b]: number[]) =>
+      [r, g, b]
+        .map((c) => c / 255)
+        .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
+        .reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0)
+    const ratio = (a: number[], b: number[]) => {
+      const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m)
+      return (x + 0.05) / (y + 0.05)
+    }
+
+    const failures: string[] = []
+    for (const button of canvasElement.querySelectorAll<HTMLElement>('[data-audit]')) {
+      const probe = document.createElement('span')
+      button.append(probe)
+      const page = getComputedStyle(button.parentElement!.parentElement!).backgroundColor
+      for (const state of ['', '-hover', '-active']) {
+        probe.style.background = `var(--button-bg${state})`
+        probe.style.color = `var(--button-fg${state})`
+        const { backgroundColor, color } = getComputedStyle(probe)
+        const bg = rgb(backgroundColor, page)
+        const value = ratio(rgb(color, rgb(backgroundColor, page).length ? `rgb(${bg})` : page), bg)
+        if (value < 4.5) failures.push(`${button.dataset.audit}${state || ' rest'}: ${value.toFixed(2)}`)
+      }
+      probe.remove()
+    }
+    await expect(failures).toEqual([])
   },
 }
