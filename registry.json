@@ -44,6 +44,19 @@
       ]
     },
     {
+      "name": "icon",
+      "type": "registry:component",
+      "title": "Icon",
+      "description": "The kit icon set (Boxicons free, MIT), named by purpose so it can be swapped in one place.",
+      "files": [
+        {
+          "path": "src/icons/Icon.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/icon.tsx"
+        }
+      ]
+    },
+    {
       "name": "theme",
       "type": "registry:component",
       "title": "Theme",

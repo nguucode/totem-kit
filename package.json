@@ -28,6 +28,10 @@
       "types": "./dist/components/atomic-elements/Badge.d.ts",
       "import": "./dist/components/atomic-elements/Badge.js"
     },
+    "./icon": {
+      "types": "./dist/icons/Icon.d.ts",
+      "import": "./dist/icons/Icon.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

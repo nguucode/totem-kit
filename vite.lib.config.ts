@@ -15,6 +15,7 @@ export default defineConfig({
         'components/atomic-elements/Divider': 'src/components/atomic-elements/Divider.tsx',
         'components/inputs/TextInput': 'src/components/inputs/TextInput.tsx',
         'components/atomic-elements/Badge': 'src/components/atomic-elements/Badge.tsx',
+        'icons/Icon': 'src/icons/Icon.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },
