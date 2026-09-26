@@ -18,6 +18,7 @@ export default defineConfig({
         'lib/icon': 'src/lib/icon.tsx',
         'components/atomic-elements/Avatar': 'src/components/atomic-elements/Avatar.tsx',
         'components/atomic-elements/Tag': 'src/components/atomic-elements/Tag.tsx',
+        'components/buttons/ToggleButton': 'src/components/buttons/ToggleButton.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },

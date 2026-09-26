@@ -15,6 +15,7 @@
     "src/lib/icon.tsx",
     "src/components/atomic-elements/Avatar.tsx",
     "src/components/atomic-elements/Tag.tsx",
+    "src/components/buttons/ToggleButton.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]

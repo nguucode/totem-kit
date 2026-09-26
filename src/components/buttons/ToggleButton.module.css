@@ -1,0 +1,12 @@
+/* A pressed outlined or ghost toggle needs to differ from an unpressed one
+   by more than its border, and it sits in that state indefinitely — so its
+   text has to pass contrast on the pressed fill, not just on the page.
+   A tint of the variant colour does not (red-600 on a red tint is 3.7:1),
+   so pressed takes the neutral secondary fill and its measured label. The
+   outlined border keeps the variant colour. Two classes to outrank
+   Button's own appearance rules, whichever stylesheet loads first. */
+.tinted.tinted,
+.tinted.tinted:hover {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}

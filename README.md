@@ -164,6 +164,7 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/divider.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/badge.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/avatar.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/tag.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/toggle-button.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -197,6 +198,7 @@ import { Divider } from 'zweihander/divider'
 import { Badge } from 'zweihander/badge'
 import { Avatar } from 'zweihander/avatar'
 import { Tag } from 'zweihander/tag'
+import { ToggleButton } from 'zweihander/toggle-button'
 ```
 
 ```css

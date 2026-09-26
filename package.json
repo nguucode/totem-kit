@@ -40,6 +40,10 @@
       "types": "./dist/components/atomic-elements/Tag.d.ts",
       "import": "./dist/components/atomic-elements/Tag.js"
     },
+    "./toggle-button": {
+      "types": "./dist/components/buttons/ToggleButton.d.ts",
+      "import": "./dist/components/buttons/ToggleButton.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

@@ -204,6 +204,32 @@
           "target": "components/zweihander/atomic-elements/Tag.module.css"
         }
       ]
+    },
+    {
+      "name": "toggle-button",
+      "type": "registry:component",
+      "title": "Toggle Button",
+      "description": "Button that stays pressed, on Base UI Toggle; neutral when off, the variant when on.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/button.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/buttons/ToggleButton.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/buttons/ToggleButton.tsx"
+        },
+        {
+          "path": "src/components/buttons/ToggleButton.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/buttons/ToggleButton.module.css"
+        }
+      ]
     }
   ]
 }
