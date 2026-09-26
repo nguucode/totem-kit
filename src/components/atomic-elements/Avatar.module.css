@@ -1,0 +1,64 @@
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.xs {
+  inline-size: var(--space-6);
+  block-size: var(--space-6);
+  font-size: var(--text-body-sm);
+}
+
+.sm {
+  inline-size: var(--space-8);
+  block-size: var(--space-8);
+  font-size: var(--text-body-sm);
+}
+
+.md {
+  inline-size: var(--space-10);
+  block-size: var(--space-10);
+  font-size: var(--text-body);
+}
+
+.lg {
+  inline-size: var(--space-12);
+  block-size: var(--space-12);
+  font-size: var(--text-body-lg);
+}
+
+/* Always round, whatever the Theme's radius preset: a circle is the shape,
+   not a corner setting. */
+.circle {
+  border-radius: 9999px;
+}
+
+.square {
+  border-radius: var(--radius-md);
+}
+
+.image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.initials {
+  text-transform: uppercase;
+}
+
+.placeholder {
+  inline-size: 60%;
+  block-size: 60%;
+  color: var(--muted-foreground);
+}

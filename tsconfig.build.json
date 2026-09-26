@@ -13,6 +13,7 @@
     "src/components/inputs/TextInput.tsx",
     "src/components/atomic-elements/Badge.tsx",
     "src/icons/Icon.tsx",
+    "src/components/atomic-elements/Avatar.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]

@@ -16,6 +16,7 @@ export default defineConfig({
         'components/inputs/TextInput': 'src/components/inputs/TextInput.tsx',
         'components/atomic-elements/Badge': 'src/components/atomic-elements/Badge.tsx',
         'icons/Icon': 'src/icons/Icon.tsx',
+        'components/atomic-elements/Avatar': 'src/components/atomic-elements/Avatar.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },

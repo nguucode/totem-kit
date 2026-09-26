@@ -167,6 +167,29 @@
           "target": "components/zweihander/Badge.module.css"
         }
       ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:component",
+      "title": "Avatar",
+      "description": "Picture of a person with initials and placeholder fallbacks, circle or square.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/atomic-elements/Avatar.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/avatar.tsx"
+        },
+        {
+          "path": "src/components/atomic-elements/Avatar.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/Avatar.module.css"
+        }
+      ]
     }
   ]
 }

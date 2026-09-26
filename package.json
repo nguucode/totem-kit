@@ -32,6 +32,10 @@
       "types": "./dist/icons/Icon.d.ts",
       "import": "./dist/icons/Icon.js"
     },
+    "./avatar": {
+      "types": "./dist/components/atomic-elements/Avatar.d.ts",
+      "import": "./dist/components/atomic-elements/Avatar.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"
