@@ -1,0 +1,62 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as SkeletonStories from './Skeleton.stories'
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+A grey placeholder in the shape of content that has not arrived yet: a
+line of text, an avatar, an image. The page keeps its layout while it
+loads, so nothing jumps when the real content lands. Spec:
+[uiguideline.com/components/skeleton](https://www.uiguideline.com/components/skeleton).
+
+<Canvas of={SkeletonStories.CardPlaceholder} />
+
+## Anatomy
+
+One part, the **bone**: a block in `--muted`, the same quiet surface as a
+hover. With `rows` it becomes a stack of bones, the last one at 60% width
+because a paragraph's last line rarely runs full.
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `width` | number or CSS length | `100%` | A number is pixels. |
+| `height` | number or CSS length | `16px` | Per row when `rows` is set. |
+| `appearance` | `circle`, `square`, `rounded` | `square` | A circle takes `width` (or `height`) as its diameter. |
+| `rows` | number | – | Stacked bars for a block of text. |
+| `isFullWidth` | boolean | `false` | Fill the container, ignoring `width`. |
+| `hasAnimation` | boolean | `false` | A gentle pulse. |
+
+Every other `<div>` attribute passes through.
+
+<Controls of={SkeletonStories.Default} />
+
+### Differences from the spec
+
+- **Animation is off by default.** A page of pulsing shapes is noise; turn
+  it on for the one or two placeholders that should draw the eye.
+- **A circle is always round.** Given both `width` and `height`, it uses
+  `width` for both, so it never stretches into a pill.
+
+## Usage
+
+<Canvas of={SkeletonStories.Appearances} />
+
+<Canvas of={SkeletonStories.Rows} />
+
+<Canvas of={SkeletonStories.Animated} />
+
+Match the shape of what is coming: a circle where the avatar goes, a short
+bar for the name, rows for the bio. A skeleton that does not look like the
+final layout is just a spinner with extra steps.
+
+## Accessibility
+
+- Every bone is `aria-hidden`: it is decoration, and a screen reader
+  reading out a list of empty blocks helps no one.
+- Put `aria-busy="true"` on the region it stands in for, with a name
+  ("Loading profile"), and remove it when the content arrives.
+- Under `prefers-reduced-motion` the pulse stops entirely; a still grey
+  block already says "loading".

@@ -30,6 +30,11 @@ export const Appearances: Story = {
       <Skeleton {...args} appearance="rounded" width={120} height={40} />
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    // The circle stays round even though the story args carry a height of 16.
+    const circle = canvasElement.querySelector('[aria-hidden]')!.getBoundingClientRect()
+    await expect([circle.width, circle.height]).toEqual([40, 40])
+  },
 }
 
 export const Rows: Story = {

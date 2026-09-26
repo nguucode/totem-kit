@@ -1,0 +1,78 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ProgressBarStories from './ProgressBar.stories'
+
+<Meta of={ProgressBarStories} />
+
+# Progress Bar
+
+A horizontal bar that fills as work gets done: an upload, a multi-step
+setup, storage used. Spec:
+[uiguideline.com/components/progress-bar](https://www.uiguideline.com/components/progress-bar).
+
+<Canvas of={ProgressBarStories.ValueLabel} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Label** | Optional text above the bar; also the accessible name. |
+| **Track** | The full length, in `--secondary`. |
+| **Indicator** | The filled part. Its width is `value / max`. |
+| **Value label** | Optional percentage after the bar, in tabular figures so it does not jitter. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `value` | number | `0` | Between 0 and `max`. |
+| `max` | number | `100` | The spec's `maxValue`. |
+| `size` | `sm`, `md`, `lg` | `md` | Bar height: 4, 8, 12px. |
+| `variant` | `primary`, `accent`, `secondary`, `destructive` | `primary` | Colour of the fill. |
+| `isRounded` | boolean | `false` | Pill ends on the track and the fill. |
+| `isIndeterminate` | boolean | `false` | A sliding bar; no value is reported. |
+| `showValueLabel` | boolean | `false` | Show "70%" after the bar. |
+| `label` | ReactNode | – | Visible label and accessible name. |
+| `aria-label` | string | – | The accessible name when there is no visible `label`. |
+
+`ref` and `className` pass through to the root.
+
+<Controls of={ProgressBarStories.Default} />
+
+### Differences from the spec
+
+- **`maxValue` is `max`**, the name Base UI and the native `<progress>`
+  use.
+- **Fills are text colours.** `primary` uses `--primary-text`, `accent`
+  `--foreground`, `secondary` `--muted-foreground`, so the fill clears 3:1
+  against the track for every accent. The solid `--primary` does not with
+  amber or lime.
+
+## Usage
+
+<Canvas of={ProgressBarStories.Variants} />
+
+Sizes, all rounded:
+
+<Canvas of={ProgressBarStories.Sizes} />
+
+`max` counts in whatever unit the work has; the value label still reads
+as a percentage.
+
+<Canvas of={ProgressBarStories.Max} />
+
+When the work has started but there is no telling how much is left, use
+`isIndeterminate`. For short, unmeasured waits a Spinner takes less room.
+
+<Canvas of={ProgressBarStories.Indeterminate} />
+
+## Accessibility
+
+- Built on Base UI `Progress`: a `role="progressbar"` with
+  `aria-valuenow`, `aria-valuemin` and `aria-valuemax`, and a readable
+  `aria-valuetext`.
+- Indeterminate, `aria-valuenow` is left off rather than set to 0, so a
+  screen reader does not announce "0 percent" for work that is under way.
+- Give it a name: a visible `label`, or `aria-label` when the context
+  already says what is loading.
+- Under `prefers-reduced-motion` the indeterminate bar slides slowly
+  rather than stopping.

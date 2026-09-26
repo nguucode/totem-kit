@@ -33,7 +33,13 @@ export function Skeleton({
   ...props
 }: SkeletonProps) {
   const shape = cn(styles.bone, styles[appearance], hasAnimation && styles.animated)
-  const size = { inlineSize: isFullWidth ? '100%' : length(width), blockSize: length(height) } as CSSProperties
+  // A circle has one dimension: width wins, else height, so it can never
+  // stretch into a pill.
+  const size = (
+    appearance === 'circle'
+      ? { inlineSize: length(width ?? height), blockSize: length(width ?? height) }
+      : { inlineSize: isFullWidth ? '100%' : length(width), blockSize: length(height) }
+  ) as CSSProperties
 
   if (rows && rows > 1) {
     return (

@@ -538,6 +538,75 @@
           "target": "components/zweihander/inputs/Combobox.module.css"
         }
       ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:component",
+      "title": "Spinner",
+      "description": "Indeterminate status ring, or a progress ring with a value; delay so fast loads never flash it.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/loaders/Spinner.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/loaders/Spinner.tsx"
+        },
+        {
+          "path": "src/components/loaders/Spinner.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/loaders/Spinner.module.css"
+        }
+      ]
+    },
+    {
+      "name": "progress-bar",
+      "type": "registry:component",
+      "title": "Progress Bar",
+      "description": "Linear progress with optional label and value, determinate or indeterminate, on Base UI Progress.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/loaders/ProgressBar.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/loaders/ProgressBar.tsx"
+        },
+        {
+          "path": "src/components/loaders/ProgressBar.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/loaders/ProgressBar.module.css"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:component",
+      "title": "Skeleton",
+      "description": "Decorative placeholder in the shape of loading content: bars, rows of text, circles.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/loaders/Skeleton.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/loaders/Skeleton.tsx"
+        },
+        {
+          "path": "src/components/loaders/Skeleton.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/loaders/Skeleton.module.css"
+        }
+      ]
     }
   ]
 }

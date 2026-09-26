@@ -1,0 +1,71 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as SpinnerStories from './Spinner.stories'
+
+<Meta of={SpinnerStories} />
+
+# Spinner
+
+A small turning ring that says "working on it" when there is no telling
+how long it will take. Spec:
+[uiguideline.com/components/spinner](https://www.uiguideline.com/components/spinner).
+
+<Canvas of={SpinnerStories.Variants} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Track** | The full ring, in `--border`. It frames the motion and is decoration. |
+| **Indicator** | The arc that turns: a quarter of the ring, or the value when determinate. |
+| **Label** | Optional text under the ring; also the accessible name. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `size` | `sm`, `md`, `lg` | `md` | 16, 24, 32px. |
+| `variant` | `primary`, `secondary`, `neutral` | `neutral` | Colour of the indicator. |
+| `delay` | number (ms) | `0` | Render nothing until this much time has passed. |
+| `value` | number, 0–100 | – | Turns the spinner into a progress ring. |
+| `isIndeterminate` | boolean | `false` | Spin even when `value` is given. |
+| `label` | string | – | Visible text and accessible name; "Loading" when omitted. |
+
+Every other `<span>` attribute passes through.
+
+<Controls of={SpinnerStories.Default} />
+
+### Differences from the spec
+
+- **`value` is added.** The spec has `isIndeterminate`, which only means
+  something if the spinner can also be determinate. Without a `value` the
+  spinner is always indeterminate; `isIndeterminate` forces the spin when a
+  value is passed but not yet meaningful.
+- **Indicator colours are text colours.** `primary` uses `--primary-text`,
+  `secondary` `--muted-foreground`, so the arc clears 3:1 against the page
+  for every accent. The solid `--primary` does not with amber or lime.
+
+## Usage
+
+<Canvas of={SpinnerStories.Sizes} />
+
+Pass a `delay` of 300–500ms for loads that are usually fast: a spinner
+that flashes for 100ms reads as a glitch, not as progress.
+
+<Canvas of={SpinnerStories.Delay} />
+
+When you do know how far along the work is, pass `value`. For anything
+longer than a few seconds, a Progress Bar says more.
+
+<Canvas of={SpinnerStories.Determinate} />
+
+## Accessibility
+
+- Indeterminate, it is a `role="status"` named by `label` ("Loading" by
+  default). Determinate, it is a `role="progressbar"` with
+  `aria-valuenow` 0–100.
+- Put `aria-busy="true"` on the region that is loading, so assistive tech
+  knows the content there is not final.
+- Under `prefers-reduced-motion` the ring turns slowly rather than
+  stopping: a frozen arc looks like something is stuck.
+- The ring and its label are not interactive, so there is no focus stop
+  and no touch target.
