@@ -92,12 +92,14 @@ Now editing a step edits both, and the `Modes` story asserts the two did
 not collapse into the same value — set the multiplier to 1 and that test
 fails.
 
-## Nothing uses these yet
+## Who uses them
 
-No component in the kit sets a shadow — Button and TextInput are both
-flat, bordered controls. These steps exist for the surfaces that will need
-them (popover, dropdown, modal, toast), and are documented now so those
-components adopt a shared scale instead of each inventing a `box-shadow`.
+Controls are flat: Button, Text Input and the rest carry borders, not
+shadows. **Card** is the first surface on the scale — `elevated` rests on
+`--shadow-sm` and lifts to `--shadow-md` on hover when clickable. The
+remaining steps are for the surfaces still to come (popover, dropdown,
+modal, toast), documented now so they adopt a shared scale instead of each
+inventing a `box-shadow`.
 
 That also means the steps are **untested against real components.** The
 geometry is consistent, but consistent is not the same as tuned. Treat

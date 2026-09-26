@@ -94,25 +94,49 @@
       ]
     },
     {
-      "name": "text-input",
+      "name": "input-field",
       "type": "registry:component",
-      "title": "Text Input",
-      "description": "Labeled text input with helper and error text, wired for screen readers.",
+      "title": "Input field",
+      "description": "Internal: the label, helper text, validation and field box shared by Text Input, Textarea, Search and Number Input.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
       "registryDependencies": [
         "https://ontheshore.biz/zweihander/r/utils.json",
         "https://ontheshore.biz/zweihander/r/tokens.json"
       ],
       "files": [
         {
+          "path": "src/components/inputs/InputField.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/inputs/InputField.tsx"
+        },
+        {
+          "path": "src/components/inputs/InputField.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/inputs/InputField.module.css"
+        }
+      ]
+    },
+    {
+      "name": "text-input",
+      "type": "registry:component",
+      "title": "Text Input",
+      "description": "Single-line text field with label, helper text, validation, prefix and suffix, on Base UI Field.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/input-field.json"
+      ],
+      "files": [
+        {
           "path": "src/components/inputs/TextInput.tsx",
           "type": "registry:component",
           "target": "components/zweihander/inputs/TextInput.tsx"
-        },
-        {
-          "path": "src/components/inputs/TextInput.module.css",
-          "type": "registry:component",
-          "target": "components/zweihander/inputs/TextInput.module.css"
         }
+      ],
+      "dependencies": [
+        "@base-ui/react"
       ]
     },
     {

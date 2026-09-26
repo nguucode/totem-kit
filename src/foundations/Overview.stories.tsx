@@ -88,7 +88,9 @@ export const Scaling: Story = {
         <Theme key={scaling} scaling={scaling} className={docs.row} style={{ gap: 'var(--space-3)' }}>
           <span className={docs.caption} style={{ width: '3rem', flexShrink: 0 }}>{scaling}</span>
           <Button>Button</Button>
-          <TextInput placeholder="Input" style={{ width: '10rem' }} />
+          <div style={{ width: '10rem' }}>
+            <TextInput aria-label="Input" placeholder="Input" isFullWidth />
+          </div>
         </Theme>
       ))}
     </div>

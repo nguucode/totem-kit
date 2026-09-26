@@ -24,7 +24,11 @@ const TOKENS = [
     value: 'not-allowed',
     usage: 'A disabled control that stays hoverable',
     note: 'TextInput uses this. Button does not — its disabled state is pointer-events: none, so it is never hovered and a cursor there would be dead CSS.',
-    demo: <TextInput aria-label="Disabled" placeholder="Disabled" disabled style={{ width: '9rem' }} />,
+    demo: (
+      <div style={{ width: '9rem' }}>
+        <TextInput aria-label="Disabled" placeholder="Disabled" disabled isFullWidth />
+      </div>
+    ),
   },
 ] as const
 

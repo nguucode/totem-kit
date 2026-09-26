@@ -1,0 +1,174 @@
+/* Shared by Text Input, Textarea, Search and Number Input. */
+.field {
+  --field-edge: var(--control-border);
+  display: inline-grid;
+  gap: var(--space-1-5);
+  inline-size: 20rem;
+  max-inline-size: 100%;
+  font-family: var(--font-sans);
+}
+
+.fullWidth {
+  display: grid;
+  inline-size: 100%;
+}
+
+.label {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.required {
+  margin-inline-start: 0.125rem;
+  color: var(--danger-text);
+}
+
+.helper {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--muted-foreground);
+}
+
+/* Validation changes the field's edge and its helper text together; the
+   words are the message, the colour only points at it. */
+.state-error {
+  --field-edge: var(--danger-text);
+}
+.state-error .helper {
+  color: var(--danger-text);
+}
+.state-success {
+  --field-edge: var(--success-text);
+}
+.state-success .helper {
+  color: var(--success-text);
+}
+
+/* ------------------------------------------------------------------ box
+   The box draws the field; the control inside it is bare. The edge is
+   --control-border (3:1 on the page) because WCAG 1.4.11 applies to a text
+   field's boundary as much as to a checkbox's: --input is about 1.3:1. */
+.box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  box-sizing: border-box;
+  inline-size: 100%;
+  border: 1px solid transparent;
+  border-radius: var(--radius-field);
+  background: var(--background);
+  color: var(--foreground);
+  cursor: text;
+  transition:
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.sm {
+  --field-size: var(--space-8);
+  min-block-size: var(--space-8);
+  padding-inline: var(--space-2);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+.md {
+  --field-size: var(--space-10);
+  min-block-size: var(--space-10);
+  padding-inline: var(--space-3);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+.lg {
+  --field-size: var(--space-12);
+  min-block-size: var(--space-12);
+  padding-inline: var(--space-4);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-body-lg);
+}
+
+.outlined {
+  border-color: var(--field-edge);
+}
+
+.filled {
+  border-block-end-color: var(--field-edge);
+  background: var(--surface-subtle);
+}
+
+/* Underlined and unstyled sit on the page: no fill, no side padding, so the
+   text lines up with the label above it. */
+.underlined {
+  border-radius: 0;
+  border-block-end-color: var(--field-edge);
+  padding-inline: 0;
+  background: transparent;
+}
+
+.unstyled {
+  padding-inline: 0;
+  background: transparent;
+}
+
+/* The ring is on the box, drawn when the control inside has keyboard or
+   pointer focus — a text field shows focus on click too, since that is
+   where typing will go. */
+.box:has(:focus-visible),
+.box:has(:focus) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.state-error .box:has(:focus) {
+  outline-color: var(--danger-text);
+}
+
+.box:has(:disabled) {
+  cursor: var(--cursor-disabled);
+  opacity: 0.5;
+}
+
+.box:has([readonly]) {
+  background: var(--surface-subtle);
+}
+.underlined:has([readonly]),
+.unstyled:has([readonly]) {
+  background: transparent;
+}
+
+/* ------------------------------------------------------------- control */
+.control {
+  flex: 1;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none; /* the box draws the ring */
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: inherit;
+}
+
+.control::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+.affix {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+/* Icons in an affix are a step larger than the text: 16px at sm/md, 20px at lg. */
+.affix > svg {
+  font-size: var(--space-4);
+}
+.lg .affix > svg {
+  font-size: calc(var(--space-4) + var(--space-1));
+}
