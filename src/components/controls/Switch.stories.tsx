@@ -84,6 +84,22 @@ export const Validation: Story = {
   },
 }
 
+export const RightToLeft: Story = {
+  args: { defaultChecked: true },
+  render: (args) => (
+    <div dir="rtl">
+      <Switch {...args} />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const track = canvas.getByRole('switch').getBoundingClientRect()
+    const thumb = canvas.getByRole('switch').firstElementChild!.getBoundingClientRect()
+    // On is the start side, which is the left in RTL; the thumb stays inside.
+    await expect(thumb.left).toBeGreaterThanOrEqual(track.left)
+    await expect(thumb.left - track.left).toBeLessThan(track.right - thumb.right)
+  },
+}
+
 export const Disabled: Story = {
   render: (args) => (
     <div style={stack}>

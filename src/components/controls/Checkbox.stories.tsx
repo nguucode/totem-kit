@@ -136,6 +136,13 @@ export const ReadOnly: Story = {
   },
 }
 
+export const AutoFocus: Story = {
+  args: { autoFocus: true },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('checkbox')).toHaveFocus()
+  },
+}
+
 export const InAForm: Story = {
   render: (args) => (
     <form aria-label="Login">

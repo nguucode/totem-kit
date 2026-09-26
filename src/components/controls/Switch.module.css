@@ -60,10 +60,12 @@
   cursor: default;
 }
 
-/* Invalid: a ring in the danger colour, outside the track so it reads on
-   and off alike. The helper text says what is wrong. */
+/* Invalid: a danger-coloured edge INSIDE the track, so it reads on and off
+   alike and leaves the band outside the track to the focus ring — an
+   outside ring here would sit exactly where focus draws and hide it. The
+   helper text says what is wrong. */
 .track[data-invalid] {
-  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--danger-text);
+  box-shadow: inset 0 0 0 2px var(--danger-text);
 }
 
 .thumb {
@@ -80,6 +82,12 @@
   /* The full travel: track width minus the thumb and both 2px gaps. */
   translate: calc(var(--choice-control) - var(--choice-control-block)) 0;
   background: var(--switch-on-thumb);
+}
+
+/* translate is physical; in a right-to-left page the thumb starts on the
+   right and travels left. */
+.thumb[data-checked]:dir(rtl) {
+  translate: calc(var(--choice-control-block) - var(--choice-control)) 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

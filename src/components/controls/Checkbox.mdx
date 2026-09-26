@@ -46,6 +46,11 @@ and [Field](https://base-ui.com/react/components/field).
   for the spec's `defaultValue` (a string there, which reads as the
   submitted value — that is `value`) and `onChange`; native `disabled`,
   `required`, `readOnly` for the `is…` forms.
+- **`isIndeterminate` keeps its prefix.** Indeterminate is a DOM property,
+  not an HTML attribute, so by the kit's naming rule it takes `is`; Base UI
+  calls it `indeterminate`.
+- **`autoFocus` is applied on mount by the component.** The box is a
+  focusable `<span>`, which React's own `autoFocus` ignores.
 - **`neutral` is the foreground colour**, `secondary` a light fill that
   keeps its outline. The spec's variant set differs from Switch's; both
   are kept as specified.

@@ -1,4 +1,4 @@
-import type { ReactNode, Ref } from 'react'
+import { useCallback, useRef, type ReactNode, type Ref } from 'react'
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox'
 import { Icon } from '@/lib/icon'
 import { cn } from '@/lib/utils'
@@ -31,6 +31,8 @@ export interface CheckboxProps {
 }
 
 export function Checkbox({
+  ref,
+  autoFocus,
   label,
   helperText,
   name,
@@ -43,6 +45,20 @@ export function Checkbox({
   onCheckedChange,
   ...props
 }: CheckboxProps) {
+  // The root is a focusable <span>, and React only honours autoFocus on form
+  // elements, so it is done by hand — once, on mount, not on every render.
+  const focused = useRef(false)
+  const setRef = useCallback(
+    (node: HTMLElement | null) => {
+      if (node && autoFocus && !focused.current) {
+        focused.current = true
+        node.focus()
+      }
+      if (typeof ref === 'function') ref(node)
+      else if (ref) ref.current = node
+    },
+    [autoFocus, ref],
+  )
   return (
     <ChoiceField
       label={label}
@@ -55,6 +71,7 @@ export function Checkbox({
     >
       <BaseCheckbox.Root
         {...props}
+        ref={setRef}
         indeterminate={isIndeterminate}
         required={required}
         onCheckedChange={onCheckedChange && ((next) => onCheckedChange(next))}

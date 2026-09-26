@@ -48,6 +48,32 @@ export const OptionHelperText: Story = {
   },
 }
 
+export const GroupHelperText: Story = {
+  args: { helperText: 'You can change plans at any time.' },
+  play: async ({ canvas }) => {
+    // Plain help describes the group once, not every option again.
+    await expect(canvas.getByRole('radiogroup')).toHaveAccessibleDescription('You can change plans at any time.')
+    await expect(canvas.getByRole('radio', { name: 'Pro' })).toHaveAccessibleDescription('Unlimited projects.')
+  },
+}
+
+export const ReadOnly: Story = {
+  args: { readOnly: true, defaultValue: 'pro' },
+  play: async ({ canvas, userEvent, args }) => {
+    await userEvent.click(canvas.getByRole('radio', { name: 'Team' }))
+    await expect(canvas.getByRole('radio', { name: 'Pro' })).toBeChecked()
+    await expect(args.onValueChange).not.toHaveBeenCalled()
+  },
+}
+
+export const Disabled: Story = {
+  args: { disabled: true, defaultValue: 'free' },
+  play: async ({ canvas, userEvent, args }) => {
+    await userEvent.click(canvas.getByRole('radio', { name: 'Team' }))
+    await expect(args.onValueChange).not.toHaveBeenCalled()
+  },
+}
+
 export const Variants: Story = {
   render: (args) => (
     <div style={{ display: 'flex', gap: 'var(--space-12)' }}>
@@ -76,6 +102,8 @@ export const Validation: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole('radio', { name: 'Free' })).toHaveAttribute('aria-invalid', 'true')
     await expect(canvas.getByText('Choose a plan to continue.')).toBeVisible()
+    // The error message reaches each radio, so whichever has focus says it.
+    await expect(canvas.getByRole('radio', { name: 'Free' })).toHaveAccessibleDescription(/Choose a plan to continue\./)
     // Only the group message is in the error colour, not each option's help.
     const colour = (t: string) => getComputedStyle(canvas.getByText(t)).color
     await expect(colour('Unlimited projects.')).not.toBe(colour('Choose a plan to continue.'))

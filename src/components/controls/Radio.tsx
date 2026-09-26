@@ -1,4 +1,4 @@
-import type { ReactNode, Ref } from 'react'
+import { useId, type ReactNode, type Ref } from 'react'
 import { Field } from '@base-ui/react/field'
 import { Fieldset } from '@base-ui/react/fieldset'
 import { Radio } from '@base-ui/react/radio'
@@ -57,11 +57,16 @@ export function RadioGroup({
   onValueChange,
   ...props
 }: RadioGroupProps) {
+  // Plain help describes the group once. An error message goes through Field,
+  // which puts it on every radio: whichever one has focus, the reader hears
+  // what is wrong.
+  const helperId = useId()
+  const isError = validationState === 'error'
   return (
     <Field.Root
       name={name}
       disabled={disabled}
-      invalid={validationState === 'error'}
+      invalid={isError}
       className={cn(choiceStyles.field, choiceStyles[validationState], styles.field, className)}
     >
       <Fieldset.Root
@@ -69,6 +74,7 @@ export function RadioGroup({
           <BaseRadioGroup
             {...props}
             ref={ref}
+            aria-describedby={helperText && !isError ? helperId : undefined}
             required={required}
             onValueChange={onValueChange && ((next) => onValueChange(next as string))}
           />
@@ -104,11 +110,16 @@ export function RadioGroup({
           </Field.Item>
         ))}
       </Fieldset.Root>
-      {helperText && (
-        <Field.Description className={cn(choiceStyles.helper, styles.groupHelper)}>
-          {helperText}
-        </Field.Description>
-      )}
+      {helperText &&
+        (isError ? (
+          <Field.Description className={cn(choiceStyles.helper, styles.groupHelper)}>
+            {helperText}
+          </Field.Description>
+        ) : (
+          <p id={helperId} className={cn(choiceStyles.helper, styles.groupHelper)}>
+            {helperText}
+          </p>
+        ))}
     </Field.Root>
   )
 }
