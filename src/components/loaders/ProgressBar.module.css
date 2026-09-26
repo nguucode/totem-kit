@@ -1,0 +1,98 @@
+.root {
+  --progress-height: var(--space-2);
+  --progress-fill: var(--primary-text);
+  display: grid;
+  gap: var(--space-1-5);
+  inline-size: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--foreground);
+}
+
+.sm {
+  --progress-height: var(--space-1);
+}
+.md {
+  --progress-height: var(--space-2);
+}
+.lg {
+  --progress-height: var(--space-3);
+}
+
+/* The fill is what carries the value, so it must reach 3:1 against the
+   track (--secondary). The solid fills do not all manage that — amber-500
+   is about 1.9:1 on gray-100 — so each variant takes its text colour,
+   measured at 4.5:1 on the page and so at 3:1 or better on the track. */
+.primary {
+  --progress-fill: var(--primary-text);
+}
+.accent {
+  --progress-fill: var(--foreground);
+}
+.secondary {
+  --progress-fill: var(--muted-foreground);
+}
+.destructive {
+  --progress-fill: var(--destructive);
+}
+
+.label {
+  font-weight: 500;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  block-size: var(--progress-height);
+  overflow: hidden;
+  background: var(--secondary);
+}
+
+.rounded .track,
+.rounded .indicator {
+  border-radius: 9999px;
+}
+
+.indicator {
+  display: block;
+  block-size: 100%;
+  background: var(--progress-fill);
+  transition: inline-size 200ms;
+}
+
+/* Indeterminate: a third-width bar sliding across. */
+.indicator[data-indeterminate] {
+  position: absolute;
+  inset-block: 0;
+  inline-size: 33%;
+  animation: slide 1.4s ease-in-out infinite;
+}
+
+@keyframes slide {
+  from {
+    inset-inline-start: -33%;
+  }
+  to {
+    inset-inline-start: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator[data-indeterminate] {
+    animation-duration: 4s;
+  }
+}
+
+.value {
+  min-inline-size: 4ch;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  color: var(--muted-foreground);
+}

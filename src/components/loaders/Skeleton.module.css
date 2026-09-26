@@ -1,0 +1,47 @@
+/* --muted, the same subtle surface as a hover: a placeholder should read as
+   "something goes here", not compete with content that has arrived. It is
+   decoration and hidden from assistive tech, so no contrast floor applies. */
+.bone {
+  inline-size: 100%;
+  block-size: var(--space-4);
+  background: var(--muted);
+}
+
+.square {
+  border-radius: 0;
+}
+.rounded {
+  border-radius: var(--radius-md);
+}
+.circle {
+  border-radius: 9999px;
+  aspect-ratio: 1;
+  inline-size: var(--space-10);
+  block-size: auto;
+}
+
+.rows {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* A paragraph's last line is rarely full. */
+.line:last-child {
+  inline-size: 60%;
+}
+
+.animated {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated {
+    animation: none;
+  }
+}
