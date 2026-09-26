@@ -1412,7 +1412,7 @@
       },
       "surface-subtle": {
         "$type": "color",
-        "$value": "{primitive.gray.neutral.900}"
+        "$value": "{primitive.gray.neutral.800}"
       },
       "accent": {
         "$type": "color",

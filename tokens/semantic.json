@@ -54,7 +54,7 @@
       "secondary-foreground": { "$type": "color", "$value": "{gray.50}" },
       "muted": { "$type": "color", "$value": "{gray.800}" },
       "muted-foreground": { "$type": "color", "$value": "{gray.400}" },
-      "surface-subtle": { "$type": "color", "$value": "{gray.900}" },
+      "surface-subtle": { "$type": "color", "$value": "{gray.800}" },
       "accent": { "$type": "color", "$value": "{gray.800}" },
       "accent-foreground": { "$type": "color", "$value": "{gray.50}" },
       "destructive": { "$type": "color", "$value": "{accent.red.400}" },
