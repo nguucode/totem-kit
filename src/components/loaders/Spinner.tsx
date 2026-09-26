@@ -4,8 +4,8 @@ import styles from './Spinner.module.css'
 
 export interface SpinnerProps extends Omit<ComponentProps<'span'>, 'children'> {
   size?: 'sm' | 'md' | 'lg'
-  /** Colour of the indicator. */
-  variant?: 'primary' | 'secondary' | 'neutral'
+  /** Colour of the indicator. `accent` is the foreground, as on Button. */
+  variant?: 'primary' | 'accent' | 'secondary'
   /** Wait this many milliseconds before showing, so a fast load never flashes a spinner. */
   delay?: number
   /** 0–100. Omit for an indeterminate, spinning indicator. */
@@ -22,7 +22,7 @@ const C = 2 * Math.PI * R
 
 export function Spinner({
   size = 'md',
-  variant = 'neutral',
+  variant = 'accent',
   delay = 0,
   value,
   isIndeterminate = false,
@@ -30,42 +30,68 @@ export function Spinner({
   className,
   ...props
 }: SpinnerProps) {
-  const [shown, setShown] = useState(delay <= 0)
+  const [elapsed, setElapsed] = useState(false)
+  // Always after mount, even with no delay: the live region below has to be
+  // in the page before its text arrives for the text to be announced.
   useEffect(() => {
-    if (delay <= 0) return
-    const timer = setTimeout(() => setShown(true), delay)
+    const timer = setTimeout(() => setElapsed(true), Math.max(0, delay))
     return () => clearTimeout(timer)
   }, [delay])
-  if (!shown) return null
 
   const determinate = value !== undefined && !isIndeterminate
   const clamped = determinate ? Math.min(100, Math.max(0, value)) : 0
-  const name = label ?? 'Loading'
+  const name = label || 'Loading'
 
+  const indicator = (
+    <svg viewBox="0 0 24 24" className={cn(styles.svg, !determinate && styles.spinning)} aria-hidden="true">
+      <circle className={styles.track} cx="12" cy="12" r={R} />
+      <circle
+        className={styles.indicator}
+        cx="12"
+        cy="12"
+        r={R}
+        strokeDasharray={C}
+        // Indeterminate shows a quarter arc; determinate shows the value.
+        strokeDashoffset={determinate ? C * (1 - clamped / 100) : C * 0.75}
+      />
+    </svg>
+  )
+
+  // Determinate: a progressbar that says how far along it is.
+  if (determinate) {
+    if (delay > 0 && !elapsed) return null
+    return (
+      <span
+        role="progressbar"
+        aria-valuenow={clamped}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={name}
+        className={cn(styles.spinner, styles[size], styles[variant], className)}
+        {...props}
+      >
+        {indicator}
+        {label && <span className={styles.label}>{label}</span>}
+      </span>
+    )
+  }
+
+  // Indeterminate: a polite live region that is in the page from the first
+  // render, empty through the delay. Screen readers announce text inserted
+  // into a live region that already exists, not a region that mounts full.
   return (
     <span
-      // Indeterminate: a status that announces itself politely. Determinate:
-      // a progressbar that says how far along it is.
-      {...(determinate
-        ? { role: 'progressbar', 'aria-valuenow': clamped, 'aria-valuemin': 0, 'aria-valuemax': 100 }
-        : { role: 'status' })}
+      role="status"
       aria-label={name}
       className={cn(styles.spinner, styles[size], styles[variant], className)}
       {...props}
     >
-      <svg viewBox="0 0 24 24" className={cn(styles.svg, !determinate && styles.spinning)} aria-hidden="true">
-        <circle className={styles.track} cx="12" cy="12" r={R} />
-        <circle
-          className={styles.indicator}
-          cx="12"
-          cy="12"
-          r={R}
-          strokeDasharray={C}
-          // Indeterminate shows a quarter arc; determinate shows the value.
-          strokeDashoffset={determinate ? C * (1 - clamped / 100) : C * 0.75}
-        />
-      </svg>
-      {label && <span className={styles.label}>{label}</span>}
+      {elapsed && (
+        <>
+          {indicator}
+          <span className={label ? styles.label : styles.hiddenLabel}>{name}</span>
+        </>
+      )}
     </span>
   )
 }

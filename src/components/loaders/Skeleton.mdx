@@ -23,9 +23,9 @@ A plain element.
 
 | Prop | Values | Default | |
 | --- | --- | --- | --- |
-| `width` | number or string | 100% | A number is px; a string any CSS length. |
-| `height` | number or string | 16px | Of each row, with `rows`. |
-| `appearance` | `circle`, `square`, `rounded` | `square` | A circle takes its height from its width. |
+| `width` | number or string | 100% (circle 40px) | A number is px; a string any CSS length. |
+| `height` | number or string | 16px | Of each row, with `rows`. Ignored by a single circle. |
+| `appearance` | `circle`, `square`, `rounded` | `square` | A circle takes its height from its width; with `rows` it draws rounded bars. |
 | `rows` | number | – | Stacked lines, 8px apart. |
 | `isFullWidth` | boolean | `false` | Overrides `width`. |
 | `hasAnimation` | boolean | `false` | A slow pulse. |

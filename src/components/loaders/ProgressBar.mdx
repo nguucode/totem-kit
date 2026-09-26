@@ -35,6 +35,9 @@ Behaviour from Base UI's [Progress](https://base-ui.com/react/components/progres
 | `label` | node | – | |
 | `aria-label` | string | – | The name when there is no visible `label`. |
 
+Any other prop goes to Base UI's `Progress.Root`: `id`, `aria-labelledby`,
+`min`, `format`, `locale`, `getAriaValueText`.
+
 <Controls of={ProgressBarStories.Default} />
 
 ### Differences from the spec
@@ -44,11 +47,13 @@ Behaviour from Base UI's [Progress](https://base-ui.com/react/components/progres
 
 ### Design notes
 
-- **The fill is each variant's text colour, not its solid.** The fill is
-  what carries the value, so it must clear 3:1 against the track. Some
-  accents' solids do not: amber-500 is about 1.9:1 on gray-100. The text
-  colours are measured at 4.5:1 on the page, which keeps them at 3:1 or
-  more on the track for every accent.
+- **The fill is a text colour, not a solid.** The fill is what carries
+  the value, so it must clear 3:1 against the track, and some accent
+  solids do not: amber's is about 2.9:1 on white. So `primary` fills with
+  `--primary-text`, `accent` with `--foreground`, `secondary` with
+  `--muted-foreground` and `destructive` with `--danger-text`, each a
+  colour meant to be read as text on the page, which keeps it at 3:1 or
+  more on the track.
 
 ## Usage
 
@@ -75,8 +80,8 @@ and switch to a value as soon as there is one.
 - Every bar needs a name: a visible `label` (linked by Base UI) or
   `aria-label`.
 - The fill clears 3:1 on the track for every variant and accent, in both
-  modes; the value label is `--muted-foreground`, 4.5:1.
-- Under `prefers-reduced-motion` the indeterminate slide slows from 1.4s
-  to 4s a pass.
+  modes. The value label is `--muted-foreground`.
+- Under `prefers-reduced-motion` the fill stops animating between values
+  and the indeterminate slide slows from 1.4s to 4s a pass.
 - A progressbar is not a live region. If completion matters, announce it
   (a Toast, or a status message) when the task ends.
