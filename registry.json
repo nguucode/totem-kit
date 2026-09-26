@@ -230,6 +230,110 @@
           "target": "components/zweihander/buttons/ToggleButton.module.css"
         }
       ]
+    },
+    {
+      "name": "choice-field",
+      "type": "registry:component",
+      "title": "Choice field",
+      "description": "Internal: the label, helper text and validation wiring shared by Checkbox, Radio and Switch.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/controls/ChoiceField.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/ChoiceField.tsx"
+        },
+        {
+          "path": "src/components/controls/ChoiceField.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/ChoiceField.module.css"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:component",
+      "title": "Switch",
+      "description": "On/off switch with label and helper text, on Base UI Switch and Field.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/choice-field.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/controls/Switch.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/Switch.tsx"
+        },
+        {
+          "path": "src/components/controls/Switch.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/Switch.module.css"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:component",
+      "title": "Checkbox",
+      "description": "Checkbox with label, helper text and indeterminate state, on Base UI Checkbox and Field.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/choice-field.json",
+        "https://ontheshore.biz/zweihander/r/icon.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/controls/Checkbox.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/Checkbox.tsx"
+        },
+        {
+          "path": "src/components/controls/Checkbox.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/Checkbox.module.css"
+        }
+      ]
+    },
+    {
+      "name": "radio",
+      "type": "registry:component",
+      "title": "Radio",
+      "description": "Radio group from a flat options list, with legend and helper text, on Base UI Radio Group, Field and Fieldset.",
+      "registryDependencies": [
+        "https://ontheshore.biz/zweihander/r/utils.json",
+        "https://ontheshore.biz/zweihander/r/tokens.json",
+        "https://ontheshore.biz/zweihander/r/choice-field.json"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "src/components/controls/Radio.tsx",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/Radio.tsx"
+        },
+        {
+          "path": "src/components/controls/Radio.module.css",
+          "type": "registry:component",
+          "target": "components/zweihander/controls/Radio.module.css"
+        }
+      ]
     }
   ]
 }

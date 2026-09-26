@@ -1,0 +1,78 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as RadioStories from './Radio.stories'
+
+<Meta of={RadioStories} />
+
+# Radio
+
+Chooses exactly one option from a short list, all visible at once. Spec:
+[uiguideline.com/components/radio](https://www.uiguideline.com/components/radio).
+Behaviour from Base UI's [Radio Group](https://base-ui.com/react/components/radio),
+[Field](https://base-ui.com/react/components/field) and
+[Fieldset](https://base-ui.com/react/components/fieldset).
+
+<Canvas of={RadioStories.Default} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Legend** | `label`: names the group. |
+| **Radio** | The 16px circle: `--control-border` outline, filled with the variant and a dot when selected. |
+| **Option label** | Each option's `label`. Clicking it selects the option. |
+| **Option helper** | Each option's `helperText`, indented under its label. |
+| **Group helper** | `helperText` under the group: the error message when `validationState` is error. |
+
+## Props
+
+The component is `RadioGroup`.
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `options` | `{ value, label, helperText?, disabled? }[]` | – | Required. |
+| `label` | node | – | The legend. |
+| `helperText` | node | – | |
+| `value` | string | – | Controlled. |
+| `defaultValue` | string | – | |
+| `onValueChange` | `(value) => void` | – | The spec's `onChange`. |
+| `name` | string | – | |
+| `variant` | `primary`, `secondary`, `neutral` | `neutral` | |
+| `orientation` | `vertical`, `horizontal` | `vertical` | Layout only; arrow keys work either way. |
+| `disabled`, `required`, `readOnly` | boolean | `false` | |
+| `validationState` | `default`, `success`, `error` | `default` | |
+
+<Controls of={RadioStories.Default} />
+
+### Differences from the spec
+
+- **The component is the group.** The spec describes a single radio, but
+  a radio means nothing alone: selection, arrow keys and the single tab
+  stop all belong to the group. Following the kit's "flat props"
+  convention, the radios are `options` rather than child components.
+- **`checked` and `autoFocus` per radio are not props.** The group's
+  `value` says which is checked.
+- Base UI's `onValueChange` and native `disabled`, `required`,
+  `readOnly` names, as on Checkbox.
+
+## Usage
+
+Up to about six options. More than that, or options that do not fit on
+screen, is a Select.
+
+<Canvas of={RadioStories.Horizontal} />
+
+<Canvas of={RadioStories.Validation} />
+
+## Accessibility
+
+- A `<fieldset>` with a `<legend>`, exposed as a `radiogroup` named by
+  the legend.
+- **One tab stop for the group.** Tab enters at the selected radio (or
+  the first), arrow keys move and select, Tab leaves. Disabled options
+  are skipped.
+- Each option's helper text is its own description; the group message
+  follows the group.
+- The unselected outline is `--control-border`, 3:1 on the page.
+- A hidden native input carries `name` and `required` into form
+  submission and validation.
+- 44×44px touch target on each radio on coarse pointers.

@@ -1,0 +1,53 @@
+/* 16px box, a --control-border outline (3:1 on the page) and the page
+   colour inside. Checked and indeterminate fill with the variant. */
+.box {
+  --checkbox-fill: var(--foreground);
+  --checkbox-mark: var(--background);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--space-4);
+  block-size: var(--space-4);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-sm);
+  background: var(--background);
+  cursor: var(--cursor-button);
+}
+
+.primary {
+  --checkbox-fill: var(--primary);
+  --checkbox-mark: var(--primary-foreground);
+}
+
+/* Secondary is the quiet one: a light fill with a dark mark, keeping the
+   outline so the box stays visible. */
+.secondary {
+  --checkbox-fill: var(--secondary);
+  --checkbox-mark: var(--secondary-foreground);
+}
+
+.box[data-checked],
+.box[data-indeterminate] {
+  border-color: var(--checkbox-fill);
+  background: var(--checkbox-fill);
+  color: var(--checkbox-mark);
+}
+
+.secondary[data-checked],
+.secondary[data-indeterminate] {
+  border-color: var(--control-border);
+}
+
+.box[data-invalid] {
+  border-color: var(--danger-text);
+}
+
+.box[data-readonly] {
+  cursor: default;
+}
+
+/* The mark is 14px in a 16px box: it has to read at a glance. */
+.indicator {
+  display: inline-flex;
+  font-size: calc(var(--space-4) - 2px);
+}

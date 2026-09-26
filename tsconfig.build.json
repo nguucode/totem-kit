@@ -16,6 +16,9 @@
     "src/components/atomic-elements/Avatar.tsx",
     "src/components/atomic-elements/Tag.tsx",
     "src/components/buttons/ToggleButton.tsx",
+    "src/components/controls/Switch.tsx",
+    "src/components/controls/Checkbox.tsx",
+    "src/components/controls/Radio.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]

@@ -44,6 +44,18 @@
       "types": "./dist/components/buttons/ToggleButton.d.ts",
       "import": "./dist/components/buttons/ToggleButton.js"
     },
+    "./switch": {
+      "types": "./dist/components/controls/Switch.d.ts",
+      "import": "./dist/components/controls/Switch.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/controls/Checkbox.d.ts",
+      "import": "./dist/components/controls/Checkbox.js"
+    },
+    "./radio": {
+      "types": "./dist/components/controls/Radio.d.ts",
+      "import": "./dist/components/controls/Radio.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

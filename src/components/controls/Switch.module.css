@@ -1,0 +1,90 @@
+/* Sizes are set on the field so the helper text can indent by the track's
+   width. Doubled classes outrank ChoiceField's default, whichever
+   stylesheet loads first. Track heights are 16/20/24px; widths are one
+   and three quarter heights, so the thumb travels most of a thumb-width. */
+.sm.sm {
+  --choice-control: calc(var(--space-6) + var(--space-1));
+  --choice-control-block: var(--space-4);
+}
+.md.md {
+  --choice-control: calc(var(--space-8) + var(--space-1));
+  --choice-control-block: calc(var(--space-4) + var(--space-1));
+}
+.lg.lg {
+  --choice-control: calc(var(--space-10) + var(--space-1));
+  --choice-control-block: var(--space-6);
+}
+
+/* Off: a --control-border track (3:1 on the page, so the control is
+   visible at all) with a page-coloured thumb. On: the variant's solid and
+   its label colour, which is measured at 4.5:1 against it. */
+.track {
+  --switch-on: var(--primary);
+  --switch-on-thumb: var(--primary-foreground);
+  display: inline-flex;
+  align-items: center;
+  inline-size: var(--choice-control);
+  block-size: var(--choice-control-block);
+  /* 2px between track edge and thumb at every size. */
+  padding: 2px;
+  border-radius: 9999px;
+  background: var(--control-border);
+  cursor: var(--cursor-button);
+  transition: background-color 150ms;
+}
+
+.accent {
+  --switch-on: var(--foreground);
+  --switch-on-thumb: var(--background);
+}
+/* Secondary is the quiet one: a light track with a dark thumb, where
+   accent is a dark track. The light track is near the page colour, so it
+   takes a --control-border outline to stay visible at 3:1. */
+.secondary {
+  --switch-on: var(--secondary);
+  --switch-on-thumb: var(--secondary-foreground);
+}
+.secondary[data-checked]:not([data-invalid]) {
+  box-shadow: inset 0 0 0 1px var(--control-border);
+}
+.destructive {
+  --switch-on: var(--destructive);
+  --switch-on-thumb: var(--destructive-foreground);
+}
+
+.track[data-checked] {
+  background: var(--switch-on);
+}
+
+.track[data-readonly] {
+  cursor: default;
+}
+
+/* Invalid: a ring in the danger colour, outside the track so it reads on
+   and off alike. The helper text says what is wrong. */
+.track[data-invalid] {
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--danger-text);
+}
+
+.thumb {
+  block-size: calc(var(--choice-control-block) - 4px);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: var(--background);
+  transition:
+    translate 150ms,
+    background-color 150ms;
+}
+
+.thumb[data-checked] {
+  /* The full travel: track width minus the thumb and both 2px gaps. */
+  translate: calc(var(--choice-control) - var(--choice-control-block)) 0;
+  background: var(--switch-on-thumb);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .thumb {
+    transition: none;
+  }
+}
