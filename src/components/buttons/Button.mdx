@@ -1,0 +1,92 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks'
+import * as ButtonStories from './Button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button
+
+Triggers an action on the current page — or, with `href`, navigates.
+Spec: [uiguideline.com/components/button](https://www.uiguideline.com/components/button).
+
+<Canvas of={ButtonStories.Matrix} />
+
+## Anatomy
+
+| Part | What it is |
+| --- | --- |
+| **Container** | The box. Fill, border and label colour come from `variant` × `appearance`. |
+| **Start icon** / **End icon** | `startIcon`, `endIcon`. Decorative; sized to the button. |
+| **Label** | `children`. With `isIconOnly`, the icon is the whole content. |
+| **Spinner** | Replaces the content while `isLoading`, without changing the width. |
+
+## Props
+
+| Prop | Values | Default | |
+| --- | --- | --- | --- |
+| `variant` | `primary`, `accent`, `secondary`, `destructive` | `primary` | Colour by meaning. |
+| `appearance` | `contained`, `outlined`, `ghost` | `contained` | |
+| `size` | `sm`, `md`, `lg`, `xl` | `md` | 32, 40, 48, 56px. |
+| `startIcon`, `endIcon` | node | – | Usually `<Icon name="…" />`. |
+| `isIconOnly` | boolean | `false` | Square. **Requires `aria-label`** (a type error without it). |
+| `isLoading` | boolean | `false` | |
+| `isFullWidth` | boolean | `false` | |
+| `disabled` | boolean | `false` | |
+| `type` | `button`, `submit`, `reset` | `button` | |
+| `href` | string | – | Renders `<a>`. `target` and `rel` pass through. |
+| `render` | element or function | – | Replaces the element, e.g. a router's `<Link />`. |
+| `onClick` | function | – | |
+
+Every other `<button>` attribute passes through, including `ref`.
+
+<Controls of={ButtonStories.Default} />
+
+### Differences from the spec
+
+- **`disabled`, not `isDisabled`** — the native attribute keeps its name.
+- **`isIconOnly` is added.** The spec has no icon-only button, and a
+  square button that still requires a name is common enough to need one.
+- **`render` is added** for composition with routers and other elements,
+  matching Base UI and shadcn. It replaced `asChild` in 0.8.
+- **`accent` is the inverted neutral** (foreground on background), as on
+  Badge: the token set has one brand hue and `primary` uses it.
+- Outlined and ghost `primary` use `--primary-text`, a step of the accent
+  measured to read at 4.5:1 on the page. The solid step would not, for
+  warm accents.
+
+## Usage
+
+One `primary contained` button per view: the thing to do next. Everything
+else steps down to `outlined` or `ghost`, or to `secondary`.
+
+<Canvas of={ButtonStories.Sizes} />
+
+<Canvas of={ButtonStories.WithIcons} />
+
+<Canvas of={ButtonStories.IconOnly} />
+
+**Loading** keeps the button's width and focus and blocks it from acting
+again, so a double-submit is impossible and a keyboard user is not dropped
+back to the top of the page.
+
+<Canvas of={ButtonStories.Loading} />
+
+**A link is not a button.** `href` renders a real `<a>`: it keeps link
+semantics, opens in a new tab on middle-click, and gets the link cursor.
+Use it for navigation, and a plain Button for actions.
+
+<Canvas of={ButtonStories.Href} />
+
+## Accessibility
+
+- A native `<button>`, `type="button"` by default so it never submits a
+  form by accident. Enter and Space both activate it.
+- `isIconOnly` needs `aria-label`; TypeScript refuses it without one.
+  Icons are `aria-hidden` everywhere else, so they never double the name.
+- `isLoading` sets `aria-busy` and `aria-disabled` but keeps the button
+  focusable. `disabled` removes it from the tab order, as native buttons
+  do.
+- A disabled `href` button renders an `<a>` with no `href` (which cannot
+  navigate) and `aria-disabled`.
+- `sm` and `md` are under 44px; on touch screens (`pointer: coarse`) the
+  hit area grows to 44×44px without the button growing.
+- Focus ring: 2px `--ring`, 2px offset, at 3:1 or better on the page.

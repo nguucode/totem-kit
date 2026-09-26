@@ -25,7 +25,7 @@ export default defineConfig({
       cssFileName: 'styles',
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'react-dom', 'clsx'],
+      external: ['react', 'react/jsx-runtime', 'react-dom', 'clsx', /^@base-ui\/react/],
     },
   },
 })

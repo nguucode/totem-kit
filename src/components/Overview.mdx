@@ -25,25 +25,32 @@ one it fits, or propose a new category if none fit.
 
 Unchecked = not built yet.
 
-## No primitive library
+## Behaviour comes from Base UI
 
-Components are built on plain elements. The only shared piece of behaviour
-is `Slot` (`src/lib/slot.tsx`), the ~60 lines behind `asChild` — it merges
-props, composes refs, and chains event handlers onto a single child.
+Components are styled with CSS Modules over the token layer; their
+*behaviour* — focus, keyboard, ARIA — comes from
+[Base UI](https://base-ui.com) (`@base-ui/react`) wherever it is more than
+trivial. Button uses its `Button` for the focusable-while-loading state;
+Toggle Button, the form controls, the overlays, Select, Combobox, Tabs and
+Menu are built on its parts.
 
-That is enough for what exists today. Button needs `asChild`; Text Input
-needs a `<label htmlFor>`, which is native, plus one line to stop a
-double-click selecting the label text.
+The reason is the same one that kept this kit from hand-rolling them: a
+Modal needs a focus trap, scroll locking, an inert background and correct
+restore-focus; Select and Combobox need typeahead, virtual focus and a
+listbox ARIA contract; Menu and Tabs need roving tabindex. Those are not
+lines of code, they are years of accumulated edge cases in screen readers
+and browsers. Base UI is unstyled, so it carries none of that into the
+look — the tokens still decide everything you can see.
 
-**It will not be enough for the Overlays and Navigation rows.** A Modal
-needs a focus trap, scroll locking, an inert background and correct
-restore-focus behaviour; Select and Combobox need typeahead, virtual
-focus and a listbox ARIA contract; Menu and Tabs need roving tabindex.
-Those are not lines of code, they are years of accumulated edge cases in
-screen readers and browsers, and hand-rolling them is how design systems
-ship components that look right and are unusable with a keyboard.
+Two conventions follow from it:
 
-So this is a decision with an expiry date: own the trivial behaviour now,
-and when the first overlay component lands, either adopt a primitive
-library for it or budget the accessibility work honestly. Deciding that
-per component is fine. Drifting into reimplementing it by accident is not.
+- **`render` instead of `asChild`.** Any component that renders an element
+  you might want to replace takes a `render` prop — an element or a
+  function — the same as Base UI's own parts and shadcn's.
+- **Base UI's change handlers.** Components built on it expose its names:
+  `onPressedChange`, `onCheckedChange`, `onValueChange`, `onOpenChange`.
+  Components that wrap a real `<input>` (Text Input, Textarea, Search)
+  keep the native `onChange(event)`.
+
+Components with no behaviour worth the name — Divider, Badge, Avatar,
+Tag — are plain elements and do not import it.

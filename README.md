@@ -177,7 +177,7 @@ so components can be added by name:
 npx shadcn@latest add @zweihander/button
 ```
 
-The CLI resolves `registryDependencies` (e.g. `button` → `utils`, `slot`)
+The CLI resolves `registryDependencies` (e.g. `avatar` → `utils`, `icon`)
 and installs npm `dependencies` automatically, and rewrites the `@/...`
 import in the copied file to match whatever alias the target project uses.
 

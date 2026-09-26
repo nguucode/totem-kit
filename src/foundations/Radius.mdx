@@ -113,12 +113,12 @@ preset except `full`.
 
 ## Scoping and overriding
 
-Presets nest, and `Theme` accepts `asChild`, so a single component can opt
-out without a wrapper element:
+Presets nest, and `Theme` takes a `render` prop, so a single component can
+opt out without a wrapper element:
 
 ```tsx
-<Theme radius="full" asChild>
-  <Button>Just this one is a pill</Button>
+<Theme radius="full" render={<Button />}>
+  Just this one is a pill
 </Theme>
 ```
 

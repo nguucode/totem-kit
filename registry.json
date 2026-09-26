@@ -18,19 +18,6 @@
       ]
     },
     {
-      "name": "slot",
-      "type": "registry:lib",
-      "title": "Slot",
-      "description": "Renders its single child merged with the given props \u2014 what asChild is built on.",
-      "files": [
-        {
-          "path": "src/lib/slot.tsx",
-          "type": "registry:lib",
-          "target": "lib/slot.tsx"
-        }
-      ]
-    },
-    {
       "name": "tokens",
       "type": "registry:file",
       "title": "Design tokens",
@@ -63,7 +50,6 @@
       "description": "Scopes an appearance and token overrides to a subtree.",
       "registryDependencies": [
         "https://ontheshore.biz/zweihander/r/utils.json",
-        "https://ontheshore.biz/zweihander/r/slot.json",
         "https://ontheshore.biz/zweihander/r/tokens.json"
       ],
       "files": [
@@ -77,16 +63,18 @@
           "type": "registry:component",
           "target": "components/zweihander/palettes.ts"
         }
+      ],
+      "dependencies": [
+        "@base-ui/react"
       ]
     },
     {
       "name": "button",
       "type": "registry:component",
       "title": "Button",
-      "description": "Button with six variants and four sizes, and asChild for rendering as a link.",
+      "description": "Button with four variants, three appearances and four sizes; renders a link with href, and any element with render.",
       "registryDependencies": [
         "https://ontheshore.biz/zweihander/r/utils.json",
-        "https://ontheshore.biz/zweihander/r/slot.json",
         "https://ontheshore.biz/zweihander/r/tokens.json"
       ],
       "files": [
@@ -100,6 +88,9 @@
           "type": "registry:component",
           "target": "components/zweihander/Button.module.css"
         }
+      ],
+      "dependencies": [
+        "@base-ui/react"
       ]
     },
     {

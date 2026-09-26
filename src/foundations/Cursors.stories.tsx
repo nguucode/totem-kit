@@ -16,12 +16,8 @@ const TOKENS = [
     token: '--cursor-link',
     value: 'pointer',
     usage: 'A Button rendered as a real link',
-    note: 'asChild can turn a Button into an <a href>, which navigates — so it keeps the hand the browser gives every other link. variant="link" does not: that is still a <button>, and only looks like a link.',
-    demo: (
-      <Button asChild>
-        <a href="#cursors">Link</a>
-      </Button>
-    ),
+    note: 'A Button with href renders a real <a href>, which navigates — so it keeps the hand the browser gives every other link.',
+    demo: <Button href="#cursors">Link</Button>,
   },
   {
     token: '--cursor-disabled',

@@ -1,5 +1,6 @@
-import { Slot } from '@/lib/slot'
-import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react'
+import type { ComponentProps, CSSProperties } from 'react'
+import { mergeProps } from '@base-ui/react/merge-props'
+import { useRender } from '@base-ui/react/use-render'
 import { cn } from '@/lib/utils'
 /* The palette names come out of the same build as the [data-accent] /
    [data-gray] blocks they have to match, so a hue cannot exist in one and
@@ -29,7 +30,7 @@ const RADIUS_PRESETS: Record<Radius, Record<string, string>> = {
 export const SCALINGS = ['90%', '95%', '100%', '105%', '110%'] as const
 export type Scaling = (typeof SCALINGS)[number]
 
-export interface ThemeProps extends HTMLAttributes<HTMLDivElement> {
+export interface ThemeProps extends ComponentProps<'div'> {
   /** `inherit` (default) leaves the surrounding appearance alone. */
   appearance?: Appearance
   /**
@@ -49,50 +50,46 @@ export interface ThemeProps extends HTMLAttributes<HTMLDivElement> {
    * works, including ones Zweihänder doesn't define.
    */
   tokens?: Record<string, string>
-  /** Apply to the single child instead of rendering a wrapper `<div>`. */
-  asChild?: boolean
+  /** Apply to this element instead of rendering a wrapper `<div>`. */
+  render?: useRender.RenderProp
 }
 
-export const Theme = forwardRef<HTMLDivElement, ThemeProps>(
-  (
-    {
-      appearance = 'inherit',
-      accentColor,
-      grayColor,
-      scaling,
-      radius,
-      tokens,
-      asChild,
-      className,
-      style,
-      ...props
-    },
-    ref,
-  ) => {
-    const Comp = asChild ? Slot : 'div'
-    // `tokens` is applied last so an explicit --radius-factor or --scaling can
-    // override whatever preset selected it.
-    const resolved = {
-      ...(radius && RADIUS_PRESETS[radius]),
-      ...(scaling && { scaling: String(Number.parseInt(scaling, 10) / 100) }),
-      ...tokens,
-    }
-    return (
-      <Comp
-        ref={ref}
+export function Theme({
+  appearance = 'inherit',
+  accentColor,
+  grayColor,
+  scaling,
+  radius,
+  tokens,
+  render,
+  className,
+  style,
+  ...props
+}: ThemeProps) {
+  // `tokens` is applied last so an explicit --radius-factor or --scaling can
+  // override whatever preset selected it.
+  const resolved = {
+    ...(radius && RADIUS_PRESETS[radius]),
+    ...(scaling && { scaling: String(Number.parseInt(scaling, 10) / 100) }),
+    ...tokens,
+  }
+  return useRender({
+    render,
+    defaultTagName: 'div',
+    props: mergeProps<'div'>(
+      {
         // Attributes rather than inline styles: an accent is a whole palette
         // of six values, and [data-accent] keeps them in the stylesheet
         // instead of restating them on every scope.
-        data-accent={accentColor}
-        data-gray={grayColor}
-        className={cn(appearance !== 'inherit' && appearance, className)}
-        style={{ ...tokensToStyle(resolved), ...style } as CSSProperties}
-        {...props}
-      />
-    )
-  },
-)
-Theme.displayName = 'Theme'
+        'data-accent': accentColor,
+        'data-gray': grayColor,
+        className: cn(appearance !== 'inherit' && appearance, className),
+        style: { ...tokensToStyle(resolved), ...style } as CSSProperties,
+      } as ComponentProps<'div'>,
+      props,
+    ),
+  })
+}
 
 function tokensToStyle(tokens: Record<string, string> | undefined) {
   if (!tokens) return undefined
