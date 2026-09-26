@@ -1256,6 +1256,10 @@
         "$type": "color",
         "$value": "{primitive.gray.neutral.500}"
       },
+      "surface-subtle": {
+        "$type": "color",
+        "$value": "{primitive.gray.neutral.50}"
+      },
       "accent": {
         "$type": "color",
         "$value": "{primitive.gray.neutral.100}"
@@ -1405,6 +1409,10 @@
       "muted-foreground": {
         "$type": "color",
         "$value": "{primitive.gray.neutral.400}"
+      },
+      "surface-subtle": {
+        "$type": "color",
+        "$value": "{primitive.gray.neutral.900}"
       },
       "accent": {
         "$type": "color",
