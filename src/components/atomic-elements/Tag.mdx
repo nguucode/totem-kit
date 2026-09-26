@@ -62,7 +62,10 @@ Every other `<span>` attribute passes through to the container.
   not read as a row of identical "Remove" buttons.
 - It is a native `<button>`: Tab to reach, Enter or Space to press.
 - On touch screens (`pointer: coarse`) its hit area grows to 44×44px
-  without changing how the tag looks.
+  without changing how the tag looks. That area reaches 10px above and
+  below a 24px tag, so in a wrapped list on touch keep at least
+  `--space-6` between rows, or neighbouring targets overlap and a tap can
+  remove the wrong tag.
 - After a tag is removed, focus has nowhere to stay. If that matters, move
   it to the next tag's remove button, or to the field the tags belong to,
   in your `onRemove`.

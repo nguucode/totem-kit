@@ -32,10 +32,12 @@ export function Badge({
   const hasBadge = isDot || count !== undefined
   const badge = hasBadge && (
     <span
-      // A dot has no text, so it is either labelled (an image of a state) or
-      // hidden: an unlabelled empty span would be announced as nothing.
-      role={isDot && props['aria-label'] ? 'img' : undefined}
-      aria-hidden={isDot && !props['aria-label'] ? true : undefined}
+      // A labelled badge is an image of a state: a plain span may not carry
+      // aria-label. An unlabelled dot says nothing, and a floating badge sits
+      // outside the element it describes, so both are hidden — the meaning
+      // belongs in the anchor's own name.
+      role={props['aria-label'] ? 'img' : undefined}
+      aria-hidden={!props['aria-label'] && (isDot || isFloating) ? true : undefined}
       className={cn(
         styles.badge,
         styles[variant],

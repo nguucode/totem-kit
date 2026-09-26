@@ -78,6 +78,15 @@ export const Placeholder: Story = {
   },
 }
 
+export const EmptySource: Story = {
+  args: { imageSrc: '' },
+  play: async ({ canvasElement }) => {
+    // '' is no image: straight to the placeholder, no broken <img> first.
+    await expect(canvasElement.querySelector('img')).toBeNull()
+    await expect(canvasElement.querySelector('svg')).toBeVisible()
+  },
+}
+
 export const Square: Story = {
   args: { appearance: 'square', size: 'lg' },
   render: (args) => (

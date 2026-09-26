@@ -31,6 +31,8 @@
 
 .md {
   min-inline-size: calc(1em * var(--leading-body-sm) + var(--space-1));
+  /* 2px is below the spacing scale; it is what lifts 16px of line-height
+     to the 20px the md size is specified at. */
   padding: 0.125rem var(--space-1-5);
 }
 
@@ -75,7 +77,8 @@
 }
 
 /* The ring in the page background separates the badge from whatever it
-   overlaps, so it reads on top of an icon or avatar of any colour. */
+   overlaps, so it reads on top of an icon or avatar of any colour. 2px is
+   the same width as the focus ring: enough to read as a gap, not a border. */
 .floating {
   position: absolute;
   box-shadow: 0 0 0 2px var(--background);

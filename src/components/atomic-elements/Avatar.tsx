@@ -25,7 +25,8 @@ export function Avatar({
   // Keyed by src, so a new imageSrc gets a fresh attempt instead of staying
   // on the fallback from the last one that failed.
   const [failedSrc, setFailedSrc] = useState<string>()
-  const showImage = imageSrc !== undefined && failedSrc !== imageSrc
+  // An empty string is no image, not a request for the page's own URL.
+  const showImage = !!imageSrc && failedSrc !== imageSrc
 
   return (
     <span

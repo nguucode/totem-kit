@@ -65,12 +65,17 @@ whatever it overlaps.
 
 ## Accessibility
 
-- A **count** is plain text and is read where it sits. Inline in a button
-  it becomes part of the name ("Inbox 12"). A floating count sits
-  *outside* the element it decorates, so put the meaning in that
-  element's name instead: `aria-label="Notifications, 4 unread"`.
-- A **dot** has no text. Without `aria-label` it is hidden from assistive
-  tech; with one it is exposed as an image with that name.
+- An **inline count** is plain text and is read where it sits. Inside a
+  button it becomes part of the name ("Inbox 12").
+- A **floating** badge is hidden from assistive tech: it sits *outside*
+  the element it decorates, so it would be read as a stray number after
+  it. Put the meaning in that element's name instead:
+  `aria-label="Notifications, 4 unread"`.
+- A **dot** has no text and is hidden too.
+- Pass `aria-label` to any badge to expose it as an image with that name
+  instead, e.g. a status dot on an avatar: `aria-label="Online"`.
+- `count={0}` shows "0". Hide the badge yourself if nothing new should
+  mean no badge.
 - Colour is never the only signal: a destructive badge still needs words
   somewhere that say what is wrong.
 - Contrast is checked by addon-a11y in error mode for every story.

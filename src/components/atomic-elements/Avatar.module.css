@@ -57,6 +57,8 @@
   text-transform: uppercase;
 }
 
+/* A fraction rather than a token so the icon scales with all four sizes:
+   60% leaves the same optical margin as initials at each one. */
 .placeholder {
   inline-size: 60%;
   block-size: 60%;

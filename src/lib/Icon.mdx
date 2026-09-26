@@ -1,0 +1,50 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as IconStories from './Icon.stories'
+
+<Meta of={IconStories} />
+
+# Icons
+
+One module, `src/lib/icon.tsx`, and one component: `<Icon name="close" />`.
+Every component in the kit imports its icons from here and nowhere else.
+
+<Canvas of={IconStories.Catalog} />
+
+## Why names say what an icon is for
+
+`close`, `danger`, `success` — not `x`, `alert-circle`, `check-circle`.
+The set is temporary: it is Boxicons free for now, and will be replaced by
+the kit's own set. Named by purpose, that swap is an edit to this one file.
+Named by shape, it would be a search through every component for which
+shape meant what. Navigation shapes (`chevron-down`, `search`, `plus`)
+keep their plain names because the shape *is* the purpose.
+
+## Sizing and colour
+
+The icon is a `1em` square filled with `currentColor`, so it takes both
+from the text around it. Set `font-size` on a wrapper, or on the icon
+itself, to size it; never pass a colour.
+
+```tsx
+<span style={{ fontSize: 20 }}><Icon name="warning" /></span>
+```
+
+## Accessibility
+
+- Without `label` an icon is decorative: `aria-hidden`, and not focusable
+  in old Edge. This is almost always right, because the icon sits next to
+  words that already say the same thing.
+- With `label` it is exposed as an image with that name. Use it only when
+  the icon stands alone and carries meaning, e.g. a status with no text.
+- An icon-only *button* is named on the button (`aria-label`), not on
+  the icon.
+
+## Source and licence
+
+Path data is copied from Boxicons free (`@boxicons/core` 1.0.6, basic and
+filled sets), MIT. The licence text is in the file header, so it travels
+with the file when the registry copies it into another project. There is
+no npm dependency on Boxicons.
+
+To add an icon: copy its `d` attribute(s) into the `paths` map under a
+purpose name, and add the name to the catalog story.

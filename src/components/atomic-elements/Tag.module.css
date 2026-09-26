@@ -13,8 +13,10 @@
   vertical-align: middle;
 }
 
-/* Height is line-height + 2px padding + 1px border each side: 24px at md,
-   20px at sm. */
+/* Height is line-height + 1px padding + 1px border each side: 24px at md,
+   20px at sm. The 1px is below the spacing scale on purpose: the border is
+   always there (transparent unless outlined) so appearances never shift
+   the layout, and 1px padding makes up the rest. */
 .md {
   padding: 1px var(--space-2);
   font-size: var(--text-body);
@@ -111,10 +113,14 @@
   cursor: var(--cursor-button);
 }
 
+/* A tint of whatever colour the tag's text is, so hover reads on every
+   variant and appearance without a token per combination. */
 .remove:hover {
   background: color-mix(in oklch, currentColor 15%, transparent);
 }
 
+/* Same 2px ring as every control; the offset is 1px rather than 2px so the
+   ring stays inside a 20px tag. */
 .remove:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 1px;

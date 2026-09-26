@@ -87,6 +87,13 @@ export const LabelledDot: Story = {
   },
 }
 
+export const LabelledCount: Story = {
+  args: { count: 3, 'aria-label': '3 unread messages' },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('img', { name: '3 unread messages' })).toBeVisible()
+  },
+}
+
 export const Inline: Story = {
   args: { count: 12 },
   render: (args) => (
@@ -113,6 +120,8 @@ export const Floating: Story = {
   play: async ({ canvas }) => {
     const button = canvas.getByRole('button', { name: /^top-end/ }).getBoundingClientRect()
     const badge = canvas.getAllByText('4')[1].getBoundingClientRect()
+    // Hidden: read after the button it would be a stray "4".
+    await expect(canvas.getAllByText('4')[1]).toHaveAttribute('aria-hidden', 'true')
     // Centred on the button's top-right corner.
     await expect(Math.round(badge.left + badge.width / 2)).toBe(Math.round(button.right))
     await expect(Math.round(badge.top + badge.height / 2)).toBe(Math.round(button.top))
