@@ -26,6 +26,7 @@ export default defineConfig({
         'components/data-display/Card': 'src/components/data-display/Card.tsx',
         'components/inputs/Textarea': 'src/components/inputs/Textarea.tsx',
         'components/inputs/Search': 'src/components/inputs/Search.tsx',
+        'components/inputs/NumberInput': 'src/components/inputs/NumberInput.tsx',
         'theme/Theme': 'src/theme/Theme.tsx',
         'lib/utils': 'src/lib/utils.ts',
       },

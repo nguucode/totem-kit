@@ -72,6 +72,10 @@
       "types": "./dist/components/inputs/Search.d.ts",
       "import": "./dist/components/inputs/Search.js"
     },
+    "./number-input": {
+      "types": "./dist/components/inputs/NumberInput.d.ts",
+      "import": "./dist/components/inputs/NumberInput.js"
+    },
     "./theme": {
       "types": "./dist/theme/Theme.d.ts",
       "import": "./dist/theme/Theme.js"

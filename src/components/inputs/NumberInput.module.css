@@ -1,0 +1,59 @@
+/* The stepper buttons run to the field's edge: no end padding on the box,
+   and each button is as wide as the field is tall. */
+.group.group {
+  gap: 0;
+  padding-inline-end: 0;
+  overflow: hidden;
+}
+
+.input {
+  font-variant-numeric: tabular-nums;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  inline-size: var(--field-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-inline-start: 1px solid var(--field-edge);
+  background: transparent;
+  color: var(--foreground);
+  font-size: var(--space-4);
+  cursor: var(--cursor-button);
+}
+
+.step:hover {
+  background: var(--accent);
+}
+
+/* Inset: the box clips its corners, which would cut an outside ring. */
+.step:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+.step:disabled {
+  cursor: var(--cursor-disabled);
+  color: var(--muted-foreground);
+}
+
+.step:disabled:hover {
+  background: transparent;
+}
+
+.lg .step {
+  font-size: calc(var(--space-4) + var(--space-1));
+}
+
+/* sm and md buttons are 32 and 40px; on touch they widen to 44px, which is
+   the only direction they can grow without overlapping the input. */
+@media (pointer: coarse) {
+  .step {
+    min-inline-size: 44px;
+  }
+}

@@ -23,6 +23,7 @@
     "src/components/data-display/Card.tsx",
     "src/components/inputs/Textarea.tsx",
     "src/components/inputs/Search.tsx",
+    "src/components/inputs/NumberInput.tsx",
     "src/theme/Theme.tsx",
     "src/lib/utils.ts"
   ]

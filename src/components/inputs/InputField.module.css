@@ -125,16 +125,18 @@
   outline-color: var(--danger-text);
 }
 
-.box:has(:disabled) {
+/* Keyed to the control, not any descendant: a stepper button disabled at
+   its limit must not dim the whole field. */
+.box:has(.control:disabled) {
   cursor: var(--cursor-disabled);
   opacity: 0.5;
 }
 
-.box:has([readonly]) {
+.box:has(.control[readonly]) {
   background: var(--surface-subtle);
 }
-.underlined:has([readonly]),
-.unstyled:has([readonly]) {
+.underlined:has(.control[readonly]),
+.unstyled:has(.control[readonly]) {
   background: transparent;
 }
 

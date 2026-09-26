@@ -172,6 +172,7 @@ npx shadcn@latest add https://ontheshore.biz/zweihander/r/accordion.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/card.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/textarea.json
 npx shadcn@latest add https://ontheshore.biz/zweihander/r/search.json
+npx shadcn@latest add https://ontheshore.biz/zweihander/r/number-input.json
 ```
 
 Or register Zweihänder as a named registry in the project's `components.json`
@@ -213,6 +214,7 @@ import { Accordion } from 'zweihander/accordion'
 import { Card } from 'zweihander/card'
 import { Textarea } from 'zweihander/textarea'
 import { Search } from 'zweihander/search'
+import { NumberInput } from 'zweihander/number-input'
 ```
 
 ```css
