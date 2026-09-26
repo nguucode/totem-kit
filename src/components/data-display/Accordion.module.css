@@ -65,10 +65,15 @@
   background: var(--accent);
 }
 
-/* Inset so the ring is not cut off by the outlined container's clipping. */
+/* Inset in the outlined container, whose clipping would cut an outside
+   ring off. Flush has no clipping and no side padding, so an inset ring
+   would touch the title; it goes outside instead. */
 .trigger:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: -2px;
+}
+.flush .trigger:focus-visible {
+  outline-offset: 2px;
 }
 
 .trigger[data-disabled] {

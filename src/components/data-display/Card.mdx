@@ -55,11 +55,13 @@ Spec: [uiguideline.com/components/card](https://www.uiguideline.com/components/c
 
 - A plain card is a `<div>` and adds nothing to the accessibility tree.
 - **A clickable card is one `<button>`, so everything inside becomes its
-  label.** Put no links or buttons inside it — interactive content nested
-  in a button is invalid and unreachable. If a card needs its own
+  label.** A button may only hold phrasing content: use spans for its
+  title and text, not headings or paragraphs, and put no links or buttons
+  inside it — nested interactive content is invalid and unreachable. If a card needs its own
   actions, leave it plain and put a button in it (the Horizontal story).
 - A card that navigates should be a link (`render={<a href>}`), not a
   button with a click handler.
 - Put headings inside at the level the page needs; the card has none of
   its own.
-- Muted text clears 4.5:1 on every appearance.
+- Muted text clears 4.5:1 on every appearance, at rest and on hover:
+  hover changes the shadow or the edge, never the surface under the text.

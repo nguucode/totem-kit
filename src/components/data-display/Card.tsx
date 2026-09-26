@@ -29,6 +29,7 @@ export function Card({
   className,
   ...props
 }: CardProps) {
+  // render is for link cards (see the MDX), so it counts as interactive.
   const interactive = onClick !== undefined || render !== undefined
   return useRender({
     render,
@@ -45,7 +46,8 @@ export function Card({
           interactive && styles.interactive,
           className,
         ),
-        ...(onClick && { type: 'button', onClick }),
+        // type only on the <button> this renders itself, never on a render element.
+        ...(onClick && { onClick, ...(!render && { type: 'button' }) }),
       } as ComponentProps<'div'>,
       props,
     ),

@@ -85,9 +85,20 @@ export const NoBorderSquare: Story = {
   args: { hasBorder: false, isRounded: false },
 }
 
-/** The whole card is one button; its content is plain text. */
+/**
+ * The whole card is one button, so its content must be phrasing content:
+ * spans, not headings or paragraphs, and nothing interactive.
+ */
 export const Clickable: Story = {
-  args: { onClick: fn(), 'aria-label': undefined },
+  args: {
+    onClick: fn(),
+    children: (
+      <>
+        <span style={title}>Payment method</span>
+        <span style={muted}>Change how you pay for your plan.</span>
+      </>
+    ),
+  },
   play: async ({ canvas, userEvent, args }) => {
     const card = canvas.getByRole('button', { name: /Payment method/ })
     await expect(card).toHaveAttribute('type', 'button')
@@ -103,7 +114,11 @@ export const Clickable: Story = {
 /** A card that navigates renders a real link. */
 export const Link: Story = {
   args: { render: <a href="#billing" /> },
-  play: async ({ canvas }) => {
-    await expect(canvas.getByRole('link', { name: /Payment method/ })).toHaveAttribute('href', '#billing')
+  play: async ({ canvas, userEvent }) => {
+    const link = canvas.getByRole('link', { name: /Payment method/ })
+    await expect(link).toHaveAttribute('href', '#billing')
+    await expect(link).not.toHaveAttribute('type')
+    await userEvent.tab()
+    await expect(link).toHaveFocus()
   },
 }

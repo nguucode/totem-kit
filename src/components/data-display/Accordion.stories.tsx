@@ -54,6 +54,8 @@ export const Default: Story = {
     await expect(canvas.getByRole('button', { name: 'Does it support dark mode?' })).toHaveFocus()
     await userEvent.keyboard('{Enter}')
     await expect(canvas.getByRole('button', { name: 'Does it support dark mode?' })).toHaveAttribute('aria-expanded', 'true')
+    await userEvent.keyboard(' ')
+    await expect(canvas.getByRole('button', { name: 'Does it support dark mode?' })).toHaveAttribute('aria-expanded', 'false')
   },
 }
 
